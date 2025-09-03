@@ -3,535 +3,482 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hải Phòng Explorer | Chatbot AI Di Tích Lịch Sử & Văn Hóa</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2c82c9',
-                        secondary: '#1e1b4b',
-                        accent: '#4caf50',
-                        light: {
-                            bg: '#ffffff',
-                            text: '#333333',
-                            sidebar: '#f8f9fa',
-                            hover: '#e9ecef'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Calibri', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <title>Chatbot Hải Phòng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
+
         body {
-            font-family: 'Calibri', sans-serif;
-            background-color: #ffffff;
-            color: #333333;
-        }
-        
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        
-        .typing-dots::after {
-            content: '...';
-            animation: typing 1.5s infinite;
-        }
-        
-        @keyframes typing {
-            0% { content: '.'; }
-            33% { content: '..'; }
-            66% { content: '...'; }
-        }
-        
-        .code-block {
-            position: relative;
-            margin: 1rem 0;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-        }
-        
-        .code-header {
-            font-family: monospace;
-            user-select: none;
-        }
-        
-        .copy-code-btn {
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        
-        .copy-code-btn:hover {
-            color: #2c82c9;
-        }
-        
-        pre {
-            margin: 0 !important;
-            padding: 1rem !important;
-            background-color: #f8f9fa !important;
-            border-radius: 0 0 0.75rem 0.75rem;
-        }
-        
-        .markdown p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-        }
-        
-        .markdown ul, .markdown ol {
-            margin-bottom: 1rem;
-            padding-left: 1.5rem;
-        }
-        
-        .markdown li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .markdown code:not(pre code) {
-            background-color: #e9ecef;
-            padding: 0.2rem 0.4rem;
-            border-radius: 0.25rem;
-            font-family: monospace;
-            color: #333333;
-        }
-        
-        .markdown strong {
-            font-weight: 600;
-        }
-        
-        .markdown em {
-            font-style: italic;
-        }
-        
-        .markdown h1, .markdown h2, .markdown h3, .markdown h4 {
-            font-weight: 600;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .markdown h1 {
-            font-size: 1.5rem;
-            line-height: 2rem;
-        }
-        
-        .markdown h2 {
-            font-size: 1.25rem;
-            line-height: 1.75rem;
-        }
-        
-        .markdown h3 {
-            font-size: 1.125rem;
-            line-height: 1.75rem;
-        }
-        
-        .markdown h4 {
-            font-size: 1rem;
-            line-height: 1.5rem;
-        }
-        
-        .markdown table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-            border-radius: 0.75rem;
-            overflow: hidden;
-        }
-        
-        .markdown th, .markdown td {
-            padding: 0.5rem 1rem;
-            border: 1px solid #e9ecef;
-            text-align: left;
-        }
-        
-        .markdown th {
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-        
-        .markdown blockquote {
-            border-left: 4px solid #ced4da;
-            padding-left: 1rem;
-            margin: 1rem 0;
-            color: #6c757d;
-            border-radius: 0.75rem;
-            background-color: #f8f9fa;
-        }
-        
-        .user-message {
-            align-self: flex-end;
-            background-color: #2c82c9;
-            color: white;
-            border-radius: 1rem 1rem 0 1rem;
-            max-width: 80%;
-            margin-left: auto;
-            padding: 0.75rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .bot-message {
-            align-self: flex-start;
-            background-color: #f8f9fa;
-            border-radius: 1rem 1rem 1rem 0;
-            max-width: 80%;
-            margin-right: auto;
-            padding: 0.75rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
-        }
-        
-        .typing-indicator {
-            align-self: flex-start;
-            background-color: #f8f9fa;
-            border-radius: 1rem 1rem 1rem 0;
-            max-width: 80%;
-            margin-right: auto;
-            padding: 0.75rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border: 1px solid #e9ecef;
-        }
-        
-        .message-content {
-            word-wrap: break-word;
-            white-space: pre-wrap;
-            border-radius: 0.5rem;
-            padding: 0.5rem;
-        }
-        
-        .transition-all {
-            transition-property: all;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 150ms;
-        }
-        
-        .suggestions-container {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
             display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding: 0.5rem 0;
-            margin-bottom: 0.5rem;
-            scrollbar-width: none;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #e0f7fa;
+            color: #333;
+            overflow: auto;
+        }
+
+        /* Thêm style cho header chứa logo */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .city-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #005baa;
+        }
+
+        /* Thêm style cho footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+        }
+
+        .footer-logo {
+            height: 40px;
+        }
+
+        .footer-content {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Thêm style cho logo lớn ở trang chủ */
+        .homepage-main-logo {
+            height: 150px;
+            margin-bottom: 20px;
         }
         
-        .suggestions-container::-webkit-scrollbar {
-            display: none;
+        #home-menu {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+            padding: 20px;
+            text-align: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin: 20px;
         }
-        
-        .suggestion-chip {
-            background-color: #e9ecef;
-            border-radius: 1rem;
-            padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s;
+
+        #home-menu h1 {
+            color: #005baa;
+            margin-bottom: 30px;
+            font-size: 2.5em;
         }
-        
-        .suggestion-chip:hover {
-            background-color: #2c82c9;
+
+        .topic-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            width: 80%;
+            max-width: 900px;
+        }
+
+        .topic-button {
+            background-color: #005baa;
             color: white;
-        }
-        
-        .loading-spinner {
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .navbar {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .menu-toggle {
-            display: none;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: 1.2em;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
-        
+
+        .topic-button i {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .topic-button:hover {
+            background-color: #004080;
+            transform: translateY(-3px);
+        }
+
+        #chatbot-container {
+            display: none;
+            flex-grow: 1;
+            flex-direction: row;
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        #sidebar {
+            width: 200px;
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-right: 1px solid #bbdefb;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        #sidebar h3 {
+            color: #005baa;
+            margin-top: 0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sidebar-button {
+            background-color: #bbdefb;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 10px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-button i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .sidebar-button.active, .sidebar-button:hover {
+            background-color: #64b5f6;
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .chat-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        #khung-tro-chuyen {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 15px;
+            border-bottom: 1px solid #b2ebf2;
+            background-color: #ffffff;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tin-nhan {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
+            position: relative;
+            word-wrap: break-word;
+            line-height: 1.4;
+        }
+
+        .tin-nhan-nguoi-dung {
+            background-color: #007bff;
+            color: white;
+            margin-left: auto;
+            text-align: right;
+            border-bottom-right-radius: 5px;
+        }
+
+        .tin-nhan-bot {
+            background-color: #e3f2fd;
+            color: #212121;
+            margin-right: auto;
+            text-align: left;
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        #khu-vuc-nhap {
+            display: flex;
+            padding: 15px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+            align-items: center;
+        }
+
+        #o-nhap-tin-nhan {
+            flex-grow: 1;
+            padding: 12px 18px;
+            border: 1px solid #bbdefb;
+            border-radius: 25px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        #o-nhap-tin-nhan:focus {
+            border-color: #64b5f6;
+            box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+        }
+
+        #nut-gui {
+            background-color: #005baa;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            margin-left: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #nut-gui:hover {
+            background-color: #004080;
+        }
+
+        #nut-gui:active {
+            transform: translateY(1px);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
         @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
-            }
-            
-            .nav-menu {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-                display: none;
-                z-index: 1000;
-            }
-            
-            .nav-menu.active {
-                display: block;
-            }
-            
-            .nav-menu ul {
+            .header {
                 flex-direction: column;
-                padding: 1rem;
+                padding: 10px;
             }
             
-            .nav-menu ul li {
-                margin: 0.5rem 0;
+            .logo-container {
+                margin-bottom: 10px;
+            }
+            
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px;
+            }
+            
+            .footer-logo {
+                margin-bottom: 10px;
+            }
+            
+            #home-menu {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            #home-menu h1 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+            }
+
+            .topic-buttons {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 15px;
+                width: 95%;
+            }
+
+            .topic-button {
+                padding: 15px;
+                font-size: 1em;
+            }
+
+            .topic-button i {
+                font-size: 2em;
+                margin-bottom: 8px;
+            }
+
+            #chatbot-container {
+                flex-direction: column;
+                margin: 10px;
+                border-radius: 8px;
+            }
+
+            #sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #bbdefb;
+                padding: 10px;
+                box-shadow: inset 0 -2px 5px rgba(0,0,0,0.05);
+                flex-direction: row;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            #sidebar h3 {
+                display: none;
+            }
+
+            .sidebar-button {
+                flex-shrink: 0;
+                width: auto;
+                margin-bottom: 0;
+                margin-right: 10px;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+
+            .sidebar-button i {
+                font-size: 1em;
+                margin-right: 5px;
+            }
+
+            .chat-area {
+                min-height: 0;
+            }
+
+            #khung-tro-chuyen {
+                padding: 10px;
+            }
+
+            .tin-nhan {
+                max-width: 85%;
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+
+            #khu-vuc-nhap {
+                padding: 10px;
+            }
+
+            #o-nhap-tin-nhan {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            #nut-gui {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                margin-left: 10px;
             }
         }
     </style>
 </head>
-<body class="h-screen flex flex-col bg-light-bg text-light-text transition-all">
-
-    <!-- Navigation Bar -->
-    <nav class="navbar p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="logo flex items-center">
-                <i class="fas fa-landmark text-primary text-2xl mr-2"></i>
-                <span class="font-bold text-xl">Hải Phòng Explorer | Chatbot AI</span>
-            </div>
-            
-            <div class="menu-toggle text-primary text-xl md:hidden">
-                <i class="fas fa-bars"></i>
-            </div>
-            
-            <div class="nav-menu hidden md:block">
-                
-            </div>
+<body>
+    <div class="header">
+        <div class="logo-container">
+           
+            <div class="city-name">Thành phố Hải Phòng</div>
         </div>
-    </nav>
+    </div>
 
-    <div id="app" class="flex flex-1 overflow-hidden">
+    <div id="home-menu">
+       <img src="https://upload.wikimedia.org/wikipedia/vi/thumb/5/57/Logo_TP_Hai_Phong.svg/1200px-Logo_TP_Hai_Phong.svg.png" 
+         alt="Logo Hải Phòng" 
+         class="homepage-main-logo">
+        <h1>Chatbot Hải Phòng</h1>
+        <div class="topic-buttons">
+            <button class="topic-button" data-topic="lich-su">
+                <i class="fas fa-landmark"></i>
+                Lịch sử
+            </button>
+            <button class="topic-button" data-topic="du-lich">
+                <i class="fas fa-map-marked-alt"></i>
+                Du lịch
+            </button>
+            <button class="topic-button" data-topic="am-thuc">
+                <i class="fas fa-utensils"></i>
+                Ẩm thực
+            </button>
+            <button class="topic-button" data-topic="van-hoa">
+                <i class="fas fa-theater-masks"></i>
+                Văn hóa
+            </button>
+            <button class="topic-button" data-topic="kinh-te">
+                <i class="fas fa-chart-line"></i>
+                Kinh tế
+            </button>
+            <button class="topic-button" data-topic="giao-thong">
+                <i class="fas fa-bus"></i>
+                Giao thông
+            </button>
+        </div>
+    </div>
 
-        <div id="sidebar" class="w-48 bg-light-sidebar shadow-lg border-r border-gray-200 flex flex-col h-full">
-
-            <div class="p-3">
-                <button id="new-chat-btn" class="w-full flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white rounded-md transition px-4 py-2">
-                    <i class="fa-solid fa-file-circle-plus"></i>
-                    <span>Đoạn nhắn mới</span>
+    <div id="chatbot-container">
+        <div id="sidebar">
+            <h3>Chủ đề</h3>
+            <button class="sidebar-button" data-topic="lich-su">
+                <i class="fas fa-landmark"></i>
+                Lịch sử
+            </button>
+            <button class="sidebar-button" data-topic="du-lich">
+                <i class="fas fa-map-marked-alt"></i>
+                Du lịch
+            </button>
+            <button class="sidebar-button" data-topic="am-thuc">
+                <i class="fas fa-utensils"></i>
+                Ẩm thực
+            </button>
+            <button class="sidebar-button" data-topic="van-hoa">
+                <i class="fas fa-theater-masks"></i>
+                Văn hóa
+            </button>
+            <button class="sidebar-button" data-topic="kinh-te">
+                <i class="fas fa-chart-line"></i>
+                Kinh tế
+            </button>
+            <button class="sidebar-button" data-topic="giao-thong">
+                <i class="fas fa-bus"></i>
+                Giao thông
+            </button>
+        </div>
+        <div class="chat-area">
+            <div id="khung-tro-chuyen">
+            </div>
+            <div id="khu-vuc-nhap">
+                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi về Hải Phòng...">
+                <button id="nut-gui">
+                    <i class="fas fa-paper-plane"></i>
                 </button>
-            </div>
-            
-            <div id="chat-history" class="flex-1 overflow-y-auto hide-scrollbar p-2">
-                <!-- Chat history will be populated here -->
-            </div>
-            
-            <div class="p-3 border-t border-gray-200">
-                
-            </div>
-        </div>
-        
-        <div class="flex-1 flex flex-col h-full overflow-hidden">
-            <div id="chat-container" class="flex-1 overflow-y-auto hide-scrollbar p-4 bg-white flex flex-col gap-3">
-                <div id="chat-messages" class="flex flex-col gap-3 mx-auto max-w-3xl w-full">
-                    <!-- Messages will appear here -->
-                </div>
-            </div>
-            
-            <div id="typing-indicator" class="hidden max-w-3xl mx-auto p-4 mb-4">
-                <div class="flex items-center gap-2">
-                    <div class="loading-spinner"></div>
-                    <span class="text-gray-600">AI đang suy nghĩ, vui lòng đợi giây lát</span>
-                </div>
-            </div>
-            
-            <div id="suggestions-bar" class="hidden max-w-3xl mx-auto w-full px-4">
-                <div class="text-sm text-gray-500 mb-1">Gợi ý:</div>
-                <div id="suggestions-container" class="suggestions-container">
-                    <!-- Suggested questions will appear here -->
-                </div>
-            </div>
-
-            <div class="p-4 border-t border-gray-200 bg-white">
-                <div class="max-w-3xl mx-auto">
-                    <form id="chat-form" class="relative">
-                        <textarea 
-                            id="message-input" 
-                            class="w-full p-4 rounded-lg border border-gray-300 bg-white resize-none focus:outline-none focus:ring-2 focus:ring-primary text-gray-800"
-                            placeholder="Nhập câu hỏi về di tích lịch sử và văn hóa truyền thống Hải Phòng..."
-                            rows="1"
-                        ></textarea>
-                        <button 
-                            id="send-button" 
-                            type="submit" 
-                            class="absolute right-3 bottom-3 w-10 h-10 flex items-center justify-center bg-primary hover:bg-primary/90 text-white rounded-full transition"
-                        >
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
             </div>
         </div>
     </div>
     
-    <script>
-const haiphongKeywords = [
-    "Hải Phòng", "di tích", "lịch sử", "văn hóa", "truyền thống", "đền", "chùa", "bảo tàng", "danh lam", "thắng cảnh", 
-    "chào", "là ai", "giới thiệu", "du lịch", "thăm quan", "khám phá", "kiến trúc", "nghệ thuật", "lễ hội", "ẩm thực", 
-    "đặc sản", "cảng", "biển", "đảo", "cát bà", "đồ sơn", "núi voi", "đình", "miếu", "phố cổ", "kiến an", "thủy nguyên", 
-    "an lão", "tiên lãng", "vĩnh bảo", "kiến thụy", "an dương", "đồ sơn", "hải an", "ngô quyền", "lê chân", "hồng bàng", 
-    "đồ sơn", "cát hải", "bạch long vĩ", "tràng kênh", "núi voi", "chùa dư hàng", "đền nghè", "nhà hát lớn", "bến nính", 
-    "bảo tàng hải quân", "bảo tàng hải phòng", "quán hoa", "phủ ngọc đường", "tháp tường long", "đình hàng kênh", 
-    "chùa duệ khánh", "đền bà đế", "đình hưng lao", "chùa hình kênh", "đền thờ các vua nhà mạc", "chùa cổ am", 
-    "đền minh châu", "chùa phổ chiếu", "đền thờ trạng trình nguyễn bỉnh khiêm", "chùa đỏ", "đền thờ nữ tướng lê chân", 
-    "bến tàu không số", "cảng hải phòng", "cầu bính", "cầu niệm", "cầu rào", "cầu bến hỏa", "cầu quay", "cầu hàng kênh", 
-    "thành nhà mạc", "thành cổ hải phòng", "thành đông dương", "tháp nước hải phòng", "nhà máy rượu hải phòng", 
-    "nhà hát lớn hải phòng", "bưu điện hải phòng", "tòa thị chính hải phòng", "chợ sắt", "chợ tam bạc", "chợ con", 
-    "chợ cầu đất", "chợ hàn", "chợ máy chai", "chợ cá lạch trai", "chợ cá cát bà", "chợ hải sản đồ sơn", "làng nghề", 
-    "làng đúc đồng", "làng gốm", "làng dệt", "làng chài", "làng muối", "làng hoa", "làng cá", "làng rượu", "làng bánh đa", 
-    "bánh đa cua", "bánh mì que", "bánh bèo", "bánh khúc", "bánh gai", "bánh đúc", "bún cá", "bún tôm", "bún mắm", 
-    "nem cua bể", "cá thu", "cá đé", "cá chim", "cá giò", "cá song", "cá hồng", "cá tráp", "tôm hùm", "tôm sú", "tôm he", 
-    "mực", "cua", "ghẹ", "ốc", "sò", "hến", "nghêu", "tu hài", "bào ngư", "hải sâm", "sá sùng", "sam", "cầu gai", 
-    "rươi", "nộm sứa", "gỏi cá", "chả cá", "chả mực", "chả tôm", "mắm tôm", "mắm tép", "mắm cáy", "mắm rươi", "mắm tôm", 
-    "nước mắm", "muối", "hạt tiêu", "tỏi", "hành", "thì là", "rau răm", "rau muống", "rau cần", "rau ngổ", "rau diếp", 
-    "rau mùi", "rau húng", "rau rút", "rau cải", "rau đay", "rau mồng tơi", "rau dền", "rau lang", "rau muống", "rau cần", 
-    "rau ngót", "rau sam", "rau má", "rau tàu bay", "rau tập tàng", "củ cải", "cà rốt", "su hào", "bắp cải", "súp lơ", 
-    "dưa chuột", "dưa gang", "dưa hấu", "dưa lê", "dưa vàng", "dưa lưới", "cam", "quýt", "bưởi", "chanh", "táo", "lê", 
-    "ổi", "mít", "xoài", "nhãn", "vải", "chôm chôm", "măng cụt", "sầu riêng", "thanh long", "chuối", "dứa", "đu đủ", 
-    "na", "hồng", "dừa", "mía", "cau", "trầu", "thuốc lào", "chè", "cà phê", "rượu", "bia", "nước ngọt", "nước khoáng", 
-    "nước suối", "nước mưa", "nước máy", "nước giếng", "nước sông", "nước biển", "khí hậu", "thời tiết", "mùa xuân", 
-    "mùa hạ", "mùa thu", "mùa đông", "gió mùa", "gió heo may", "gió lào", "gió nồm", "gió đông", "gió tây", "gió nam", 
-    "gió bắc", "mưa phùn", "mưa rào", "mưa đá", "mưa ngâu", "mưa xuân", "mưa hạ", "mưa thu", "mưa đông", "nắng", 
-    "nắng gắt", "nắng nhẹ", "nắng hanh", "nắng ấm", "nắng nóng", "nắng oi", "nắng chang chang", "nắng quái", "nắng chiều", 
-    "nắng mai", "nắng trưa", "nắng tắt", "nắng hạn", "nắng hạ", "nắng thu", "nắng đông", "nắng xuân", "sương mù", 
-    "sương muối", "sương giá", "sương sa", "sương đêm", "sương sớm", "sương chiều", "sương mai", "sương tối", "sương khuya", 
-    "sương sớm", "sương muộn", "sương tan", "sương đọng", "sương rơi", "sương phủ", "sương bay", "sương mờ", "sương dày", 
-    "sương mỏng", "sương lạnh", "sương ấm", "sương nồm", "sương heo may", "sương giá", "sương muối", "sương sa", "sương đêm", 
-    "sương sớm", "sương chiều", "sương mai", "sương tối", "sương khuya", "sương sớm", "sương muộn", "sương tan", "sương đọng", 
-    "sương rơi", "sương phủ", "sương bay", "sương mờ", "sương dày", "sương mỏng", "sương lạnh", "sương ấm", "sương nồm", 
-    "sương heo may", "sương giá", "sương muối", "sương sa", "sương đêm", "sương sớm", "sương chiều", "sương mai", "sương tối", 
-    "sương khuya", "sương sớm", "sương muộn", "sương tan", "sương đọng", "sương rơi", "sương phủ", "sương bay", "sương mờ", 
-    "sương dày", "sương mỏng", "sương lạnh", "sương ấm", "sương nồm", "sương heo may"
-];
+    <div class="footer">
+        <div class="footer-content">
+            @Copyright - Chatbot Hải Phòng
+        </div>
+        <div></div>
+    </div>
 
-function isHaiphongQuestion(question) {
-    const lowerQuestion = question.toLowerCase();
-    return haiphongKeywords.some(keyword => lowerQuestion.includes(keyword.toLowerCase()));
-}
-
-function generateSuggestions(messages) {
-    const userMessages = messages.filter(msg => msg.role === "user");
-    if (userMessages.length === 0) {
-        return [
-            "Giới thiệu về các di tích lịch sử nổi tiếng ở Hải Phòng",
-            "Kể tên các lễ hội truyền thống của Hải Phòng",
-            "Hướng dẫn tham quan Đảo Cát Bà",
-            "Giới thiệu ẩm thực đặc sản Hải Phòng"
-        ];
-    }
-    
-    // Simple logic to generate follow-up questions based on previous messages
-    const lastMessage = userMessages[userMessages.length - 1].content;
-    
-    if (lastMessage.includes("di tích")) {
-        return [
-            "Di tích này có kiến trúc như thế nào?",
-            "Lịch sử của di tích này ra sao?",
-            "Có thể tham quan di tích này vào thời gian nào?"
-        ];
-    } else if (lastMessage.includes("ẩm thực") || lastMessage.includes("đặc sản")) {
-        return [
-            "Có thể thưởng thức món này ở đâu tại Hải Phòng?",
-            "Cách chế biến món ăn này như thế nào?",
-            "Món ăn này có ý nghĩa văn hóa gì?"
-        ];
-    } else if (lastMessage.includes("lễ hội")) {
-        return [
-            "Thời gian tổ chức lễ hội này là khi nào?",
-            "Lễ hội này có những hoạt động gì?",
-            "Ý nghĩa văn hóa của lễ hội này là gì?"
-        ];
-    }
-    
-    return [
-        "Bạn có thể giải thích rõ hơn về điều này không?",
-        "Có địa điểm nào tương tự như vậy không?",
-        "Ý nghĩa lịch sử/văn hóa của vấn đề này là gì?"
-    ];
-}
-
-class HaiphongAI {
-    constructor() {
-        this.endpoint = "https://ndcuti-aivanhocg1.hf.space/api/v1/chat";
-        this.conversationHistory = [];
-    }
-
-    async sendQuery(userInput, previousMessages = []) {
-        if (!isHaiphongQuestion(userInput)) {
-            return {
-                success: false,
-                message: "Xin lỗi, tôi chỉ trả lời chuyên về các câu hỏi liên quan đến di tích lịch sử và văn hóa truyền thống Hải Phòng, bạn có câu hỏi nào liên quan đến Hải Phòng mà muốn hỏi tôi không?"
-            };
-        }
-        try {
-            const response = await this.mockApiCall(userInput, previousMessages);
-            return response;
-        } catch (error) {
-            console.error("API Error:", error);
-            if (error.message.includes("không thuộc chủ đề")) {
-                return {
-                    success: false,
-                    message: "Xin lỗi, tôi chỉ trả lời chuyên về các câu hỏi liên quan đến di tích lịch sử và văn hóa truyền thống Hải Phòng, bạn có câu hỏi nào liên quan đến Hải Phòng mà muốn hỏi tôi không?"
-                };
-            } else {
-                throw new Error("Lỗi kết nối 221!");
-            }
-        }
-    }
-
-    async mockApiCall(userInput, history) {
-        if (!isHaiphongQuestion(userInput)) {
-            return {
-                success: false,
-                message: "Xin lỗi, tôi chỉ trả lời chuyên về các câu hỏi liên quan đến di tích lịch sử và văn hóa truyền thống Hải Phòng, bạn có câu hỏi nào liên quan đến Hải Phòng mà muốn hỏi tôi không?"
-            };
-        }
-        
-        await new Promise(resolve => setTimeout(resolve, 500 + Math.random() * 1000));
-        
-        const haiphongResponses = [
-            "Hải Phòng là thành phố cảng quan trọng với nhiều di tích lịch sử và văn hóa đặc sắc...",
-            "Theo tài liệu lịch sử, di tích này được xây dựng vào thế kỷ...",
-            "Từ góc nhìn văn hóa, lễ hội này thể hiện...",
-            "Di tích tại Hải Phòng mang đặc điểm kiến trúc...",
-            "Bối cảnh lịch sử ảnh hưởng đến di tích này bằng cách...",
-            "Phong cách ẩm thực Hải Phòng thể hiện qua...",
-            "Chủ đề chính của lễ hội này là...",
-            "Các món đặc sản được ưa chuộng ở Hải Phòng gồm...",
-            "Từ những thông tin trên, ta thấy rằng Hải Phòng có nhiều nét văn hóa độc đáo..."
-        ];
-        
-        const randomResponse = haiphongResponses[Math.floor(Math.random() * haiphongResponses.length)];
-        const enhancedResponse = `${randomResponse}\n\nĐây là thông tin từ hệ thống AI Hải Phòng Explorer, kết nối từ https://ndcuti-aivanhocg1.hf.space`;
-        
-        return {
-            success: true,
-            data: {
-                response: enhancedResponse
-            }
-        };
-    }
-}
-    </script>
     <script type="importmap">
         {
             "imports": {
@@ -542,516 +489,141 @@ class HaiphongAI {
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
-        const API_KEY = "AIzaSyAQMglgiKEHY8XznNf9ZIdjYMnKgH9DhJg";
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-thinking-exp-01-21" });
+        // Thay thế "YOUR_API_KEY" bằng khóa API thực tế của bạn
+        const KHOA_API = "AIzaSyAn9dMMM5u8dEGpI8mEzQvdMSuI8KFH8jM"; 
+        const moHinhAI = new GoogleGenerativeAI(KHOA_API);
+        const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.0-flash-thinking-exp-01-21" });
 
-        const chatContainer = document.getElementById('chat-container');
-        const chatMessages = document.getElementById('chat-messages');
-        const chatForm = document.getElementById('chat-form');
-        const messageInput = document.getElementById('message-input');
-        const newChatBtn = document.getElementById('new-chat-btn');
-        const chatHistory = document.getElementById('chat-history');
-        const typingIndicator = document.getElementById('typing-indicator');
-        const suggestionsBar = document.getElementById('suggestions-bar');
-        const suggestionsContainer = document.getElementById('suggestions-container');
-        const sendButton = document.getElementById('send-button');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navMenu = document.querySelector('.nav-menu');
+        const homeMenu = document.getElementById('home-menu');
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const khungTroChuyen = document.getElementById('khung-tro-chuyen');
+        const oNhapTinNhan = document.getElementById('o-nhap-tin-nhan');
+        const nutGui = document.getElementById('nut-gui');
+        const topicButtons = document.querySelectorAll('.topic-button');
+        const sidebarButtons = document.querySelectorAll('.sidebar-button');
 
-        let chats = [];
-        let currentChatId = null;
-        let isSending = false;
-        let typingInterval = null;
-        let isStopped = false;
-
-        function initApp() {
-            loadChats();
-            setupEventListeners();
-            setupTextareaAutoResize();
-
-            if (chats.length === 0) {
-                createNewChat();
-            } else {
-                loadChat(chats[0].id);
+        let currentTopic = '';
+        
+        // Định nghĩa các chủ đề về Hải Phòng
+        const topicInfo = {
+            "lich-su": {
+                name: "Lịch sử Hải Phòng",
+                description: "Lịch sử hình thành và phát triển của thành phố Hải Phòng",
+                keywords: ["lịch sử", "thành lập", "phát triển", "cảng", "chiến tranh", "tiểu sử", "sự kiện"]
+            },
+            "du-lich": {
+                name: "Du lịch Hải Phòng",
+                description: "Các địa điểm du lịch nổi tiếng tại Hải Phòng",
+                keywords: ["du lịch", "địa điểm", "thắng cảnh", "cát bà", "đồ sơn", "thăm quan", "di tích"]
+            },
+            "am-thuc": {
+                name: "Ẩm thực Hải Phòng",
+                description: "Đặc sản và ẩm thực đặc trưng của Hải Phòng",
+                keywords: ["ẩm thực", "đặc sản", "món ăn", "bánh đa cua", "bánh mì cay", "hải sản", "quán ăn"]
+            },
+            "van-hoa": {
+                name: "Văn hóa Hải Phòng",
+                description: "Văn hóa và con người Hải Phòng",
+                keywords: ["văn hóa", "con người", "lễ hội", "truyền thống", "phong tục", "nghệ thuật", "di sản"]
+            },
+            "kinh-te": {
+                name: "Kinh tế Hải Phòng",
+                description: "Tình hình kinh tế và các ngành công nghiệp chính của Hải Phòng",
+                keywords: ["kinh tế", "công nghiệp", "cảng biển", "xuất nhập khẩu", "đầu tư", "doanh nghiệp", "phát triển"]
+            },
+            "giao-thong": {
+                name: "Giao thông Hải Phòng",
+                description: "Hệ thống giao thông và phương tiện đi lại tại Hải Phòng",
+                keywords: ["giao thông", "đường xá", "cầu", "bến xe", "sân bay", "cảng", "phương tiện"]
             }
+        };
+
+        // Hàm thêm tin nhắn vào giao diện
+        function themTinNhanVaoGiaoDien(nguoiGui, vanBan) {
+            const divTinNhan = document.createElement('div');
+            divTinNhan.classList.add('tin-nhan', `tin-nhan-${nguoiGui}`);
+            divTinNhan.innerHTML = vanBan.replace(/\n/g, '<br>');
+            khungTroChuyen.appendChild(divTinNhan);
+            khungTroChuyen.scrollTop = khungTroChuyen.scrollHeight;
         }
 
-        function setupEventListeners() {
-            chatForm.addEventListener('submit', handleSubmit);
-            messageInput.addEventListener('input', autoResizeTextarea);
-            messageInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    if (messageInput.value.trim() !== '') {
-                        chatForm.dispatchEvent(new Event('submit'));
-                    }
-                }
-            });
-            newChatBtn.addEventListener('click', createNewChat);
+        // Chọn chủ đề
+        function selectTopic(topic) {
+            currentTopic = topic;
+            homeMenu.style.display = 'none';
+            chatbotContainer.style.display = 'flex';
+            khungTroChuyen.innerHTML = '';
             
-            // Setup menu toggle
-            menuToggle.addEventListener('click', () => {
-                navMenu.classList.toggle('active');
+            themTinNhanVaoGiaoDien("bot", 
+                `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Hải Phòng. ` +
+                `Hiện tại bạn đang tìm hiểu về chủ đề <strong>${topicInfo[topic].name}</strong>. ` +
+                `Hãy hỏi tôi bất cứ điều gì về ${topicInfo[topic].description} nhé!`);
+
+            // Cập nhật active state cho sidebar
+            sidebarButtons.forEach(button => {
+                button.classList.toggle('active', button.dataset.topic === topic);
+            });
+        }
+
+        // Gắn sự kiện khi trang tải xong
+        document.addEventListener('DOMContentLoaded', () => {
+            // Gắn sự kiện cho các nút chủ đề
+            topicButtons.forEach(button => {
+                button.addEventListener('click', () => selectTopic(button.dataset.topic));
             });
             
-            // Close menu when clicking on nav items
-            document.querySelectorAll('.nav-menu a').forEach(link => {
-                link.addEventListener('click', () => {
-                    navMenu.classList.remove('active');
-                });
+            sidebarButtons.forEach(button => {
+                button.addEventListener('click', () => selectTopic(button.dataset.topic));
             });
-        }
-
-        function setupTextareaAutoResize() {
-            messageInput.style.height = 'auto';
-            const newHeight = Math.min(messageInput.scrollHeight, 150);
-            messageInput.style.height = `${newHeight}px`;
-        }
-
-        function autoResizeTextarea() {
-            messageInput.style.height = 'auto';
-            const newHeight = Math.min(messageInput.scrollHeight, 150);
-            messageInput.style.height = `${newHeight}px`;
-        }
-
-        async function handleSubmit(e) {
-            e.preventDefault();
-            const userMessage = messageInput.value.trim();
-            if (!userMessage || isSending) return;
-
-            if (!isHaiphongQuestion(userMessage)) {
-                addMessageToUI("assistant", "Xin lỗi, tôi chỉ trả lời chuyên về các câu hỏi liên quan đến di tích lịch sử và văn hóa truyền thống Hải Phòng, bạn có câu hỏi nào liên quan đến Hải Phòng mà muốn hỏi tôi không?");
-                messageInput.value = "";
-                autoResizeTextarea();
-                return;
-            }
-
-            if (!currentChatId) {
-                createNewChat();
-                return;
-            }
-
-            const currentChat = chats.find(chat => chat.id === currentChatId);
-            if (!currentChat) {
-                console.error("Không tìm thấy cuộc trò chuyện hiện tại!");
-                return;
-            }
-
-            isSending = true;
-            addMessageToUI("user", userMessage);
             
-            // Change send button to stop button
-            sendButton.innerHTML = '<div class="loading-spinner"></div>';
-            sendButton.setAttribute('data-action', 'stop');
-            sendButton.onclick = stopGeneration;
-
-            const greetings = ["chào", "hello"];
-            if (greetings.some(greet => userMessage.toLowerCase().includes(greet))) {
-                const greetingResponse = "Xin chào, tôi là AI chuyên về di tích lịch sử và văn hóa truyền thống Hải Phòng được tạo ra bởi Hoàng Minh Tuấn và Trương Viết Duy Chương đến từ trường THPT Thừa Lưu. Tôi có thể giúp gì cho bạn về Hải Phòng ngay bây giờ?";
-                displayTypingMessage(greetingResponse, () => {
-                    if (!isStopped) {
-                        currentChat.messages.push({ 
-                            role: "assistant", 
-                            content: greetingResponse,
-                            timestamp: new Date().toISOString()
-                        });
-                        saveChats();
-                        updateSuggestions(currentChat.messages);
-                    }
-                });
-                messageInput.value = "";
-                autoResizeTextarea();
-                isSending = false;
-                resetSendButton();
-                return;
-            }
-
-            currentChat.messages.push({ 
-                role: "user", 
-                content: userMessage,
-                timestamp: new Date().toISOString()
+            // Gắn sự kiện gửi tin nhắn
+            nutGui.addEventListener('click', guiTinNhan);
+            oNhapTinNhan.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') guiTinNhan();
             });
-
-            saveChats();
-            updateChatTitle(currentChat);
-
-            messageInput.value = "";
-            autoResizeTextarea();
-            typingIndicator.classList.remove("hidden");
-            isStopped = false;
-
-            try {
-                const chatSession = model.startChat({
-                    history: currentChat.messages.map(msg => ({
-                        role: msg.role === "user" ? "user" : "model",
-                        parts: [{ text: msg.content }]
-                    })),
-                    generationConfig: {
-                        maxOutputTokens: 2000,
-                        temperature: 0.9,
-                        topP: 0.1,
-                        topK: 16,
-                    }
-                });
-
-                const result = await chatSession.sendMessage(userMessage);
-                const response = await result.response;
-                const botReply = response.text();
-
-                displayTypingMessage(botReply, () => {
-                    if (!isStopped) {
-                        currentChat.messages.push({ 
-                            role: "assistant", 
-                            content: botReply,
-                            timestamp: new Date().toISOString()
-                        });
-                        saveChats();
-                        updateSuggestions(currentChat.messages);
-                    }
-                });
-            } catch (error) {
-                console.error("Lỗi: ", error);
-                addMessageToUI("assistant", "Lỗi kết nối 221!");
-            } finally {
-                isSending = false;
-                typingIndicator.classList.add("hidden");
-                resetSendButton();
-                scrollToBottom();
-            }
-        }
-
-        function stopGeneration(e) {
-            e.preventDefault();
-            isStopped = true;
-            if (typingInterval) {
-                clearInterval(typingInterval);
-                typingInterval = null;
-            }
-            resetSendButton();
-        }
-
-        function resetSendButton() {
-            sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
-            sendButton.setAttribute('data-action', 'send');
-            sendButton.onclick = null;
-        }
-
-        function updateSuggestions(messages) {
-            const suggestions = generateSuggestions(messages);
-            suggestionsContainer.innerHTML = '';
-            
-            if (suggestions.length > 0) {
-                suggestions.forEach(suggestion => {
-                    const chip = document.createElement('div');
-                    chip.className = 'suggestion-chip';
-                    chip.textContent = suggestion;
-                    chip.addEventListener('click', () => {
-                        messageInput.value = suggestion;
-                        messageInput.focus();
-                        autoResizeTextarea();
-                    });
-                    suggestionsContainer.appendChild(chip);
-                });
-                suggestionsBar.classList.remove('hidden');
-            } else {
-                suggestionsBar.classList.add('hidden');
-            }
-        }
-
-        function displayTypingMessage(content, callback) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'bot-message';
-            messageDiv.innerHTML = '<div class="message-content"></div>';
-            chatMessages.appendChild(messageDiv);
-            scrollToBottom();
-
-            let i = 0;
-            const speed = 10;
-            const contentDiv = messageDiv.querySelector('.message-content');
-
-            if (typingInterval) clearInterval(typingInterval);
-            
-            typingIndicator.classList.remove("hidden");
-            typingInterval = setInterval(() => {
-                if (isStopped) {
-                    clearInterval(typingInterval);
-                    typingInterval = null;
-                    contentDiv.innerHTML = formatMessage(content.substring(0, i));
-                    typingIndicator.classList.add("hidden");
-                    if (callback) callback();
-                    return;
-                }
-
-                if (i < content.length) {
-                    contentDiv.innerHTML = formatMessage(content.substring(0, i + 1));
-                    i++;
-                    scrollToBottom();
-                } else {
-                    clearInterval(typingInterval);
-                    typingInterval = null;
-                    typingIndicator.classList.add("hidden");
-                    if (callback) callback();
-                }
-            }, speed);
-        }
-
-        function addMessageToUI(role, content) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = role === 'user' ? 'user-message' : 'bot-message';
-            
-            const formattedContent = formatMessage(content);
-            messageDiv.innerHTML = `<div class="message-content">${formattedContent}</div>`;
-            
-            chatMessages.appendChild(messageDiv);
-            scrollToBottom();
-        }
-
-        function formatMessage(content) {
-            if (!content) return '';
-
-            let formatted = content.replace(/```([\w]*)\n([\s\S]*?)```/g, (match, lang, code) => {
-                const langDisplay = lang ? lang : 'text';
-                return `<div class="code-block">
-                    <div class="code-header flex justify-between items-center px-3 py-2 bg-gray-100 text-gray-600 text-xs rounded-t-md">
-                        <span>${langDisplay}</span>
-                        <button class="copy-code-btn hover:text-primary" onclick="copyToClipboard(this)" data-code="${encodeURIComponent(code.trim())}">
-                            <i class="fas fa-copy"></i> Copy code
-                        </button>
-                    </div>
-                    <pre><code class="language-${lang || 'text'}">${escapeHtml(code.trim())}</code></pre>
-                </div>`;
-            });
-
-            formatted = formatted.replace(/\|(.+)\|\n\|(?:[-:]+\|)+\n((?:\|.+\|\n)+)/g, (match) => {
-                return `<div class="overflow-x-auto"><table class="w-full">
-                    ${match.replace(/\|(.+)\|\n\|(?:[-:]+\|)+\n/, (header) => {
-                        const headerCells = header.split('|').slice(1, -1);
-                        return `<thead><tr>${headerCells.map(cell => `<th class="px-4 py-2">${cell.trim()}</th>`).join('')}</tr></thead>`;
-                    })}
-                    <tbody>
-                        ${match.split('\n').slice(2).filter(Boolean).map(row => {
-                            const cells = row.split('|').slice(1, -1);
-                            return `<tr>${cells.map(cell => `<td class="px-4 py-2">${cell.trim()}</td>`).join('')}</tr>`;
-                        }).join('')}
-                    </tbody>
-                </table></div>`;
-            });
-
-            formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-            formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-            formatted = formatted.replace(/`([^`]+)`/g, '<code class="bg-gray-100 px-1 py-0.5 rounded">$1</code>');
-
-            formatted = formatted.split('\n\n').map(paragraph => {
-                if (paragraph.trim().startsWith('<') && paragraph.trim().endsWith('>')) {
-                    return paragraph;
-                }
-                return `<p>${paragraph}</p>`;
-            }).join('');
-
-            formatted = formatted.replace(/\n(?![<])/g, '<br>');
-
-            return formatted;
-        }
-
-        function escapeHtml(text) {
-            const map = {
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;',
-                "'": '&#039;'
-            };
-            return text.replace(/[&<>"']/g, m => map[m]);
-        }
-
-        function scrollToBottom() {
-            setTimeout(() => {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            }, 100);
-        }
-
-        function createNewChat() {
-            const newChat = {
-                id: Date.now().toString(),
-                title: 'Đoạn nhắn mới',
-                messages: [],
-                createdAt: new Date().toISOString()
-            };
-
-            chats.unshift(newChat);
-            saveChats();
-            renderChatHistory();
-            loadChat(newChat.id);
-            
-            messageInput.focus();
-            suggestionsBar.classList.add('hidden');
-        }
-
-        function loadChat(chatId) {
-            currentChatId = chatId;
-
-            document.querySelectorAll('.chat-item').forEach(item => {
-                if (item.dataset.id === chatId) {
-                    item.classList.add('bg-light-hover');
-                } else {
-                    item.classList.remove('bg-light-hover');
-                }
-            });
-
-            chatMessages.innerHTML = '';
-
-            const currentChat = chats.find(chat => chat.id === chatId);
-            if (!currentChat) return;
-
-            if (currentChat.messages.length > 0) {
-                currentChat.messages.forEach(message => {
-                    addMessageToUI(message.role, message.content);
-                });
-                updateSuggestions(currentChat.messages);
-            } else {
-                suggestionsBar.classList.add('hidden');
-            }
-            
-            scrollToBottom();
-        }
-
-        function deleteChat(chatId, event) {
-            event.stopPropagation();
-            chats = chats.filter(chat => chat.id !== chatId);
-            saveChats();
-            renderChatHistory();
-
-            if (chatId === currentChatId) {
-                if (chats.length > 0) {
-                    loadChat(chats[0].id);
-                } else {
-                    createNewChat();
-                }
-            }
-        }
-
-        function updateChatTitle(chat) {
-            if (!chat || !chat.messages || chat.messages.length === 0) {
-                chat.title = "Đoạn nhắn mới";
-                saveChats();
-                renderChatHistory();
-                return;
-            }
-
-            const firstUserMessage = chat.messages.find(msg => msg.role === "user");
-            if (firstUserMessage) {
-                let title = firstUserMessage.content.substring(0, 40);
-                if (firstUserMessage.content.length > 40) {
-                    title += "...";
-                }
-                chat.title = title || "Đoạn nhắn mới";
-            } else {
-                chat.title = "Đoạn nhắn mới";
-            }
-
-            saveChats();
-            renderChatHistory();
-        }
-
-        function renderChatHistory() {
-            chatHistory.innerHTML = '';
-
-            if (chats.length === 0) {
-                chatHistory.innerHTML = `
-                    <div class="text-center p-4 text-gray-400">
-                        Chưa có đoạn nhắn nào
-                    </div>
-                `;
-                return;
-            }
-
-            chats.forEach(chat => {
-                const chatItem = document.createElement('div');
-                chatItem.className = `chat-item p-3 rounded-md flex items-center justify-between cursor-pointer hover:bg-light-hover transition-colors ${chat.id === currentChatId ? 'bg-light-hover' : ''}`;
-                chatItem.dataset.id = chat.id;
-
-                const chatDate = new Date(chat.createdAt || chat.id);
-                const formattedDate = chatDate.toLocaleDateString('vi-VN', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric'
-                });
-
-                chatItem.innerHTML = `
-                    <div class="flex items-center gap-2 overflow-hidden flex-1 min-w-0">
-                        <i class="fas fa-comment text-primary"></i>
-                        <div class="min-w-0">
-                            <div class="chat-title truncate font-medium">${chat.title || 'Đoạn nhắn mới'}</div>
-                            <div class="text-xs text-gray-400 truncate">${formattedDate}</div>
-                        </div>
-                    </div>
-                    <button class="delete-chat-btn text-gray-400 hover:text-red-500 p-1">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                `;
-
-                chatItem.addEventListener('click', (e) => {
-                    if (!e.target.closest('.delete-chat-btn')) {
-                        loadChat(chat.id);
-                    }
-                });
-
-                const deleteBtn = chatItem.querySelector('.delete-chat-btn');
-                deleteBtn.addEventListener('click', (e) => {
-                    deleteChat(chat.id, e);
-                });
-
-                chatHistory.appendChild(chatItem);
-            });
-        }
-
-        function loadChats() {
-            const storedChats = localStorage.getItem('tlc-g1-chats');
-            if (storedChats) {
-                const now = Date.now();
-                const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-
-                chats = JSON.parse(storedChats)
-                    .filter(chat => now - new Date(chat.createdAt || chat.id).getTime() < THIRTY_DAYS)
-                    .sort((a, b) => new Date(b.createdAt || b.id) - new Date(a.createdAt || a.id));
-                
-                saveChats();
-                renderChatHistory();
-            }
-        }
-
-        function saveChats() {
-            const now = Date.now();
-            const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
-
-            chats = chats.filter(chat => {
-                const chatTime = new Date(chat.createdAt || chat.id).getTime();
-                return now - chatTime < THIRTY_DAYS;
-            });
-
-            localStorage.setItem('tlc-g1-chats', JSON.stringify(chats));
-        }
-
-        function copyToClipboard(button) {
-            const code = decodeURIComponent(button.getAttribute('data-code'));
-            navigator.clipboard.writeText(code).then(() => {
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
-                setTimeout(() => {
-                    button.innerHTML = originalText;
-                }, 2000);
-            });
-        }
-
-        window.addEventListener("beforeunload", () => {
-            chats = chats.filter(chat => chat.messages.length > 0);
-            saveChats();
         });
 
-        document.addEventListener('DOMContentLoaded', initApp);
-        
-        window.copyToClipboard = copyToClipboard;
+        // Gửi tin nhắn
+        async function guiTinNhan() {
+            const tinNhanNguoiDung = oNhapTinNhan.value.trim();
+            if (!tinNhanNguoiDung) return;
+
+            themTinNhanVaoGiaoDien("nguoi-dung", tinNhanNguoiDung);
+            oNhapTinNhan.value = '';
+
+            // Xử lý lời chào
+            if (["chào", "hello", "hi", "xin chào"].some(word => tinNhanNguoiDung.toLowerCase().includes(word))) {
+                if (currentTopic) {
+                    themTinNhanVaoGiaoDien("bot", `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Hải Phòng. Bạn đang tìm hiểu về ${topicInfo[currentTopic].name}. Hãy hỏi tôi bất cứ điều gì về chủ đề này nhé!`);
+                } else {
+                    themTinNhanVaoGiaoDien("bot", "Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Hải Phòng. Hãy chọn một chủ đề từ menu để bắt đầu!");
+                }
+                return;
+            }
+
+            // Xử lý các câu hỏi thông thường
+            try {
+                let loiNhac = `Bạn là một chatbot chuyên cung cấp thông tin về thành phố Hải Phòng, Việt Nam. `;
+                
+                if (currentTopic && topicInfo[currentTopic]) {
+                    loiNhac += `Hiện tại người dùng đang tìm hiểu về chủ đề: ${topicInfo[currentTopic].name} - ${topicInfo[currentTopic].description}. `;
+                    loiNhac += `Hãy trả lời câu hỏi tập trung vào chủ đề này. `;
+                }
+                
+                loiNhac += `Hãy trả lời ngắn gọn, chính xác và thân thiện. `;
+                loiNhac += `Nếu câu hỏi không liên quan đến Hải Phòng, hãy nhẹ nhàng hướng người dùng quay lại chủ đề.`;
+                loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
+
+                const ketQua = await moHinh.generateContent(loiNhac);
+                const phanHoi = await ketQua.response;
+                const traLoiBot = phanHoi.text();
+                themTinNhanVaoGiaoDien("bot", traLoiBot);
+
+            } catch (loi) {
+                console.error("Lỗi khi gọi API Gemini: ", loi);
+                themTinNhanVaoGiaoDien("bot", "Rất tiếc, có lỗi xảy ra. Bạn vui lòng thử lại sau nhé!");
+            }
+        }
     </script>
 </body>
 </html>
