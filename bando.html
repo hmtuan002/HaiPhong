@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bản Đồ Lịch Sử</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4f46e5',
+                        secondary: '#1e1b4b',
+                        accent: '#10b981',
+                        dark: '#0f172a',
+                        light: {
+                            bg: '#f8fafc',
+                            sidebar: '#ffffff',
+                            text: '#1e293b',
+                            hover: '#e2e8f0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Calibri', 'sans-serif'],
+                        display: ['Arial', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 14px 0 rgba(0, 0, 0, 0.05)',
+                        'soft-lg': '0 10px 28px rgba(0, 0, 0, 0.08)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Calibri', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .markdown p {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+            color: #334155;
+        }
+        
+        .markdown ul, .markdown ol {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+        }
+        
+        .markdown li {
+            margin-bottom: 0.5rem;
+            color: #334155;
+        }
+        
+        .markdown code:not(pre code) {
+            background-color: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: 'Fira Code', monospace;
+            color: #334155;
+            font-size: 0.9em;
+        }
+        
+        .markdown strong {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .markdown em {
+            font-style: italic;
+        }
+        
+        .markdown h1, .markdown h2, .markdown h3, .markdown h4 {
+            font-weight: 600;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: #1e293b;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .markdown h1 {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+        
+        .markdown h2 {
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        .markdown h3 {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+        
+        .markdown h4 {
+            font-size: 1rem;
+            line-height: 1.5rem;
+        }
+        
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .battle-box {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .battle-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .battle-box h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .battle-box h3 i {
+            margin-right: 0.5rem;
+            color: #4f46e5;
+        }
+        
+        .battle-box h3 i.fa-star { 
+            color: #f43f5e;
+        }
+
+        .battle-box ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .battle-box p, .battle-box li {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #475569;
+        }
+
+        .search-input {
+            transition: all 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+
+        .sidebar-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .message-content {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Country highlight styles */
+        .leaflet-tooltip {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            color: #000;
+            font-weight: bold;
+            text-shadow:
+                -1px -1px 0 white,
+                1px -1px 0 white,
+                -1px 1px 0 white,
+                1px 1px 0 white;
+            padding: 0 !important;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .country-highlight {
+            animation: highlight 2s ease-in-out;
+        }
+
+        @keyframes highlight {
+            0% { fill-opacity: 0.3; }
+            50% { fill-opacity: 0.8; }
+            100% { fill-opacity: 0.3; }
+        }
+
+        #result-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        
+        #result-messages {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-input-container {
+            position: sticky;
+            bottom: 0;
+            background-color: #ffffff;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            z-index: 10;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            max-height: calc(100vh - 200px);
+            margin-bottom: 0;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* Floating action buttons */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
+            background-color: #4338ca;
+        }
+        
+        .fab-sidebar {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: #10b981;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .fab-sidebar:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+            background-color: #059669;
+        }
+
+        /* Gradient background */
+        .gradient-bg {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Animated border */
+        .animated-border {
+            position: relative;
+        }
+
+        .animated-border::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4f46e5, #10b981);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .animated-border:hover::after {
+            transform: scaleX(1);
+        }
+
+        /* Pulse animation */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Battle marker styles */
+        .battle-marker {
+            background-color: #ef4444;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Key locations styles */
+        .key-location {
+            background-color: #3b82f6;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+
+        .key-location::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: rgba(59, 130, 246, 0.2);
+            animation: ripple 2s infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Sidebar tabs */
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem 0;
+            cursor: pointer;
+            font-weight: 500;
+            color: #64748b;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .sidebar-tab:hover {
+            color: #4f46e5;
+        }
+
+        .sidebar-tab.active {
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+        }
+
+        /* Chat container */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            max-height: calc(100vh - 200px);
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* Timeline styles */
+        .timeline-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            background-color: #4f46e5;
+            border: 2px solid #ffffff;
+            z-index: 1;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 1.25rem;
+            bottom: -1rem;
+            width: 2px;
+            background-color: #e2e8f0;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background-color: #f8fafc;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border-left: 3px solid #4f46e5;
+        }
+
+        .timeline-time {
+            font-weight: 600;
+            color: #4f46e5;
+            margin-bottom: 0.25rem;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .timeline-text {
+            color: #475569;
+        }
+        
+        /* Sidebar toggle button */
+        .sidebar-toggle {
+            position: absolute;
+            top: 1rem;
+            right: -1.5rem;
+            width: 3rem;
+            height: 3rem;
+            background-color: #4f46e5;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle:hover {
+            background-color: #4338ca;
+            transform: scale(1.1);
+        }
+        
+        .sidebar-collapsed {
+            transform: translateX(-100%);
+            position: absolute;
+            left: -100%;
+            background-color: transparent;
+            box-shadow: none;
+            border-right: none;
+        }
+        
+        .sidebar-collapsed .sidebar-toggle {
+            right: -3rem;
+        }
+
+        /* App container */
+        #app {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative; /* Quan trọng: Tạo ngữ cảnh cho z-index */
+        }
+
+        #sidebar {
+            width: 384px; /* Giữ nguyên kích thước ban đầu */
+            height: 100%; /* Chiếm toàn bộ chiều cao */
+            background-color: #ffffff;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng sang phải */
+            position: absolute; /* Nổi lên trên bản đồ */
+            left: 0; /* Căn trái */
+            top: 0; /* Căn trên */
+            z-index: 20; /* Đảm bảo nằm trên bản đồ */
+            transition: transform 0.3s ease; /* Hiệu ứng khi ẩn/hiện */
+        }
+
+        #map-container {
+            flex: 1;
+            height: 100%;
+            margin-left: 0; /* Bỏ margin-left để bản đồ chiếm toàn bộ không gian */
+            position: relative;
+            z-index: 10; /* Nằm dưới thanh bên */
+        }
+        .ai-result-content {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+}
+.info-section { margin: 10px 0; }
+.info-section span { font-weight: bold; }
+    </style>
+</head>
+<body class="h-screen flex flex-col gradient-bg text-light-text transition-all">
+    <div id="app">
+        <div id="sidebar" class="flex flex-col h-full transition-all duration-300 relative">
+            <div class="sidebar-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            
+            <div class="p-6 sidebar-header">
+                <h2 class="text-2xl font-bold text-gray-800 font-display flex items-center">
+                    <i class="fas fa-map-marked-alt mr-3 text-primary"></i>
+                    <span class="animated-border">Bản Đồ Lịch Sử</span>
+                </h2>
+                
+                <div class="sidebar-tabs mt-4">
+                    <div id="map-tab" class="sidebar-tab active" onclick="switchTab('map')">
+                        <i class="fas fa-map mr-2"></i>
+                        <span>Bản đồ</span>
+                    </div>
+                </div>
+                <form id="search-form" class="relative mt-3">
+                    <div class="relative">
+                        <input 
+                            id="search-input" 
+                            type="text" 
+                            class="w-full p-4 rounded-xl border border-gray-300 bg-white search-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800 pl-12"
+                            placeholder="Nhập sự kiện lịch sử..."
+                        />
+                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-lg hover:bg-secondary transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div id="map-results" class="flex-1 overflow-y-auto hide-scrollbar p-6">
+                <div id="result-messages" class="flex flex-col gap-5 w-full"></div>
+                <div id="typing-indicator" class="hidden mt-4 p-4 bg-blue-50 rounded-xl text-blue-700 text-sm flex items-center">
+                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
+                    <span>AI đang tìm kiếm, vui lòng đợi...</span>
+                </div>
+                <div id="stop-button-container" class="hidden mt-4">
+                    <button id="stop-response-btn" class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center w-full">
+                        <i class="fas fa-stop mr-2"></i> <span>Dừng tìm kiếm</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="map-container" class="flex-1 flex flex-col h-full overflow-hidden relative">
+            <div id="map" class="flex-1"></div>
+            <div class="absolute top-4 right-4 z-20 bg-white p-2 rounded-lg shadow-md flex items-center">
+                <i class="fas fa-layer-group text-gray-600 mr-2"></i>
+                <span class="text-sm font-medium text-gray-700">Bản đồ lịch sử</span>
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+    <script type="module">
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+
+        const API_KEY = "AIzaSyA6y8nT_KlSNNWCEbDhq4cnyuE3zdtzsd4"; // Thay bằng API key thực tế của bạn
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+
+        const searchForm = document.getElementById('search-form');
+        const searchInput = document.getElementById('search-input');
+        const resultMessages = document.getElementById('result-messages');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const stopButtonContainer = document.getElementById('stop-button-container');
+        const mapResults = document.getElementById('map-results');
+        const sidebar = document.getElementById('sidebar');
+        const mapContainer = document.getElementById('map-container');
+
+        let map;
+        let abortController = null;
+        let isSending = false;
+        let isStopped = false;
+        let markers = [];
+        let currentQueries = [];
+        let countryLayer = null;
+        let selectedCountryLayer = null;
+        let countryLayers = {};
+        let keyLocations = [];
+
+        // Extended country name mapping
+        const countryNameMap = {
+            "Nguyễn Khuyến": "Vietnam",
+            "Việt Nam": "Vietnam",
+            "Anh": "United Kingdom",
+            "Mỹ": "United States",
+            "Hoa Kỳ": "United States",
+            "Pháp": "France",
+            "Đức": "Germany",
+            "Nga": "Russia",
+            "Nhật Bản": "Japan",
+            "Trung Quốc": "China",
+            "Trung Hoa": "China",
+            "Hàn Quốc": "South Korea",
+            "Ấn Độ": "India",
+            "Brazil": "Brazil",
+            "Canada": "Canada",
+            "Ý": "Italy",
+            "Tây Ban Nha": "Spain",
+            "Bồ Đào Nha": "Portugal",
+            "Thụy Điển": "Sweden",
+            "Na Uy": "Norway",
+            "Phần Lan": "Finland",
+            "Đan Mạch": "Denmark",
+            "Hà Lan": "Netherlands",
+            "Bỉ": "Belgium",
+            "Thụy Sĩ": "Switzerland",
+            "Áo": "Austria",
+            "Ba Lan": "Poland",
+            "Hy Lạp": "Greece",
+            "Thổ Nhĩ Kỳ": "Turkey",
+            "Ai Cập": "Egypt",
+            "Nam Phi": "South Africa",
+            "Mexico": "Mexico",
+            "Argentina": "Argentina",
+            "Úc": "Australia",
+            "New Zealand": "New Zealand",
+            "Hà Nội": "Hanoi",
+            "Huế": "Hue",
+            "Trần Hưng Đạo": "Tran Hung Dao",
+            "Nguyễn Huệ": "Nguyen Hue"
+        };
+
+        const battleKeywords = ["trận chiến", "battle", "war", "engagement", "conflict", "campaign", "chiến tranh", "trận", "cuộc chiến", "chiến dịch", "đánh"];
+
+        const countryCoordinates = {
+            "Việt Nam": { lat: 16.0471, lng: 108.2062, zoom: 6 },
+            "Trung Quốc": { lat: 35.8617, lng: 104.1954, zoom: 4 },
+            "Mông Cổ": { lat: 46.8625, lng: 103.8467, zoom: 5 },
+            "Pháp": { lat: 46.6034, lng: 1.8883, zoom: 5 },
+            "Mỹ": { lat: 37.0902, lng: -95.7129, zoom: 4 },
+            "Nhật Bản": { lat: 36.2048, lng: 138.2529, zoom: 5 },
+            "Đức": { lat: 51.1657, lng: 10.4515, zoom: 5 },
+            "Nga": { lat: 61.5240, lng: 105.3188, zoom: 3 },
+            "Liên Xô": { lat: 61.5240, lng: 105.3188, zoom: 3 }
+        };
+
+        // Historical locations in Vietnam with coordinates
+        const vietnamHistoricalLocations = {
+          "Điện Biên Phủ": {
+        lat: 21.3867,
+        lng: 103.0150,
+        name: "Điện Biên Phủ",
+        name_vi: "Điện Biên Phủ",
+        name_en: "Dien Bien Phu",
+        description: "Nơi diễn ra chiến dịch Điện Biên Phủ 1954",
+        description_vi: "Điện Biên Phủ, tỉnh Điện Biên, nơi diễn ra chiến dịch Điện Biên Phủ năm 1954, đánh dấu chiến thắng lịch sử của Việt Nam trước thực dân Pháp",
+        description_en: "Dien Bien Phu, Dien Bien Province, the site of the 1954 Dien Bien Phu Campaign, marking a historic victory of Vietnam over French colonial forces"
+    },
+            "Kinh thành Huế": { lat: 16.4697, lng: 107.5777, name: "Kinh thành Huế", description: "Trung tâm triều Nguyễn" },
+            "Thăng Long": { lat: 21.0333, lng: 105.8500, name: "Thăng Long (Hà Nội)", description: "Kinh đô thời Lý, Trần, Lê" },
+            "Bạch Đằng": { lat: 20.8667, lng: 106.7333, name: "Sông Bạch Đằng", description: "Nơi diễn ra các trận thủy chiến lừng danh" },
+            "Ngọc Hồi": { lat: 20.9333, lng: 105.8333, name: "Ngọc Hồi, Hà Nội", description: "Nơi diễn ra trận Ngọc Hồi-Đống Đa" },
+            "Đống Đa": { lat: 21.0167, lng: 105.8333, name: "Đống Đa, Hà Nội", description: "Nơi diễn ra trận Ngọc Hồi-Đống Đa" },
+            "Tây Sơn": { lat: 13.9833, lng: 108.9833, name: "Tây Sơn, Bình Định", description: "Quê hương phong trào Tây Sơn" },
+            "Vĩnh": { lat: 18.6667, lng: 105.6667, name: "Vĩnh, Nghệ An", description: "Quê hương Trần Hưng Đạo" },
+            "Cổ Loa": { lat: 21.1167, lng: 105.8833, name: "Cổ Loa", description: "Kinh đô nhà nước Âu Lạc" },
+            "Điện Biên Phủ": { lat: 21.3867, lng: 103.0150, name: "Điện Biên Phủ", description: "Nơi diễn ra chiến dịch Điện Biên Phủ 1954" },
+            "Đồi A1": { lat: 21.3867, lng: 103.0150, name: "Đồi A1, Điện Biên Phủ", description: "Một trong những trận đánh ác liệt nhất chiến dịch Điện Biên Phủ" },
+            "Cánh đồng Mường Thanh": { lat: 21.3867, lng: 103.0150, name: "Cánh đồng Mường Thanh", description: "Nơi đặt tập đoàn cứ điểm Điện Biên Phủ" }
+        };
+
+        function focusSearchInput() {
+            searchInput.focus();
+        }
+
+        function isHistoryQuestion(query) {
+            return true; // Bỏ qua kiểm tra từ khóa lịch sử
+        }
+function isLandmarkQuery(query) {
+    const lowerQuery = query.toLowerCase();
+    const landmarkKeywords = [
+        "kinh thành", "đền", "chùa", "di tích", "thành", "cung điện", "địa danh", "địa điểm", "lăng", "mộ",
+        "huế", "thăng long", "cổ loa", "mỹ sơn", "văn miếu", "capital city", "temple", "pagoda", "heritage site", "fortress", "palace", "geographical name", "location", "tomb", "grave", "Hue", "Thang Long", "Co Loa", "My Son", "Van Mieu"
+    ];
+    return landmarkKeywords.some(keyword => lowerQuery.includes(keyword)) || 
+           Object.keys(vietnamHistoricalLocations).some(loc => 
+               lowerQuery.includes(loc.toLowerCase()) || 
+               (vietnamHistoricalLocations[loc].name_en && 
+                lowerQuery.includes(vietnamHistoricalLocations[loc].name_en.toLowerCase()))
+           );
+}
+        function isBattleQuery(query) {
+            const lowerQuery = query.toLowerCase();
+            return battleKeywords.some(keyword => lowerQuery.includes(keyword.toLowerCase()));
+        }
+
+        function isFigureQuery(query) {
+            const lowerQuery = query.toLowerCase();
+            const figureKeywords = [
+                "nhân vật", "vua", "hoàng đế", "tướing", "anh hùng", "nhà thơ", "nhà văn", 
+                "nguyễn huệ", "trần hưng đạo", "nguyễn khuyến", "quang trung", 
+                "lý thường kiệt", "ngô quyền", "chủ tịch", "bí thư", "character", "king", "emperor", "general", "hero", "poet", "writer", "Nguyễn Huệ", "Trần Hưng Đạo", "Nguyễn Khuyến", "Quang Trung", "Lý Thường Kiệt", "Ngô Quyền", "president", "secretary"
+            ];
+            return figureKeywords.some(keyword => lowerQuery.includes(keyword));
+        }
+
+        function initApp() {
+            initMap();
+            setupEventListeners();
+        }
+function initMap() {
+    // Thiết lập giới hạn bản đồ cho khu vực Hải Phòng và Hải Dương
+    const southWest = L.latLng(20.5, 106.0);   // Góc tây nam
+    const northEast = L.latLng(21.2, 107.0);   // Góc đông bắc
+    const bounds = L.latLngBounds(southWest, northEast);
+    
+    // Khởi tạo bản đồ với tâm là trung tâm khu vực Hải Phòng - Hải Dương
+    map = L.map('map', {
+        center: [20.86, 106.68],  // Tọa độ trung tâm khu vực
+        zoom: 9,                   // Zoom level phù hợp
+        maxBounds: bounds,         // Giới hạn khu vực có thể xem
+        maxBoundsViscosity: 1.0,   // Ngăn không cho kéo ra ngoài khu vực
+        minZoom: 8,                // Zoom tối thiểu
+        maxZoom: 12                // Zoom tối đa
+    }).setView([20.86, 106.68], 9);
+    
+    // Thiết lập tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        noWrap: true                 // Ngăn không lặp lại bản đồ thế giới
+    }).addTo(map);
+
+    // Vô hiệu hóa kéo bản đồ ra ngoài khu vực cho phép
+    map.setMaxBounds(bounds);
+
+    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Không thể tải dữ liệu GeoJSON');
+            return response.json();
+        })
+        .then(data => {
+            const countriesLayer = L.geoJSON(data, {
+                style: {
+                    fillColor: 'transparent',
+                    fillOpacity: 0,
+                    color: 'transparent',
+                    weight: 0
+                },
+                onEachFeature: (feature, layer) => {
+                    const countryName = feature.properties.name;
+                    countryLayers[countryName] = layer;
+                }
+            }).addTo(map);
+        })
+        .catch(error => {
+            console.error('Lỗi tải GeoJSON:', error);
+            addMessageToUI('assistant', 'Lỗi tải dữ liệu bản đồ, vui lòng thử lại sau.');
+        });
+}
+
+        function setupEventListeners() {
+            searchForm.addEventListener('submit', handleSubmit);
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    if (searchInput.value.trim() !== '') {
+                        searchForm.dispatchEvent(new Event('submit'));
+                    }
+                }
+            });
+
+            // Sửa hàm xử lý nút dừng
+document.getElementById('stop-response-btn').addEventListener('click', () => {
+    isStopped = true;
+    stopButtonContainer.classList.add('hidden');
+    typingIndicator.classList.add('hidden');
+    
+    // Hủy yêu cầu đang thực hiện nếu có
+    if (abortController) {
+        abortController.abort();
+    }
+});
+        }
+
+        function clearPreviousData() {
+            currentQueries = [];
+            resultMessages.innerHTML = '';
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            keyLocations.forEach(loc => map.removeLayer(loc));
+            keyLocations = [];
+            if (countryLayer) {
+                map.removeLayer(countryLayer);
+                countryLayer = null;
+            }
+        }
+
+async function handleSubmit(e) {
+    if (e) e.preventDefault();
+    
+    const userQuery = searchInput.value.trim();
+    if (!userQuery || isSending) return;
+
+    isSending = true;
+    isStopped = false;  // Đảm bảo reset trạng thái dừng
+    clearPreviousData();
+    addMessageToUI("user", userQuery);
+
+    currentQueries.push({ 
+        role: "user", 
+        content: userQuery,
+        timestamp: new Date().toISOString()
+    });
+
+    searchInput.value = "";
+    typingIndicator.classList.remove("hidden");
+    stopButtonContainer.classList.remove("hidden"); 
+
+    // Tạo một AbortController mới cho yêu cầu này
+    abortController = new AbortController();
+
+    try {
+        let prompt = userQuery;
+        let responseType = "general";
+
+        // Kiểm tra loại truy vấn
+        if (isFigureQuery(userQuery)) {
+            responseType = "figure";
+            prompt = `
+                Cung cấp thông tin chi tiết về nhân vật lịch sử được nhắc đến trong truy vấn "${userQuery}" bằng tiếng Việt theo định dạng JSON hợp lệ, TRẢ VỀ NGAY JSON ĐỪNG CÓ NÓI GÌ HẾT, CỨ LÀM ĐI. JSON phải có các trường sau: 
+                {
+                    "name": "Tên nhân vật",
+                    "time": "Thời gian sống (năm sinh - năm mất)",
+                    "location": "Địa điểm cụ thể liên quan (ưu tiên nơi sinh hoặc nơi hoạt động chính)",
+                    "lat": "Tọa độ vĩ độ của địa điểm",
+                    "lng": "Tọa độ kinh độ của địa điểm",
+                    "summary": "Tóm tắt tiểu sử",
+                    "achievements": ["Danh sách thành tựu nổi bật"],
+                    "significance": "Ý nghĩa lịch sử",
+                    "description_vi": "Mô tả ngắn gọn về mối liên hệ của địa điểm với nhân vật"
+                }
+            `;
+        } else if (isBattleQuery(userQuery)) {
+            responseType = "battle";
+            prompt = `
+                Cung cấp thông tin chi tiết về trận chiến "${userQuery}" bằng tiếng Việt theo định dạng JSON hợp lệ, TRẢ LỜI JSON KHÔNG DÀI DÒNG MÀ VÀO TRỰC TIẾP VẤN ĐỀ. JSON phải có các trường sau: 
+                {
+                    "name": "Tên trận chiến",
+                    "time": "Thời gian diễn ra",
+                    "location": "Địa điểm cụ thể diễn ra",
+                    "summary": "Tóm tắt trận chiến",
+                    "factions": ["Danh sách các phe tham gia"],
+                    "troop_numbers": {"Phe": "Số quân"},
+                    "commanders": {"Phe": "Tên chỉ huy"},
+                    "tactics": {"Phe": "Chiến thuật sử dụng"},
+                    "casualties": {"Phe": "Số thương vong"},
+                    "heroes": [{"name": "Tên anh hùng", "role": "Vai trò", "description": "Mô tả đóng góp"}],
+                    "timeline": ["Các mốc sự kiện chính"],
+                    "outcome": "Kết quả trận chiến",
+                    "significance": "Ý nghĩa lịch sử",
+                    "key_locations": [{"name": "Tên địa điểm quan trọng", "description": "Mô tả tầm quan trọng"}]
+                }
+            `;
+        } else if (isLandmarkQuery(userQuery)) {
+    responseType = "landmark";
+    prompt = `
+        Cung cấp thông tin chi tiết về địa danh lịch sử "${userQuery}" bằng tiếng Việt theo định dạng JSON hợp lệ, TRẢ VỀ NGAY JSON ĐỪNG CÓ NÓI GÌ HẾT, CỨ LÀM ĐI. JSON phải có các trường sau:
+        {
+            "name": "Tên địa danh",
+            "location": "Địa điểm cụ thể (ví dụ: 'Huế, Thừa Thiên Huế')",
+            "lat": "Tọa độ vĩ độ của địa điểm",
+            "lng": "Tọa độ kinh độ của địa điểm",
+            "build_time": "Thời gian xây dựng (ví dụ: '1804-1833' hoặc 'Thế kỷ 19')",
+            "purpose": "Mục đích xây dựng địa danh",
+            "architecture": "Phong cách kiến trúc hoặc đặc điểm kiến trúc",
+            "contents": ["Danh sách các công trình hoặc vật phẩm nổi bật bên trong"],
+            "builders": ["Danh sách những người có công xây dựng"],
+            "dynasty": "Triều đại liên quan",
+            "description_vi": "Mô tả ngắn gọn về ý nghĩa của địa danh"
+        }
+       
+    `;
+} else {
+            prompt = `Trả lời truy vấn "${userQuery}" bằng tiếng Việt với thông tin lịch sử chính xác và chi tiết.`;
+        }
+
+        const chatSession = model.startChat({
+            history: currentQueries.map(query => ({
+                role: query.role === "user" ? "user" : "model",
+                parts: [{ text: query.content }]
+            })),
+            generationConfig: {
+                maxOutputTokens: 2000,
+                temperature: 0.7,
+                topP: 0.1,
+                topK: 16,
+            }
+        });
+
+        // Thêm kiểm tra isStopped trước khi gửi yêu cầu
+        if (isStopped) {
+            throw new Error("Search stopped by user");
+        }
+
+        const result = await chatSession.sendMessage(prompt, { signal: abortController.signal });
+        
+        // Kiểm tra lại isStopped sau khi nhận phản hồi
+        if (isStopped) {
+            throw new Error("Search stopped by user");
+        }
+
+        const response = await result.response;
+        let botReply = response.text();
+
+        console.log("Phản hồi từ Gemini (handleSubmit):", botReply);
+
+        if (responseType === "landmark") {
+            try {
+                let jsonStr = botReply;
+                if (jsonStr.includes('```json')) {
+                    jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
+                } else if (jsonStr.includes('```')) {
+                    jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
+                }
+
+                let landmarkData;
+                try {
+                    landmarkData = JSON.parse(jsonStr);
+                } catch (e) {
+                    jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
+                    landmarkData = JSON.parse(jsonStr);
+                }
+
+                botReply = formatLandmarkData(landmarkData);
+
+                if (landmarkData.location) {
+                    console.log("Đang lấy vị trí cho:", landmarkData.location);
+                    if (landmarkData.lat && landmarkData.lng) {
+                        addMarker(landmarkData.lat, landmarkData.lng, landmarkData.name || userQuery);
+                        const zoomLevel = landmarkData.lat < 10 || landmarkData.lat > 30 ? 6 : 10;
+                        map.setView([landmarkData.lat, landmarkData.lng], zoomLevel);
+                        botReply += `\n\n**Địa điểm**: ${landmarkData.location}`;
+                        botReply += `\n\n**Vĩ độ**: ${landmarkData.lat}, **Kinh độ**: ${landmarkData.lng}`;
+                    } else {
+                        const location = await getLocationCoordinates(landmarkData.location);
+                        if (location && location.lat && location.lng) {
+                            addMarker(location.lat, location.lng, landmarkData.name || userQuery);
+                            botReply += `\n\n**Địa điểm**: ${location.description || location.name}`;
+                            botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
+                            const zoomLevel = location.lat < 10 || location.lat > 30 ? 6 : 10;
+                            map.setView([location.lat, location.lng], zoomLevel);
+                        } else {
+                            console.warn("Không có dữ liệu vị trí hợp lệ cho:", landmarkData.location, "Truy vấn:", userQuery);
+                            botReply += `\n\n**Địa điểm**: ${landmarkData.location} (Không xác định)`;
+                        }
+                    }
+                } else {
+                    console.warn("Không có vị trí được cung cấp trong landmarkData cho truy vấn:", userQuery);
+                    botReply += `\n\n**Địa điểm**: Không xác định`;
+                }
+
+                if (!isStopped) {
+                    addMessageToUI("assistant", botReply);
+                    currentQueries.push({ 
+                        role: "assistant", 
+                        content: botReply,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            } catch (e) {
+                console.error("Lỗi phân tích JSON (địa danh):", e, "Phản hồi:", botReply);
+                botReply = `Thông tin về địa danh lịch sử:\n\n${botReply}`;
+                addMessageToUI("assistant", botReply);
+                currentQueries.push({ 
+                    role: "assistant", 
+                    content: botReply,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } else if (responseType === "figure") {
+    try {
+        let jsonStr = botReply;
+        if (jsonStr.includes('```json')) {
+            jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
+        } else if (jsonStr.includes('```')) {
+            jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
+        }
+
+        let figureData;
+        try {
+            figureData = JSON.parse(jsonStr);
+        } catch (e) {
+            jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
+            figureData = JSON.parse(jsonStr);
+        }
+
+        botReply = formatFigureData(figureData);
+
+        if (figureData.location) {
+            console.log("Đang lấy vị trí cho:", figureData.location);
+            if (figureData.lat && figureData.lng) {
+                addMarker(figureData.lat, figureData.lng, figureData.name || userQuery);
+                const zoomLevel = figureData.lat < 10 || figureData.lat > 30 ? 6 : 10;
+                map.setView([figureData.lat, figureData.lng], zoomLevel);
+                botReply += `\n\n**Nơi sinh**: ${figureData.location}`;
+                botReply += `\n\n**Vĩ độ**: ${figureData.lat}, **Kinh độ**: ${figureData.lng}`;
+            } else {
+                const location = await getLocationCoordinates(figureData.location);
+                console.log("Dữ liệu vị trí:", location);
+                if (location && location.lat && location.lng) {
+                    addMarker(location.lat, location.lng, figureData.name || userQuery);
+                    botReply += `\n\n**Nơi sinh**: ${location.description || location.name}`;
+                    botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
+                    const zoomLevel = location.lat < 10 || location.lat > 30 ? 6 : 10;
+                    map.setView([location.lat, location.lng], zoomLevel);
+                } else {
+                    console.warn("Không có dữ liệu vị trí hợp lệ cho:", figureData.location, "Truy vấn:", userQuery);
+                    botReply += `\n\n**Nơi sinh**: ${figureData.location} (Không xác định)`;
+                }
+            }
+        } else {
+            console.warn("Không có vị trí được cung cấp trong figureData cho truy vấn:", userQuery);
+            botReply += `\n\n**Địa điểm**: Không xác định`;
+        }
+
+        if (!isStopped) {
+            addMessageToUI("assistant", botReply);
+            currentQueries.push({ 
+                role: "assistant", 
+                content: botReply,
+                timestamp: new Date().toISOString()
+            });
+        }
+    } catch (e) {
+        console.error("Lỗi phân tích JSON (nhân vật):", e, "Phản hồi:", botReply);
+        botReply = `Thông tin về nhân vật lịch sử:\n\n${botReply}`;
+        addMessageToUI("assistant", botReply);
+        currentQueries.push({ 
+            role: "assistant", 
+            content: botReply,
+            timestamp: new Date().toISOString()
+        });
+    }
+} else if (responseType === "battle") {
+            try {
+                let jsonStr = botReply;
+                if (jsonStr.includes('```json')) {
+                    jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
+                } else if (jsonStr.includes('```')) {
+                    jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
+                }
+
+                let battleData;
+                try {
+                    if (!jsonStr.startsWith('{') && !jsonStr.startsWith('[')) {
+                        throw new Error("Phản hồi không phải JSON hợp lệ");
+                    }
+                    battleData = JSON.parse(jsonStr);
+                } catch (e) {
+                    console.error("Lỗi phân tích JSON đầu tiên:", e, "JSON thô:", jsonStr);
+                    try {
+                        jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":')
+                                         .replace(/'/g, '"')
+                                         .replace(/,\s*}/g, '}')
+                                         .replace(/,\s*]/g, ']');
+                        battleData = JSON.parse(jsonStr);
+                    } catch (e2) {
+                        console.error("Lỗi phân tích JSON sau khi sửa:", e2, "JSON thô:", jsonStr);
+                        botReply = `Thông tin về trận chiến:\n\n${botReply}`;
+                        addMessageToUI("assistant", botReply);
+                        currentQueries.push({ 
+                            role: "assistant", 
+                            content: botReply,
+                            timestamp: new Date().toISOString()
+                        });
+                        return;
+                    }
+                }
+
+                botReply = formatBattleData(battleData);
+
+                if (battleData.location) {
+        console.log("Đang lấy tọa độ cho:", battleData.location);
+        const location = await getLocationCoordinates(battleData.location, battleData);
+        if (location && location.lat && location.lng) {
+            addMarker(location.lat, location.lng, battleData.name || userQuery);
+            const zoomLevel = location.lat < 10 || location.lat > 30 ? 6 : 10;
+map.setView([location.lat, location.lng], zoomLevel);
+
+                        botReply += `\n\n**Địa điểm**: ${location.name}`;
+                        if (location.description) {
+                            botReply += `<br>${location.description}`;
+                        }
+                        botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
+                    } else {
+                        console.warn("Không có dữ liệu vị trí hợp lệ cho:", battleData.location, "Truy vấn:", userQuery);
+                        botReply += `\n\n**Địa điểm**: ${battleData.location} (Không xác định)`;
+                    }
+                } else {
+                    console.warn("Không có vị trí được cung cấp trong battleData cho truy vấn:", userQuery);
+                    botReply += `\n\n**Địa điểm**: Không xác định`;
+                }
+
+                if (battleData.factions && Array.isArray(battleData.factions)) {
+                    const countries = await extractCountriesFromFactions(battleData.factions);
+                    if (countries.length > 0) {
+                        botReply += `\n\n**Các phe tham gia**: ${countries.join(", ")}`;
+                    }
+                }
+
+                if (battleData.key_locations && Array.isArray(battleData.key_locations) && battleData.key_locations.length > 0) {
+                    botReply += `\n\n**Địa điểm quan trọng**:`;
+                    for (const loc of battleData.key_locations) {
+                        if (loc && loc.name) {
+                            const keyLocation = await getLocationCoordinates(loc.name, battleData);
+                            if (keyLocation && keyLocation.lat && keyLocation.lng) {
+                                addKeyLocationMarker(keyLocation.lat, keyLocation.lng, keyLocation.name, keyLocation.description || loc.description, keyLocations.length + 1);
+                                botReply += `\n- ${keyLocation.name}: ${keyLocation.description || loc.description || 'Không xác định'}`;
+                            } else if (loc.lat && loc.lng) {
+                                addKeyLocationMarker(loc.lat, loc.lng, loc.name, loc.description, keyLocations.length + 1);
+                                botReply += `\n- ${loc.name}: ${loc.description || 'Không xác định'}`;
+                            } else {
+                                botReply += `\n- ${loc.name}: Không xác định`;
+                            }
+                        }
+                    }
+                }
+
+                if (!isStopped) {
+if (battleData.timeline && Array.isArray(battleData.timeline) && battleData.timeline.length > 0) {
+    const timelineDiv = document.createElement('div');
+    timelineDiv.className = 'timeline-container';
+    timelineDiv.innerHTML = `
+        <h3 class="text-lg font-semibold mb-3 text-primary">
+            <i class="fas fa-history mr-2"></i>
+            Diễn biến trận chiến
+        </h3>
+        ${battleData.timeline.map((event, index) => `
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <div class="timeline-time">Sự kiện ${index + 1}</div>
+                    <div class="timeline-text">${event}</div>
+                </div>
+            </div>
+        `).join('')}
+    `;
+    resultMessages.appendChild(timelineDiv);
+}
+                    addMessageToUI("assistant", botReply);
+                    currentQueries.push({ 
+                        role: "assistant", 
+                        content: botReply,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+            } catch (e) {
+                console.error("Lỗi phân tích JSON (trận chiến):", e, "Phản hồi:", botReply);
+                botReply = `Thông tin về trận chiến:\n\n${botReply}`;
+                addMessageToUI("assistant", botReply);
+                currentQueries.push({ 
+                    role: "assistant", 
+                    content: botReply,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } else {
+            if (!isStopped) {
+                addMessageToUI("assistant", botReply);
+                currentQueries.push({ 
+                    role: "assistant", 
+                    content: botReply,
+                    timestamp: new Date().toISOString()
+                });
+            }
+        }
+    } catch (error) {
+        if (error.name === 'AbortError' || error.message === "Search stopped by user") {
+            console.log("Tìm kiếm đã bị dừng bởi người dùng");
+            addMessageToUI("assistant", "Tìm kiếm đã dừng theo yêu cầu của bạn.");
+        } else {
+            console.error("Lỗi trong handleSubmit:", error);
+            addMessageToUI("assistant", "Lỗi khi xử lý yêu cầu. Vui lòng thử lại!");
+        }
+    } finally {
+        isSending = false;
+        typingIndicator.classList.add("hidden");
+        stopButtonContainer.classList.add("hidden");
+        abortController = null;  // Reset AbortController
+        scrollToTop();
+    }
+}
+function transliterateVietnamese(text) {
+    const map = {
+        'à': 'a', 'á': 'a', 'ả': 'a', 'ã': 'a', 'ạ': 'a',
+        'è': 'e', 'é': 'e', 'ẻ': 'e', 'ẽ': 'e', 'ẹ': 'e',
+        'ì': 'i', 'í': 'i', 'ỉ': 'i', 'ĩ': 'i', 'ị': 'i',
+        'ò': 'o', 'ó': 'o', 'ỏ': 'o', 'õ': 'o', 'ọ': 'o',
+        'ù': 'u', 'ú': 'u', 'ủ': 'u', 'ũ': 'u', 'ụ': 'u',
+        'ỳ': 'y', 'ý': 'y', 'ỷ': 'y', 'ỹ': 'y', 'ỵ': 'y',
+        'đ': 'd', 'â': 'a', 'ê': 'e', 'ô': 'o', 'ơ': 'o', 'ư': 'u'
+    };
+    return text.replace(/[àáảãạèéẻẽẹìíỉĩịòóỏõọùúủũụỳýỷỹỵđâêôơư]/g, match => map[match] || match)
+               .replace(/\s+/g, ' ')
+               .trim();
+}
+      async function getLocationCoordinates(locationName, battleData = null) {
+    try {
+        if (!locationName) return null;
+
+        // Chuẩn hóa tên địa điểm
+        const normalizedLocation = locationName.trim().toLowerCase();
+        const transliteratedLocation = transliterateVietnamese(normalizedLocation);
+
+        // Kiểm tra đặc biệt cho Điện Biên Phủ
+        if (normalizedLocation.includes('điện biên phủ') || 
+            normalizedLocation.includes('dien bien phu') || 
+            transliteratedLocation.includes('dien bien phu')) {
+            const value = vietnamHistoricalLocations["Điện Biên Phủ"];
+            return {
+                lat: value.lat,
+                lng: value.lng,
+                name: value.name_vi || value.name,
+                description: value.description_vi || value.description
+            };
+        }
+
+        // Kiểm tra xem địa điểm có trong danh sách lịch sử Việt Nam không
+        for (const [key, value] of Object.entries(vietnamHistoricalLocations)) {
+            const keyNormalized = key.toLowerCase();
+            const nameEnNormalized = value.name_en ? value.name_en.toLowerCase() : '';
+            const nameViNormalized = value.name_vi ? value.name_vi.toLowerCase() : value.name.toLowerCase();
+
+            if (normalizedLocation.includes(keyNormalized) || 
+                (nameEnNormalized && normalizedLocation.includes(nameEnNormalized)) || 
+                (nameViNormalized && normalizedLocation.includes(nameViNormalized)) ||
+                (nameEnNormalized && transliteratedLocation.includes(nameEnNormalized))) {
+                return {
+                    lat: value.lat,
+                    lng: value.lng,
+                    name: value.name_vi || value.name,
+                    description: value.description_vi || value.description
+                };
+            }
+        }
+
+        // Xác định xem trận chiến có liên quan đến Việt Nam không
+        let isVietnamRelated = false;
+        if (battleData && battleData.factions) {
+            isVietnamRelated = battleData.factions.some(faction => 
+                faction.toLowerCase().includes('việt nam') || 
+                faction.toLowerCase().includes('vietnam')
+            );
+        } else if (normalizedLocation.includes('việt nam') || 
+                   normalizedLocation.includes('vietnam') || 
+                   transliteratedLocation.includes('vietnam')) {
+            isVietnamRelated = true;
+        }
+
+        // Hàm gọi API với retry
+        async function fetchWithRetry(url, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(url, { signal: AbortSignal.timeout(5000) });
+                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                    return await response.json();
+                } catch (error) {
+                    if (i < retries - 1) {
+                        console.warn(`Thử lại lần ${i + 1} sau lỗi: ${error.message}`);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    }
+                    throw error;
+                }
+            }
+        }
+
+        // Thử tìm kiếm trực tiếp với Nominatim
+        let query = encodeURIComponent(locationName);
+        let data;
+        try {
+            data = await fetchWithRetry(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
+        } catch (error) {
+            console.error(`Lỗi gọi Nominatim cho "${locationName}":`, error);
+        }
+
+        // Nếu không có kết quả và liên quan đến Việt Nam, thử thêm ", Vietnam"
+        if (!data || data.length === 0 && isVietnamRelated) {
+            query = encodeURIComponent(`${locationName}, Vietnam`);
+            try {
+                data = await fetchWithRetry(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
+            } catch (error) {
+                console.error(`Lỗi gọi Nominatim với "${locationName}, Vietnam":`, error);
+            }
+        }
+
+        // Nếu Nominatim trả về dữ liệu hợp lệ
+        if (data && data.length > 0) {
+            const result = data[0];
+            return {
+                lat: parseFloat(result.lat),
+                lng: parseFloat(result.lon),
+                name: result.display_name.split(',')[0],
+                description: null
+            };
+        }
+
+        // Dự phòng: Sử dụng tọa độ từ Gemini nếu có
+        if (battleData && battleData.lat && battleData.lng) {
+            return {
+                lat: parseFloat(battleData.lat),
+                lng: parseFloat(battleData.lng),
+                name: locationName,
+                description: null
+            };
+        }
+
+        // Ghi log lỗi và trả về null
+        console.warn(`Không tìm thấy tọa độ cho địa điểm: "${locationName}"`);
+        return null;
+    } catch (error) {
+        console.error(`Lỗi khi lấy tọa độ cho "${locationName}":`, error);
+        return null;
+    }
+}
+
+        function addKeyLocationMarker(lat, lng, name, description, index) {
+            const marker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    className: 'key-location-marker',
+                    html: `<div class="key-location">${index}</div>`,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
+                })
+            }).addTo(map);
+
+            let popupContent = `<div class="font-medium text-primary">${name}</div>`;
+            if (description) {
+                popupContent += `<div class="text-sm mt-1">${description}</div>`;
+            }
+
+            marker.bindPopup(popupContent);
+            keyLocations.push(marker);
+        }
+
+        function addMarker(lat, lng, title) {
+            const marker = L.marker([lat, lng], {
+                icon: L.divIcon({
+                    className: 'custom-marker',
+                    html: `<div class="battle-marker">
+                              <i class="fas fa-map-marker-alt"></i>
+                          </div>`,
+                    iconSize: [30, 30],
+                    iconAnchor: [15, 30]
+                })
+            }).addTo(map)
+                .bindPopup(`<div class="font-medium text-primary">${title}</div>`)
+                .openPopup();
+            markers.push(marker);
+        }
+function formatBattleData(data) {
+    return `
+<div class="battle-container">
+    <div class="battle-box">
+        <h3><i class="fas fa-clock"></i> Thời Gian</h3>
+        <p>${data.time || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-map-marked-alt"></i> Địa Điểm</h3>
+        <p>${data.location || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-align-left"></i> Tóm Tắt</h3>
+        <p>${data.summary || 'Không có tóm tắt'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-users"></i> Các Phe Tham Gia</h3>
+        <ul>${data.factions ? data.factions.map(faction => `<li>${faction}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-user-shield"></i> Quân Số</h3>
+        <ul>${data.troop_numbers ? Object.entries(data.troop_numbers).map(([faction, troops]) => `<li>${faction}: ${troops}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-crown"></i> Chỉ Huy</h3>
+        <ul>${data.commanders ? Object.entries(data.commanders).map(([faction, commander]) => `<li>${faction}: ${commander}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-chess"></i> Chiến Thuật</h3>
+        <ul>${data.tactics ? Object.entries(data.tactics).map(([faction, tactic]) => `<li>${faction}: ${tactic}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-skull-crossbones"></i> Thương Vong</h3>
+        <ul>${data.casualties ? Object.entries(data.casualties).map(([faction, casualties]) => `<li>${faction}: ${casualties}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    ${data.heroes && data.heroes.length > 0 ? `
+    <div class="battle-box">
+        <h3><i class="fas fa-star"></i> Anh Hùng Tiêu Biểu</h3>
+        <ul>${data.heroes.map(hero => `<li>${hero.name} (${hero.role}): ${hero.description}</li>`).join("")}</ul>
+    </div>
+    ` : ''}
+    ${data.outcome ? `
+    <div class="battle-box">
+        <h3><i class="fas fa-trophy"></i> Kết Quả</h3>
+        <p>${data.outcome}</p>
+    </div>
+    ` : ''}
+    ${data.significance ? `
+    <div class="battle-box">
+        <h3><i class="fas fa-lightbulb"></i> Tác động Lịch Sử</h3>
+        <p>${data.significance}</p>
+    </div>
+    ` : ''}
+    ${data.key_locations && data.key_locations.length > 0 ? `
+    <div class="battle-box">
+        <h3><i class="fas fa-map-marker-alt"></i> Địa điểm quan trọng</h3>
+        <ul>${data.key_locations.map(loc => `<li>${loc.name}: ${loc.description || 'Không có mô tả'}</li>`).join("")}</ul>
+    </div>
+    ` : ''}
+</div>
+    `;
+}
+function formatFigureData(data) {
+    const locationDescription = data.description_vi || 'Không xác định';
+    
+    return `
+<div class="figure-container">
+    <div class="battle-box">
+        <h3><i class="fas fa-user"></i> Tên Nhân Vật</h3>
+        <p>${data.name || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-clock"></i> Thời Gian</h3>
+        <p>${data.time || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-map-marker-alt"></i> Nơi sinh</h3>
+        <p>${data.location || 'Không xác định'}</p>
+        ${locationDescription ? `<p class="mt-2 text-sm text-gray-600">${locationDescription}</p>` : ''}
+        ${data.lat && data.lng ? `<p class="mt-2 text-sm text-gray-600">Vĩ độ: ${data.lat}, Kinh độ: ${data.lng}</p>` : ''}
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-align-left"></i> Tóm Tắt</h3>
+        <p>${data.summary || 'Không có tóm tắt'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-star"></i> Thành Tựu Nổi Bật</h3>
+        <ul>${data.achievements ? data.achievements.map(achievement => `<li>${achievement}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-lightbulb"></i> Ý Nghĩa Lịch Sử</h3>
+        <p>${data.significance || 'Không xác định'}</p>
+    </div>
+</div>
+    `;
+}
+function formatLandmarkData(data) {
+    const locationDescription = data.description_vi || 'Không xác định';
+
+    return `
+<div class="landmark-container">
+   <div class="battle-box">
+        <h3><i class="fas fa-landmark"></i> Tên địa danh</h3>
+        <p>${data.name || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-map-marker-alt"></i> Địa điểm</h3>
+        <p>${data.location || 'Không xác định'}</p>
+        ${locationDescription ? `<p class="mt-2 text-sm text-gray-600">${locationDescription}</p>` : ''}
+        ${data.lat && data.lng ? `<p class="mt-2 text-sm text-gray-600">Vĩ độ: ${data.lat}, Kinh độ: ${data.lng}</p>` : ''}
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-clock"></i> Thời gian xây dựng</h3>
+        <p>${data.build_time || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-bullseye"></i> Mục đích xây dựng</h3>
+        <p>${data.purpose || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-building"></i> Kiến trúc</h3>
+        <p>${data.architecture || 'Không xác định'}</p>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-box-open"></i> Nội dung bên trong</h3>
+        <ul>${data.contents ? data.contents.map(item => `<li>${item}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-users"></i> Người xây dựng</h3>
+        <ul>${data.builders ? data.builders.map(builder => `<li>${builder}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    </div>
+    <div class="battle-box">
+        <h3><i class="fas fa-crown"></i> Triều đại</h3>
+        <p>${data.dynasty || 'Không xác định'}</p>
+    </div>
+</div>
+    `;
+}
+        async function extractCountriesFromFactions(factions) {
+            const countries = [];
+            for (const faction of factions) {
+                for (const country in countryCoordinates) {
+                    if (faction.includes(country)) {
+                        countries.push(country);
+                        break;
+                    }
+                }
+            }
+            return [...new Set(countries)];
+        }
+
+        function addMessageToUI(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `mb-4 ${role === 'user' ? 'text-right' : 'text-left'}`;
+            
+            const bubbleClass = role === 'user' 
+                ? 'bg-primary text-white rounded-tr-none' 
+                : 'bg-white text-gray-800 rounded-tl-none shadow-sm border border-gray-200';
+            
+            let translatedContent = content;
+            if (content.includes("Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến lịch sử")) {
+                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến lịch sử. Vui lòng nhập một truy vấn về lịch sử!";
+            } else if (content.includes("Lỗi tải dữliệu bản đồ")) {
+                translatedContent = "Lỗi tải dữ liệu bản đồ, vui lòng thử lại sau.";
+            } else if (content.includes("Lỗi khi xử lý yêu cầu")) {
+                translatedContent = "Lỗi khi xử lý yêu cầu. Vui lòng thử lại!";
+            } else {
+                translatedContent = formatMessage(content);
+            }
+
+            messageDiv.innerHTML = `
+                <div class="inline-block max-w-[85%] rounded-xl p-4 ${bubbleClass} relative">
+                    <div class="message-content">${translatedContent}</div>
+                    ${role === 'assistant' ? `
+                    <span class="close-btn absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700" onclick="this.parentElement.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </span>
+                    ` : ''}
+                </div>
+                ${role === 'assistant' ? `
+                <div class="mt-1 text-xs text-gray-500 flex items-center">
+                    <i class="fas fa-robot mr-1"></i>
+                    <span>AI TLC-g2</span>
+                </div>
+                ` : ''}
+            `;
+            
+            resultMessages.appendChild(messageDiv);
+            scrollToTop();
+        }
+
+        function formatMessage(content) {
+            if (!content) return '';
+
+            let formatted = content.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            formatted = formatted.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            formatted = formatted.replace(/`([^`]+)`/g, '<code class="bg-gray-800 px-1 py-0.5 rounded text-white">$1</code>');
+
+            formatted = formatted.split('\n\n').map(paragraph => {
+                if (paragraph.trim().startsWith('<') && paragraph.trim().endsWith('>')) {
+                    return paragraph;
+                }
+                return `<p>${paragraph}</p>`;
+            }).join('');
+
+            formatted = formatted.replace(/\n(?![<])/g, '<br>');
+
+            return formatted;
+        }
+
+        function scrollToTop() {
+            setTimeout(() => {
+                document.getElementById('result-container').scrollTop = 0;
+            }, 100);
+        }
+
+        function switchTab(tab) {
+            if (tab === 'map') {
+                document.getElementById('map-tab').classList.add('active');
+                mapResults.classList.remove('hidden');
+                document.getElementById('search-form').classList.remove('hidden');
+            }
+        }
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('sidebar-collapsed');
+            const toggleIcon = document.querySelector('.sidebar-toggle i');
+            if (sidebar.classList.contains('sidebar-collapsed')) {
+                toggleIcon.classList.remove('fa-chevron-left');
+                toggleIcon.classList.add('fa-chevron-right');
+                mapContainer.style.marginLeft = '0';
+            } else {
+                toggleIcon.classList.remove('fa-chevron-right');
+                toggleIcon.classList.add('fa-chevron-left');
+                mapContainer.style.marginLeft = '0';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+        window.switchTab = switchTab;
+        window.focusSearchInput = focusSearchInput;
+        window.toggleSidebar = toggleSidebar;
+    </script>
+</body>
+</html>
