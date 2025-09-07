@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bản Đồ Lịch Sử</title>
+    <title>Bản Đồ Hải Phòng</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -133,7 +133,7 @@
             z-index: 10;
         }
 
-        .battle-box {
+        .location-box {
             background-color: #ffffff;
             border-radius: 0.75rem;
             padding: 1.25rem;
@@ -143,12 +143,12 @@
             transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .battle-box:hover {
+        .location-box:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        .battle-box h3 {
+        .location-box h3 {
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
@@ -158,22 +158,22 @@
             font-family: 'Arial', sans-serif;
         }
 
-        .battle-box h3 i {
+        .location-box h3 i {
             margin-right: 0.5rem;
             color: #4f46e5;
         }
         
-        .battle-box h3 i.fa-star { 
+        .location-box h3 i.fa-star { 
             color: #f43f5e;
         }
 
-        .battle-box ul {
+        .location-box ul {
             list-style-type: disc;
             padding-left: 1.5rem;
             margin: 0.5rem 0;
         }
 
-        .battle-box p, .battle-box li {
+        .location-box p, .location-box li {
             font-size: 0.95rem;
             line-height: 1.6;
             color: #475569;
@@ -370,9 +370,9 @@
             animation: pulse 2s infinite;
         }
 
-        /* Battle marker styles */
-        .battle-marker {
-            background-color: #ef4444;
+        /* Location marker styles */
+        .location-marker {
+            background-color: #3b82f6;
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -382,13 +382,13 @@
             color: white;
             font-weight: bold;
             font-size: 12px;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
             animation: pulse 1.5s infinite;
         }
 
         /* Key locations styles */
         .key-location {
-            background-color: #3b82f6;
+            background-color: #10b981;
             border-radius: 50%;
             width: 16px;
             height: 16px;
@@ -398,7 +398,7 @@
             color: white;
             font-weight: bold;
             font-size: 10px;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
         }
 
         .key-location::after {
@@ -407,7 +407,7 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background-color: rgba(59, 130, 246, 0.2);
+            background-color: rgba(16, 185, 129, 0.2);
             animation: ripple 2s infinite;
         }
 
@@ -617,7 +617,7 @@
             <div class="p-6 sidebar-header">
                 <h2 class="text-2xl font-bold text-gray-800 font-display flex items-center">
                     <i class="fas fa-map-marked-alt mr-3 text-primary"></i>
-                    <span class="animated-border">Bản Đồ Lịch Sử</span>
+                    <span class="animated-border">Bản Đồ Hải Phòng</span>
                 </h2>
                 
                 <div class="sidebar-tabs mt-4">
@@ -632,7 +632,7 @@
                             id="search-input" 
                             type="text" 
                             class="w-full p-4 rounded-xl border border-gray-300 bg-white search-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800 pl-12"
-                            placeholder="Nhập sự kiện lịch sử..."
+                            placeholder="Tìm kiếm địa điểm tại Hải Phòng..."
                         />
                         <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
                             <i class="fas fa-search"></i>
@@ -645,10 +645,15 @@
             </div>
             
             <div id="map-results" class="flex-1 overflow-y-auto hide-scrollbar p-6">
-                <div id="result-messages" class="flex flex-col gap-5 w-full"></div>
+                <div id="result-messages" class="flex flex-col gap-5 w-full">
+                    <div class="location-box">
+                        <h3><i class="fas fa-info-circle"></i> Giới thiệu Hải Phòng</h3>
+                        <p>Hải Phòng là thành phố cảng quan trọng, trung tâm công nghiệp, cảng biển, đồng thời cũng là trung tâm kinh tế, văn hóa, y tế, giáo dục, khoa học, thương mại và công nghệ của Vùng duyên hải Bắc Bộ.</p>
+                    </div>
+                </div>
                 <div id="typing-indicator" class="hidden mt-4 p-4 bg-blue-50 rounded-xl text-blue-700 text-sm flex items-center">
                     <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-500 mr-3"></div>
-                    <span>AI đang tìm kiếm, vui lòng đợi...</span>
+                    <span>Đang tìm kiếm thông tin, vui lòng đợi...</span>
                 </div>
                 <div id="stop-button-container" class="hidden mt-4">
                     <button id="stop-response-btn" class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-xl text-sm font-medium transition-colors flex items-center justify-center w-full">
@@ -662,7 +667,7 @@
             <div id="map" class="flex-1"></div>
             <div class="absolute top-4 right-4 z-20 bg-white p-2 rounded-lg shadow-md flex items-center">
                 <i class="fas fa-layer-group text-gray-600 mr-2"></i>
-                <span class="text-sm font-medium text-gray-700">Bản đồ lịch sử</span>
+                <span class="text-sm font-medium text-gray-700">Bản đồ Hải Phòng</span>
             </div>
         </div>
     </div>
@@ -701,176 +706,202 @@
         let countryLayers = {};
         let keyLocations = [];
 
-        // Extended country name mapping
-        const countryNameMap = {
-            "Nguyễn Khuyến": "Vietnam",
-            "Việt Nam": "Vietnam",
-            "Anh": "United Kingdom",
-            "Mỹ": "United States",
-            "Hoa Kỳ": "United States",
-            "Pháp": "France",
-            "Đức": "Germany",
-            "Nga": "Russia",
-            "Nhật Bản": "Japan",
-            "Trung Quốc": "China",
-            "Trung Hoa": "China",
-            "Hàn Quốc": "South Korea",
-            "Ấn Độ": "India",
-            "Brazil": "Brazil",
-            "Canada": "Canada",
-            "Ý": "Italy",
-            "Tây Ban Nha": "Spain",
-            "Bồ Đào Nha": "Portugal",
-            "Thụy Điển": "Sweden",
-            "Na Uy": "Norway",
-            "Phần Lan": "Finland",
-            "Đan Mạch": "Denmark",
-            "Hà Lan": "Netherlands",
-            "Bỉ": "Belgium",
-            "Thụy Sĩ": "Switzerland",
-            "Áo": "Austria",
-            "Ba Lan": "Poland",
-            "Hy Lạp": "Greece",
-            "Thổ Nhĩ Kỳ": "Turkey",
-            "Ai Cập": "Egypt",
-            "Nam Phi": "South Africa",
-            "Mexico": "Mexico",
-            "Argentina": "Argentina",
-            "Úc": "Australia",
-            "New Zealand": "New Zealand",
-            "Hà Nội": "Hanoi",
-            "Huế": "Hue",
-            "Trần Hưng Đạo": "Tran Hung Dao",
-            "Nguyễn Huệ": "Nguyen Hue"
+        // Địa điểm nổi tiếng tại Hải Phòng
+        const haiPhongLocations = {
+            "Đồ Sơn": {
+                lat: 20.6474,
+                lng: 106.7627,
+                name: "Bãi biển Đồ Sơn",
+                description: "Khu du lịch biển nổi tiếng với các bãi tắm đẹp và resort cao cấp"
+            },
+            "Cát Bà": {
+                lat: 20.8000,
+                lng: 107.0167,
+                name: "Đảo Cát Bà",
+                description: "Quần đảo với vẻ đẹp hoang sơ, là khu dự trữ sinh quyển thế giới"
+            },
+            "Vịnh Hạ Long": {
+                lat: 20.9101,
+                lng: 107.1839,
+                name: "Vịnh Hạ Long",
+                description: "Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi kỳ vĩ"
+            },
+            "Chùa Dư Hàng": {
+                lat: 20.8564,
+                lng: 106.6823,
+                name: "Chùa Dư Hàng",
+                description: "Ngôi chùa cổ có kiến trúc độc đáo, là di tích lịch sử văn hóa quốc gia"
+            },
+            "Nhà hát lớn Hải Phòng": {
+                lat: 20.8575,
+                lng: 106.6849,
+                name: "Nhà hát lớn Hải Phòng",
+                description: "Công trình kiến trúc Pháp cổ, biểu tượng văn hóa của thành phố"
+            },
+            "Bến Nghiêng": {
+                lat: 20.8569,
+                lng: 106.6803,
+                name: "Bến Nghiêng",
+                description: "Địa điểm lịch sử gắn liền với những sự kiện quan trọng của thành phố"
+            },
+            "Vườn hoa tượng đài Nữ tướng Lê Chân": {
+                lat: 20.8580,
+                lng: 106.6845,
+                name: "Tượng đài Nữ tướng Lê Chân",
+                description: "Biểu tượng của thành phố, tôn vinh người sáng lập ra Hải Phòng"
+            },
+            "Chợ Sắt": {
+                lat: 20.8561,
+                lng: 106.6782,
+                name: "Chợ Sắt",
+                description: "Khu chợ lớn và lâu đời nhất Hải Phòng với đa dạng mặt hàng"
+            },
+            "Bảo tàng Hải Phòng": {
+                lat: 20.8619,
+                lng: 106.6846,
+                name: "Bảo tàng Hải Phòng",
+                description: "Nơi lưu giữ những hiện vật, tư liệu về lịch sử và văn hóa thành phố"
+            },
+            "Cầu Bính": {
+                lat: 20.8536,
+                lng: 106.7261,
+                name: "Cầu Bính",
+                description: "Cây cầu quan trọng kết nối trung tâm thành phố với các khu vực lân cận"
+            },
+            "Sân bay Cát Bi": {
+                lat: 20.8194,
+                lng: 106.7250,
+                name: "Sân bay quốc tế Cát Bi",
+                description: "Cửa ngõ giao thông quan trọng kết nối Hải Phòng với các tỉnh thành và quốc tế"
+            },
+            "Cảng Hải Phòng": {
+                lat: 20.8500,
+                lng: 106.6833,
+                name: "Cảng Hải Phòng",
+                description: "Trung tâm logistics và cảng biển quan trọng bậc nhất miền Bắc"
+            }
         };
-
-        const battleKeywords = ["trận chiến", "battle", "war", "engagement", "conflict", "campaign", "chiến tranh", "trận", "cuộc chiến", "chiến dịch", "đánh"];
-
-        const countryCoordinates = {
-            "Việt Nam": { lat: 16.0471, lng: 108.2062, zoom: 6 },
-            "Trung Quốc": { lat: 35.8617, lng: 104.1954, zoom: 4 },
-            "Mông Cổ": { lat: 46.8625, lng: 103.8467, zoom: 5 },
-            "Pháp": { lat: 46.6034, lng: 1.8883, zoom: 5 },
-            "Mỹ": { lat: 37.0902, lng: -95.7129, zoom: 4 },
-            "Nhật Bản": { lat: 36.2048, lng: 138.2529, zoom: 5 },
-            "Đức": { lat: 51.1657, lng: 10.4515, zoom: 5 },
-            "Nga": { lat: 61.5240, lng: 105.3188, zoom: 3 },
-            "Liên Xô": { lat: 61.5240, lng: 105.3188, zoom: 3 }
-        };
-
-        // Historical locations in Vietnam with coordinates
-        const vietnamHistoricalLocations = {
-          "Điện Biên Phủ": {
-        lat: 21.3867,
-        lng: 103.0150,
-        name: "Điện Biên Phủ",
-        name_vi: "Điện Biên Phủ",
-        name_en: "Dien Bien Phu",
-        description: "Nơi diễn ra chiến dịch Điện Biên Phủ 1954",
-        description_vi: "Điện Biên Phủ, tỉnh Điện Biên, nơi diễn ra chiến dịch Điện Biên Phủ năm 1954, đánh dấu chiến thắng lịch sử của Việt Nam trước thực dân Pháp",
-        description_en: "Dien Bien Phu, Dien Bien Province, the site of the 1954 Dien Bien Phu Campaign, marking a historic victory of Vietnam over French colonial forces"
+// Nhân vật liên quan đến Hải Phòng
+const haiPhongFigures = {
+    "Lê Chân": {
+        lat: 20.8580,
+        lng: 106.6845,
+        name: "Nữ tướng Lê Chân",
+        description: "Nữ tướng thời Hai Bà Trưng, người có công khai phá vùng đất Hải Phòng",
+        time: "Thế kỷ 1",
+        achievements: ["Khởi nghĩa chống quân Hán", "Khai phá vùng đất Hải Phòng"],
+        significance: "Được xem là người sáng lập ra Hải Phòng"
     },
-            "Kinh thành Huế": { lat: 16.4697, lng: 107.5777, name: "Kinh thành Huế", description: "Trung tâm triều Nguyễn" },
-            "Thăng Long": { lat: 21.0333, lng: 105.8500, name: "Thăng Long (Hà Nội)", description: "Kinh đô thời Lý, Trần, Lê" },
-            "Bạch Đằng": { lat: 20.8667, lng: 106.7333, name: "Sông Bạch Đằng", description: "Nơi diễn ra các trận thủy chiến lừng danh" },
-            "Ngọc Hồi": { lat: 20.9333, lng: 105.8333, name: "Ngọc Hồi, Hà Nội", description: "Nơi diễn ra trận Ngọc Hồi-Đống Đa" },
-            "Đống Đa": { lat: 21.0167, lng: 105.8333, name: "Đống Đa, Hà Nội", description: "Nơi diễn ra trận Ngọc Hồi-Đống Đa" },
-            "Tây Sơn": { lat: 13.9833, lng: 108.9833, name: "Tây Sơn, Bình Định", description: "Quê hương phong trào Tây Sơn" },
-            "Vĩnh": { lat: 18.6667, lng: 105.6667, name: "Vĩnh, Nghệ An", description: "Quê hương Trần Hưng Đạo" },
-            "Cổ Loa": { lat: 21.1167, lng: 105.8833, name: "Cổ Loa", description: "Kinh đô nhà nước Âu Lạc" },
-            "Điện Biên Phủ": { lat: 21.3867, lng: 103.0150, name: "Điện Biên Phủ", description: "Nơi diễn ra chiến dịch Điện Biên Phủ 1954" },
-            "Đồi A1": { lat: 21.3867, lng: 103.0150, name: "Đồi A1, Điện Biên Phủ", description: "Một trong những trận đánh ác liệt nhất chiến dịch Điện Biên Phủ" },
-            "Cánh đồng Mường Thanh": { lat: 21.3867, lng: 103.0150, name: "Cánh đồng Mường Thanh", description: "Nơi đặt tập đoàn cứ điểm Điện Biên Phủ" }
-        };
-
+    "Nguyễn Bỉnh Khiêm": {
+        lat: 20.9281,
+        lng: 106.6733,
+        name: "Trạng Trình Nguyễn Bỉnh Khiêm",
+        description: "Nhà tiên tri, nhà thơ nổi tiếng thời Lê",
+        time: "1491-1585",
+        achievements: ["Đỗ Trạng nguyên", "Nhà tiên tri nổi tiếng", "Nhà thơ lớn"],
+        significance: "Một trong những nhân vật văn hóa lớn của Việt Nam"
+    },
+    "Văn Cao": {
+        lat: 20.8570,
+        lng: 106.6820,
+        name: "Nhạc sĩ Văn Cao",
+        description: "Nhạc sĩ tài hoa, tác giả Quốc ca Việt Nam",
+        time: "1923-1995",
+        achievements: ["Sáng tác Tiến quân ca (Quốc ca)", "Nhạc sĩ tài hoa của nền âm nhạc Việt Nam"],
+        significance: "Tác giả Quốc ca Việt Nam, một trong những nhạc sĩ lớn nhất"
+    }
+};
+function isFigureQuery(query) {
+    const lowerQuery = query.toLowerCase();
+    const figureKeywords = [
+        "nhân vật", "người nổi tiếng", "danh nhân", "anh hùng", "nghệ sĩ", 
+        "lê chân", "nguyễn bỉnh khiêm", "văn cao", 
+        "figure", "famous person", "celebrity", "hero", "artist"
+    ];
+    return figureKeywords.some(keyword => lowerQuery.includes(keyword)) || 
+           Object.keys(haiPhongFigures).some(figure => 
+               lowerQuery.includes(figure.toLowerCase())
+           );
+}
         function focusSearchInput() {
             searchInput.focus();
         }
 
-        function isHistoryQuestion(query) {
+        function isLocationQuery(query) {
             return true; // Bỏ qua kiểm tra từ khóa lịch sử
         }
-function isLandmarkQuery(query) {
-    const lowerQuery = query.toLowerCase();
-    const landmarkKeywords = [
-        "kinh thành", "đền", "chùa", "di tích", "thành", "cung điện", "địa danh", "địa điểm", "lăng", "mộ",
-        "huế", "thăng long", "cổ loa", "mỹ sơn", "văn miếu", "capital city", "temple", "pagoda", "heritage site", "fortress", "palace", "geographical name", "location", "tomb", "grave", "Hue", "Thang Long", "Co Loa", "My Son", "Van Mieu"
-    ];
-    return landmarkKeywords.some(keyword => lowerQuery.includes(keyword)) || 
-           Object.keys(vietnamHistoricalLocations).some(loc => 
-               lowerQuery.includes(loc.toLowerCase()) || 
-               (vietnamHistoricalLocations[loc].name_en && 
-                lowerQuery.includes(vietnamHistoricalLocations[loc].name_en.toLowerCase()))
-           );
-}
-        function isBattleQuery(query) {
-            const lowerQuery = query.toLowerCase();
-            return battleKeywords.some(keyword => lowerQuery.includes(keyword.toLowerCase()));
-        }
 
-        function isFigureQuery(query) {
+        function isLandmarkQuery(query) {
             const lowerQuery = query.toLowerCase();
-            const figureKeywords = [
-                "nhân vật", "vua", "hoàng đế", "tướing", "anh hùng", "nhà thơ", "nhà văn", 
-                "nguyễn huệ", "trần hưng đạo", "nguyễn khuyến", "quang trung", 
-                "lý thường kiệt", "ngô quyền", "chủ tịch", "bí thư", "character", "king", "emperor", "general", "hero", "poet", "writer", "Nguyễn Huệ", "Trần Hưng Đạo", "Nguyễn Khuyến", "Quang Trung", "Lý Thường Kiệt", "Ngô Quyền", "president", "secretary"
+            const landmarkKeywords = [
+                "bãi biển", "bờ biển", "khu du lịch", "resort", "khách sạn", "nhà hàng", "địa điểm", "địa danh", 
+                "chùa", "đền", "chợ", "cầu", "bến cảng", "sân bay", "bảo tàng", "công viên", "vườn hoa",
+                "beach", "resort", "hotel", "restaurant", "location", "landmark", "temple", "pagoda", "market", 
+                "bridge", "port", "airport", "museum", "park"
             ];
-            return figureKeywords.some(keyword => lowerQuery.includes(keyword));
+            return landmarkKeywords.some(keyword => lowerQuery.includes(keyword)) || 
+                   Object.keys(haiPhongLocations).some(loc => 
+                       lowerQuery.includes(loc.toLowerCase())
+                   );
         }
 
         function initApp() {
             initMap();
             setupEventListeners();
+            addHaiPhongMarkers();
         }
-function initMap() {
-    // Thiết lập giới hạn bản đồ cho khu vực Hải Phòng và Hải Dương
-    const southWest = L.latLng(20.5, 106.0);   // Góc tây nam
-    const northEast = L.latLng(21.2, 107.0);   // Góc đông bắc
-    const bounds = L.latLngBounds(southWest, northEast);
-    
-    // Khởi tạo bản đồ với tâm là trung tâm khu vực Hải Phòng - Hải Dương
-    map = L.map('map', {
-        center: [20.86, 106.68],  // Tọa độ trung tâm khu vực
-        zoom: 9,                   // Zoom level phù hợp
-        maxBounds: bounds,         // Giới hạn khu vực có thể xem
-        maxBoundsViscosity: 1.0,   // Ngăn không cho kéo ra ngoài khu vực
-        minZoom: 8,                // Zoom tối thiểu
-        maxZoom: 12                // Zoom tối đa
-    }).setView([20.86, 106.68], 9);
-    
-    // Thiết lập tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        noWrap: true                 // Ngăn không lặp lại bản đồ thế giới
-    }).addTo(map);
 
-    // Vô hiệu hóa kéo bản đồ ra ngoài khu vực cho phép
-    map.setMaxBounds(bounds);
-
-    fetch('https://raw.githubusercontent.com/johan/world.geo.json/master/countries.geo.json')
-        .then(response => {
-            if (!response.ok) throw new Error('Không thể tải dữ liệu GeoJSON');
-            return response.json();
-        })
-        .then(data => {
-            const countriesLayer = L.geoJSON(data, {
-                style: {
-                    fillColor: 'transparent',
-                    fillOpacity: 0,
-                    color: 'transparent',
-                    weight: 0
-                },
-                onEachFeature: (feature, layer) => {
-                    const countryName = feature.properties.name;
-                    countryLayers[countryName] = layer;
-                }
+        function initMap() {
+            // Thiết lập giới hạn bản đồ cho khu vực Hải Phòng và vùng phụ cận
+            const southWest = L.latLng(20.4, 106.3);
+            const northEast = L.latLng(21.0, 107.1);
+            const bounds = L.latLngBounds(southWest, northEast);
+            
+            // Khởi tạo bản đồ với tâm là trung tâm Hải Phòng
+            map = L.map('map', {
+                center: [20.8449, 106.6881],
+                zoom: 11,
+                maxBounds: bounds,
+                maxBoundsViscosity: 0.8,
+                minZoom: 9,
+                maxZoom: 16
+            }).setView([20.8449, 106.6881], 11);
+            
+            // Thiết lập tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                noWrap: true
             }).addTo(map);
-        })
-        .catch(error => {
-            console.error('Lỗi tải GeoJSON:', error);
-            addMessageToUI('assistant', 'Lỗi tải dữ liệu bản đồ, vui lòng thử lại sau.');
-        });
-}
+
+            // Vô hiệu hóa kéo bản đồ ra ngoài khu vực cho phép
+            map.setMaxBounds(bounds);
+        }
+
+        function addHaiPhongMarkers() {
+            // Xóa các marker cũ nếu có
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            
+            // Thêm marker cho các địa điểm nổi tiếng
+            for (const [key, location] of Object.entries(haiPhongLocations)) {
+                const marker = L.marker([location.lat, location.lng], {
+                    icon: L.divIcon({
+                        className: 'custom-marker',
+                        html: `<div class="location-marker">
+                                  <i class="fas fa-map-marker-alt"></i>
+                              </div>`,
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30]
+                    })
+                }).addTo(map)
+                    .bindPopup(`
+                        <div class="font-medium text-primary">${location.name}</div>
+                        <div class="text-sm mt-1">${location.description}</div>
+                    `);
+                
+                markers.push(marker);
+            }
+        }
 
         function setupEventListeners() {
             searchForm.addEventListener('submit', handleSubmit);
@@ -883,584 +914,346 @@ function initMap() {
                 }
             });
 
-            // Sửa hàm xử lý nút dừng
-document.getElementById('stop-response-btn').addEventListener('click', () => {
-    isStopped = true;
-    stopButtonContainer.classList.add('hidden');
-    typingIndicator.classList.add('hidden');
-    
-    // Hủy yêu cầu đang thực hiện nếu có
-    if (abortController) {
-        abortController.abort();
-    }
-});
-        }
-
-        function clearPreviousData() {
-            currentQueries = [];
-            resultMessages.innerHTML = '';
-            markers.forEach(marker => map.removeLayer(marker));
-            markers = [];
-            keyLocations.forEach(loc => map.removeLayer(loc));
-            keyLocations = [];
-            if (countryLayer) {
-                map.removeLayer(countryLayer);
-                countryLayer = null;
-            }
-        }
-
-async function handleSubmit(e) {
-    if (e) e.preventDefault();
-    
-    const userQuery = searchInput.value.trim();
-    if (!userQuery || isSending) return;
-
-    isSending = true;
-    isStopped = false;  // Đảm bảo reset trạng thái dừng
-    clearPreviousData();
-    addMessageToUI("user", userQuery);
-
-    currentQueries.push({ 
-        role: "user", 
-        content: userQuery,
-        timestamp: new Date().toISOString()
-    });
-
-    searchInput.value = "";
-    typingIndicator.classList.remove("hidden");
-    stopButtonContainer.classList.remove("hidden"); 
-
-    // Tạo một AbortController mới cho yêu cầu này
-    abortController = new AbortController();
-
-    try {
-        let prompt = userQuery;
-        let responseType = "general";
-
-        // Kiểm tra loại truy vấn
-        if (isFigureQuery(userQuery)) {
-            responseType = "figure";
-            prompt = `
-                Cung cấp thông tin chi tiết về nhân vật lịch sử được nhắc đến trong truy vấn "${userQuery}" bằng tiếng Việt theo định dạng JSON hợp lệ, TRẢ VỀ NGAY JSON ĐỪNG CÓ NÓI GÌ HẾT, CỨ LÀM ĐI. JSON phải có các trường sau: 
-                {
-                    "name": "Tên nhân vật",
-                    "time": "Thời gian sống (năm sinh - năm mất)",
-                    "location": "Địa điểm cụ thể liên quan (ưu tiên nơi sinh hoặc nơi hoạt động chính)",
-                    "lat": "Tọa độ vĩ độ của địa điểm",
-                    "lng": "Tọa độ kinh độ của địa điểm",
-                    "summary": "Tóm tắt tiểu sử",
-                    "achievements": ["Danh sách thành tựu nổi bật"],
-                    "significance": "Ý nghĩa lịch sử",
-                    "description_vi": "Mô tả ngắn gọn về mối liên hệ của địa điểm với nhân vật"
+            document.getElementById('stop-response-btn').addEventListener('click', () => {
+                isStopped = true;
+                stopButtonContainer.classList.add('hidden');
+                typingIndicator.classList.add('hidden');
+                
+                if (abortController) {
+                    abortController.abort();
                 }
-            `;
-        } else if (isBattleQuery(userQuery)) {
-            responseType = "battle";
-            prompt = `
-                Cung cấp thông tin chi tiết về trận chiến "${userQuery}" bằng tiếng Việt theo định dạng JSON hợp lệ, TRẢ LỜI JSON KHÔNG DÀI DÒNG MÀ VÀO TRỰC TIẾP VẤN ĐỀ. JSON phải có các trường sau: 
-                {
-                    "name": "Tên trận chiến",
-                    "time": "Thời gian diễn ra",
-                    "location": "Địa điểm cụ thể diễn ra",
-                    "summary": "Tóm tắt trận chiến",
-                    "factions": ["Danh sách các phe tham gia"],
-                    "troop_numbers": {"Phe": "Số quân"},
-                    "commanders": {"Phe": "Tên chỉ huy"},
-                    "tactics": {"Phe": "Chiến thuật sử dụng"},
-                    "casualties": {"Phe": "Số thương vong"},
-                    "heroes": [{"name": "Tên anh hùng", "role": "Vai trò", "description": "Mô tả đóng góp"}],
-                    "timeline": ["Các mốc sự kiện chính"],
-                    "outcome": "Kết quả trận chiến",
-                    "significance": "Ý nghĩa lịch sử",
-                    "key_locations": [{"name": "Tên địa điểm quan trọng", "description": "Mô tả tầm quan trọng"}]
-                }
-            `;
-        } else if (isLandmarkQuery(userQuery)) {
-    responseType = "landmark";
-    prompt = `
-        Cung cấp thông tin chi tiết về địa danh lịch sử "${userQuery}" bằng tiếng Việt theo định dạng JSON hợp lệ, TRẢ VỀ NGAY JSON ĐỪNG CÓ NÓI GÌ HẾT, CỨ LÀM ĐI. JSON phải có các trường sau:
-        {
-            "name": "Tên địa danh",
-            "location": "Địa điểm cụ thể (ví dụ: 'Huế, Thừa Thiên Huế')",
-            "lat": "Tọa độ vĩ độ của địa điểm",
-            "lng": "Tọa độ kinh độ của địa điểm",
-            "build_time": "Thời gian xây dựng (ví dụ: '1804-1833' hoặc 'Thế kỷ 19')",
-            "purpose": "Mục đích xây dựng địa danh",
-            "architecture": "Phong cách kiến trúc hoặc đặc điểm kiến trúc",
-            "contents": ["Danh sách các công trình hoặc vật phẩm nổi bật bên trong"],
-            "builders": ["Danh sách những người có công xây dựng"],
-            "dynasty": "Triều đại liên quan",
-            "description_vi": "Mô tả ngắn gọn về ý nghĩa của địa danh"
-        }
-       
-    `;
-} else {
-            prompt = `Trả lời truy vấn "${userQuery}" bằng tiếng Việt với thông tin lịch sử chính xác và chi tiết.`;
-        }
-
-        const chatSession = model.startChat({
-            history: currentQueries.map(query => ({
-                role: query.role === "user" ? "user" : "model",
-                parts: [{ text: query.content }]
-            })),
-            generationConfig: {
-                maxOutputTokens: 2000,
-                temperature: 0.7,
-                topP: 0.1,
-                topK: 16,
-            }
-        });
-
-        // Thêm kiểm tra isStopped trước khi gửi yêu cầu
-        if (isStopped) {
-            throw new Error("Search stopped by user");
-        }
-
-        const result = await chatSession.sendMessage(prompt, { signal: abortController.signal });
-        
-        // Kiểm tra lại isStopped sau khi nhận phản hồi
-        if (isStopped) {
-            throw new Error("Search stopped by user");
-        }
-
-        const response = await result.response;
-        let botReply = response.text();
-
-        console.log("Phản hồi từ Gemini (handleSubmit):", botReply);
-
-        if (responseType === "landmark") {
-            try {
-                let jsonStr = botReply;
-                if (jsonStr.includes('```json')) {
-                    jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
-                } else if (jsonStr.includes('```')) {
-                    jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
-                }
-
-                let landmarkData;
-                try {
-                    landmarkData = JSON.parse(jsonStr);
-                } catch (e) {
-                    jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
-                    landmarkData = JSON.parse(jsonStr);
-                }
-
-                botReply = formatLandmarkData(landmarkData);
-
-                if (landmarkData.location) {
-                    console.log("Đang lấy vị trí cho:", landmarkData.location);
-                    if (landmarkData.lat && landmarkData.lng) {
-                        addMarker(landmarkData.lat, landmarkData.lng, landmarkData.name || userQuery);
-                        const zoomLevel = landmarkData.lat < 10 || landmarkData.lat > 30 ? 6 : 10;
-                        map.setView([landmarkData.lat, landmarkData.lng], zoomLevel);
-                        botReply += `\n\n**Địa điểm**: ${landmarkData.location}`;
-                        botReply += `\n\n**Vĩ độ**: ${landmarkData.lat}, **Kinh độ**: ${landmarkData.lng}`;
-                    } else {
-                        const location = await getLocationCoordinates(landmarkData.location);
-                        if (location && location.lat && location.lng) {
-                            addMarker(location.lat, location.lng, landmarkData.name || userQuery);
-                            botReply += `\n\n**Địa điểm**: ${location.description || location.name}`;
-                            botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
-                            const zoomLevel = location.lat < 10 || location.lat > 30 ? 6 : 10;
-                            map.setView([location.lat, location.lng], zoomLevel);
-                        } else {
-                            console.warn("Không có dữ liệu vị trí hợp lệ cho:", landmarkData.location, "Truy vấn:", userQuery);
-                            botReply += `\n\n**Địa điểm**: ${landmarkData.location} (Không xác định)`;
-                        }
-                    }
-                } else {
-                    console.warn("Không có vị trí được cung cấp trong landmarkData cho truy vấn:", userQuery);
-                    botReply += `\n\n**Địa điểm**: Không xác định`;
-                }
-
-                if (!isStopped) {
-                    addMessageToUI("assistant", botReply);
-                    currentQueries.push({ 
-                        role: "assistant", 
-                        content: botReply,
-                        timestamp: new Date().toISOString()
-                    });
-                }
-            } catch (e) {
-                console.error("Lỗi phân tích JSON (địa danh):", e, "Phản hồi:", botReply);
-                botReply = `Thông tin về địa danh lịch sử:\n\n${botReply}`;
-                addMessageToUI("assistant", botReply);
-                currentQueries.push({ 
-                    role: "assistant", 
-                    content: botReply,
-                    timestamp: new Date().toISOString()
-                });
-            }
-        } else if (responseType === "figure") {
-    try {
-        let jsonStr = botReply;
-        if (jsonStr.includes('```json')) {
-            jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
-        } else if (jsonStr.includes('```')) {
-            jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
-        }
-
-        let figureData;
-        try {
-            figureData = JSON.parse(jsonStr);
-        } catch (e) {
-            jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
-            figureData = JSON.parse(jsonStr);
-        }
-
-        botReply = formatFigureData(figureData);
-
-        if (figureData.location) {
-            console.log("Đang lấy vị trí cho:", figureData.location);
-            if (figureData.lat && figureData.lng) {
-                addMarker(figureData.lat, figureData.lng, figureData.name || userQuery);
-                const zoomLevel = figureData.lat < 10 || figureData.lat > 30 ? 6 : 10;
-                map.setView([figureData.lat, figureData.lng], zoomLevel);
-                botReply += `\n\n**Nơi sinh**: ${figureData.location}`;
-                botReply += `\n\n**Vĩ độ**: ${figureData.lat}, **Kinh độ**: ${figureData.lng}`;
-            } else {
-                const location = await getLocationCoordinates(figureData.location);
-                console.log("Dữ liệu vị trí:", location);
-                if (location && location.lat && location.lng) {
-                    addMarker(location.lat, location.lng, figureData.name || userQuery);
-                    botReply += `\n\n**Nơi sinh**: ${location.description || location.name}`;
-                    botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
-                    const zoomLevel = location.lat < 10 || location.lat > 30 ? 6 : 10;
-                    map.setView([location.lat, location.lng], zoomLevel);
-                } else {
-                    console.warn("Không có dữ liệu vị trí hợp lệ cho:", figureData.location, "Truy vấn:", userQuery);
-                    botReply += `\n\n**Nơi sinh**: ${figureData.location} (Không xác định)`;
-                }
-            }
-        } else {
-            console.warn("Không có vị trí được cung cấp trong figureData cho truy vấn:", userQuery);
-            botReply += `\n\n**Địa điểm**: Không xác định`;
-        }
-
-        if (!isStopped) {
-            addMessageToUI("assistant", botReply);
-            currentQueries.push({ 
-                role: "assistant", 
-                content: botReply,
-                timestamp: new Date().toISOString()
             });
         }
-    } catch (e) {
-        console.error("Lỗi phân tích JSON (nhân vật):", e, "Phản hồi:", botReply);
-        botReply = `Thông tin về nhân vật lịch sử:\n\n${botReply}`;
-        addMessageToUI("assistant", botReply);
-        currentQueries.push({ 
-            role: "assistant", 
-            content: botReply,
-            timestamp: new Date().toISOString()
-        });
-    }
-} else if (responseType === "battle") {
+
+        async function handleSubmit(e) {
+            if (e) e.preventDefault();
+            
+            const userQuery = searchInput.value.trim();
+            if (!userQuery || isSending) return;
+
+            isSending = true;
+            isStopped = false;
+            clearPreviousData();
+            addMessageToUI("user", userQuery);
+
+            currentQueries.push({ 
+                role: "user", 
+                content: userQuery,
+                timestamp: new Date().toISOString()
+            });
+
+            searchInput.value = "";
+            typingIndicator.classList.remove("hidden");
+            stopButtonContainer.classList.remove("hidden"); 
+
+            abortController = new AbortController();
+
             try {
-                let jsonStr = botReply;
-                if (jsonStr.includes('```json')) {
-                    jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
-                } else if (jsonStr.includes('```')) {
-                    jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
+                let prompt = userQuery;
+                let responseType = "general";
+
+             if (isLandmarkQuery(userQuery)) {
+    responseType = "landmark";
+    prompt = `
+        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+        {
+            "name": "Tên địa điểm",
+            "location": "Vị trí cụ thể (ví dụ: 'Quận Đồ Sơn, Hải Phòng')",
+            "lat": "Tọa độ vĩ độ của địa điểm",
+            "lng": "Tọa độ kinh độ của địa điểm",
+            "type": "Loại địa điểm (du lịch, ẩm thực, văn hóa, lịch sử, mua sắm, v.v.)",
+            "description": "Mô tả chi tiết về địa điểm",
+            "features": ["Danh sách các đặc điểm nổi bật"],
+            "activities": ["Các hoạt động có thể làm tại đây"],
+            "best_time": "Thời gian tốt nhất để ghé thăm",
+            "transportation": "Phương tiện di chuyển đến đây"
+        }
+    `;
+} else if (isFigureQuery(userQuery)) {
+    responseType = "figure";
+    prompt = `
+        Cung cấp thông tin về nhân vật "${userQuery}" liên quan đến Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+        {
+            "name": "Tên nhân vật",
+            "location": "Địa điểm liên quan tại Hải Phòng",
+            "lat": "Tọa độ vĩ độ của địa điểm",
+            "lng": "Tọa độ kinh độ của địa điểm",
+            "time": "Thời gian hoạt động (không đề cập triều đại)",
+            "description": "Mô tả về nhân vật",
+            "achievements": ["Danh sách thành tựu nổi bật"],
+            "significance": "Ý nghĩa và đóng góp cho Hải Phòng"
+        }
+        LƯU Ý: KHÔNG đề cập đến các trận chiến, chiến tranh hay xung đột quân sự.
+    `;
+} else {
+    prompt = `Cung cấp thông tin về "${userQuery}" tại Hải Phòng bằng tiếng Việt. Nếu là địa điểm hoặc nhân vật, hãy cung cấp thông tin chi tiết.`;
+}
+
+                const chatSession = model.startChat({
+                    history: currentQueries.map(query => ({
+                        role: query.role === "user" ? "user" : "model",
+                        parts: [{ text: query.content }]
+                    })),
+                    generationConfig: {
+                        maxOutputTokens: 2000,
+                        temperature: 0.7,
+                        topP: 0.1,
+                        topK: 16,
+                    }
+                });
+
+                if (isStopped) {
+                    throw new Error("Search stopped by user");
                 }
 
-                let battleData;
-                try {
-                    if (!jsonStr.startsWith('{') && !jsonStr.startsWith('[')) {
-                        throw new Error("Phản hồi không phải JSON hợp lệ");
-                    }
-                    battleData = JSON.parse(jsonStr);
-                } catch (e) {
-                    console.error("Lỗi phân tích JSON đầu tiên:", e, "JSON thô:", jsonStr);
+                const result = await chatSession.sendMessage(prompt, { signal: abortController.signal });
+                
+                if (isStopped) {
+                    throw new Error("Search stopped by user");
+                }
+
+                const response = await result.response;
+                let botReply = response.text();
+
+                console.log("Phản hồi từ Gemini (handleSubmit):", botReply);
+
+                if (responseType === "landmark") {
                     try {
-                        jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":')
-                                         .replace(/'/g, '"')
-                                         .replace(/,\s*}/g, '}')
-                                         .replace(/,\s*]/g, ']');
-                        battleData = JSON.parse(jsonStr);
-                    } catch (e2) {
-                        console.error("Lỗi phân tích JSON sau khi sửa:", e2, "JSON thô:", jsonStr);
-                        botReply = `Thông tin về trận chiến:\n\n${botReply}`;
+                        let jsonStr = botReply;
+                        if (jsonStr.includes('```json')) {
+                            jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
+                        } else if (jsonStr.includes('```')) {
+                            jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
+                        }
+
+                        let locationData;
+                        try {
+                            locationData = JSON.parse(jsonStr);
+                        } catch (e) {
+                            jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
+                            locationData = JSON.parse(jsonStr);
+                        }
+
+                        botReply = formatLocationData(locationData);
+
+                        if (locationData.location) {
+                            console.log("Đang lấy vị trí cho:", locationData.location);
+                            if (locationData.lat && locationData.lng) {
+                                addMarker(locationData.lat, locationData.lng, locationData.name || userQuery);
+                                map.setView([locationData.lat, locationData.lng], 14);
+                                botReply += `\n\n**Địa điểm**: ${locationData.location}`;
+                                botReply += `\n\n**Vĩ độ**: ${locationData.lat}, **Kinh độ**: ${locationData.lng}`;
+                            } else {
+                                const location = await getLocationCoordinates(locationData.location);
+                                if (location && location.lat && location.lng) {
+                                    addMarker(location.lat, location.lng, locationData.name || userQuery);
+                                    botReply += `\n\n**Địa điểm**: ${location.description || location.name}`;
+                                    botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
+                                    map.setView([location.lat, location.lng], 14);
+                                } else {
+                                    console.warn("Không có dữ liệu vị trí hợp lệ cho:", locationData.location, "Truy vấn:", userQuery);
+                                    botReply += `\n\n**Địa điểm**: ${locationData.location} (Không xác định)`;
+                                }
+                            }
+                        } else {
+                            console.warn("Không có vị trí được cung cấp trong locationData cho truy vấn:", userQuery);
+                            botReply += `\n\n**Địa điểm**: Không xác định`;
+                        }
+
+                        if (!isStopped) {
+                            addMessageToUI("assistant", botReply);
+                            currentQueries.push({ 
+                                role: "assistant", 
+                                content: botReply,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Lỗi phân tích JSON (địa điểm):", e, "Phản hồi:", botReply);
+                        botReply = `Thông tin về địa điểm:\n\n${botReply}`;
                         addMessageToUI("assistant", botReply);
                         currentQueries.push({ 
                             role: "assistant", 
                             content: botReply,
                             timestamp: new Date().toISOString()
                         });
-                        return;
                     }
-                }
-
-                botReply = formatBattleData(battleData);
-
-                if (battleData.location) {
-        console.log("Đang lấy tọa độ cho:", battleData.location);
-        const location = await getLocationCoordinates(battleData.location, battleData);
-        if (location && location.lat && location.lng) {
-            addMarker(location.lat, location.lng, battleData.name || userQuery);
-            const zoomLevel = location.lat < 10 || location.lat > 30 ? 6 : 10;
-map.setView([location.lat, location.lng], zoomLevel);
-
-                        botReply += `\n\n**Địa điểm**: ${location.name}`;
-                        if (location.description) {
-                            botReply += `<br>${location.description}`;
+                } else if (responseType === "figure") {
+                    try {
+                        let jsonStr = botReply;
+                        if (jsonStr.includes('```json')) {
+                            jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
+                        } else if (jsonStr.includes('```')) {
+                            jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
                         }
-                        botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
-                    } else {
-                        console.warn("Không có dữ liệu vị trí hợp lệ cho:", battleData.location, "Truy vấn:", userQuery);
-                        botReply += `\n\n**Địa điểm**: ${battleData.location} (Không xác định)`;
+
+                        let figureData;
+                        try {
+                            figureData = JSON.parse(jsonStr);
+                        } catch (e) {
+                            jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
+                            figureData = JSON.parse(jsonStr);
+                        }
+
+                        botReply = formatFigureData(figureData);
+
+                        if (figureData.location) {
+                            console.log("Đang lấy vị trí cho:", figureData.location);
+                            if (figureData.lat && figureData.lng) {
+                                addMarker(figureData.lat, figureData.lng, figureData.name || userQuery);
+                                map.setView([figureData.lat, figureData.lng], 14);
+                                botReply += `\n\n**Địa điểm liên quan**: ${figureData.location}`;
+                                botReply += `\n\n**Vĩ độ**: ${figureData.lat}, **Kinh độ**: ${figureData.lng}`;
+                            } else {
+                                const location = await getLocationCoordinates(figureData.location);
+                                if (location && location.lat && location.lng) {
+                                    addMarker(location.lat, location.lng, figureData.name || userQuery);
+                                    botReply += `\n\n**Địa điểm liên quan**: ${location.description || location.name}`;
+                                    botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
+                                    map.setView([location.lat, location.lng], 14);
+                                } else {
+                                    console.warn("Không có dữ liệu vị trí hợp lệ cho:", figureData.location, "Truy vấn:", userQuery);
+                                    botReply += `\n\n**Địa điểm liên quan**: ${figureData.location} (Không xác định)`;
+                                }
+                            }
+                        } else {
+                            console.warn("Không có vị trí được cung cấp trong figureData cho truy vấn:", userQuery);
+                            botReply += `\n\n**Địa điểm liên quan**: Không xác định`;
+                        }
+
+                        if (!isStopped) {
+                            addMessageToUI("assistant", botReply);
+                            currentQueries.push({ 
+                                role: "assistant", 
+                                content: botReply,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                    } catch (e) {
+                        console.error("Lỗi phân tích JSON (nhân vật):", e, "Phản hồi:", botReply);
+                        botReply = `Thông tin về nhân vật:\n\n${botReply}`;
+                        addMessageToUI("assistant", botReply);
+                        currentQueries.push({ 
+                            role: "assistant", 
+                            content: botReply,
+                            timestamp: new Date().toISOString()
+                        });
                     }
                 } else {
-                    console.warn("Không có vị trí được cung cấp trong battleData cho truy vấn:", userQuery);
-                    botReply += `\n\n**Địa điểm**: Không xác định`;
-                }
-
-                if (battleData.factions && Array.isArray(battleData.factions)) {
-                    const countries = await extractCountriesFromFactions(battleData.factions);
-                    if (countries.length > 0) {
-                        botReply += `\n\n**Các phe tham gia**: ${countries.join(", ")}`;
+                    if (!isStopped) {
+                        addMessageToUI("assistant", botReply);
+                        currentQueries.push({ 
+                            role: "assistant", 
+                            content: botReply,
+                            timestamp: new Date().toISOString()
+                        });
                     }
                 }
-
-                if (battleData.key_locations && Array.isArray(battleData.key_locations) && battleData.key_locations.length > 0) {
-                    botReply += `\n\n**Địa điểm quan trọng**:`;
-                    for (const loc of battleData.key_locations) {
-                        if (loc && loc.name) {
-                            const keyLocation = await getLocationCoordinates(loc.name, battleData);
-                            if (keyLocation && keyLocation.lat && keyLocation.lng) {
-                                addKeyLocationMarker(keyLocation.lat, keyLocation.lng, keyLocation.name, keyLocation.description || loc.description, keyLocations.length + 1);
-                                botReply += `\n- ${keyLocation.name}: ${keyLocation.description || loc.description || 'Không xác định'}`;
-                            } else if (loc.lat && loc.lng) {
-                                addKeyLocationMarker(loc.lat, loc.lng, loc.name, loc.description, keyLocations.length + 1);
-                                botReply += `\n- ${loc.name}: ${loc.description || 'Không xác định'}`;
-                            } else {
-                                botReply += `\n- ${loc.name}: Không xác định`;
-                            }
-                        }
-                    }
-                }
-
-                if (!isStopped) {
-if (battleData.timeline && Array.isArray(battleData.timeline) && battleData.timeline.length > 0) {
-    const timelineDiv = document.createElement('div');
-    timelineDiv.className = 'timeline-container';
-    timelineDiv.innerHTML = `
-        <h3 class="text-lg font-semibold mb-3 text-primary">
-            <i class="fas fa-history mr-2"></i>
-            Diễn biến trận chiến
-        </h3>
-        ${battleData.timeline.map((event, index) => `
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <div class="timeline-time">Sự kiện ${index + 1}</div>
-                    <div class="timeline-text">${event}</div>
-                </div>
-            </div>
-        `).join('')}
-    `;
-    resultMessages.appendChild(timelineDiv);
-}
-                    addMessageToUI("assistant", botReply);
-                    currentQueries.push({ 
-                        role: "assistant", 
-                        content: botReply,
-                        timestamp: new Date().toISOString()
-                    });
-                }
-            } catch (e) {
-                console.error("Lỗi phân tích JSON (trận chiến):", e, "Phản hồi:", botReply);
-                botReply = `Thông tin về trận chiến:\n\n${botReply}`;
-                addMessageToUI("assistant", botReply);
-                currentQueries.push({ 
-                    role: "assistant", 
-                    content: botReply,
-                    timestamp: new Date().toISOString()
-                });
-            }
-        } else {
-            if (!isStopped) {
-                addMessageToUI("assistant", botReply);
-                currentQueries.push({ 
-                    role: "assistant", 
-                    content: botReply,
-                    timestamp: new Date().toISOString()
-                });
-            }
-        }
-    } catch (error) {
-        if (error.name === 'AbortError' || error.message === "Search stopped by user") {
-            console.log("Tìm kiếm đã bị dừng bởi người dùng");
-            addMessageToUI("assistant", "Tìm kiếm đã dừng theo yêu cầu của bạn.");
-        } else {
-            console.error("Lỗi trong handleSubmit:", error);
-            addMessageToUI("assistant", "Lỗi khi xử lý yêu cầu. Vui lòng thử lại!");
-        }
-    } finally {
-        isSending = false;
-        typingIndicator.classList.add("hidden");
-        stopButtonContainer.classList.add("hidden");
-        abortController = null;  // Reset AbortController
-        scrollToTop();
-    }
-}
-function transliterateVietnamese(text) {
-    const map = {
-        'à': 'a', 'á': 'a', 'ả': 'a', 'ã': 'a', 'ạ': 'a',
-        'è': 'e', 'é': 'e', 'ẻ': 'e', 'ẽ': 'e', 'ẹ': 'e',
-        'ì': 'i', 'í': 'i', 'ỉ': 'i', 'ĩ': 'i', 'ị': 'i',
-        'ò': 'o', 'ó': 'o', 'ỏ': 'o', 'õ': 'o', 'ọ': 'o',
-        'ù': 'u', 'ú': 'u', 'ủ': 'u', 'ũ': 'u', 'ụ': 'u',
-        'ỳ': 'y', 'ý': 'y', 'ỷ': 'y', 'ỹ': 'y', 'ỵ': 'y',
-        'đ': 'd', 'â': 'a', 'ê': 'e', 'ô': 'o', 'ơ': 'o', 'ư': 'u'
-    };
-    return text.replace(/[àáảãạèéẻẽẹìíỉĩịòóỏõọùúủũụỳýỷỹỵđâêôơư]/g, match => map[match] || match)
-               .replace(/\s+/g, ' ')
-               .trim();
-}
-      async function getLocationCoordinates(locationName, battleData = null) {
-    try {
-        if (!locationName) return null;
-
-        // Chuẩn hóa tên địa điểm
-        const normalizedLocation = locationName.trim().toLowerCase();
-        const transliteratedLocation = transliterateVietnamese(normalizedLocation);
-
-        // Kiểm tra đặc biệt cho Điện Biên Phủ
-        if (normalizedLocation.includes('điện biên phủ') || 
-            normalizedLocation.includes('dien bien phu') || 
-            transliteratedLocation.includes('dien bien phu')) {
-            const value = vietnamHistoricalLocations["Điện Biên Phủ"];
-            return {
-                lat: value.lat,
-                lng: value.lng,
-                name: value.name_vi || value.name,
-                description: value.description_vi || value.description
-            };
-        }
-
-        // Kiểm tra xem địa điểm có trong danh sách lịch sử Việt Nam không
-        for (const [key, value] of Object.entries(vietnamHistoricalLocations)) {
-            const keyNormalized = key.toLowerCase();
-            const nameEnNormalized = value.name_en ? value.name_en.toLowerCase() : '';
-            const nameViNormalized = value.name_vi ? value.name_vi.toLowerCase() : value.name.toLowerCase();
-
-            if (normalizedLocation.includes(keyNormalized) || 
-                (nameEnNormalized && normalizedLocation.includes(nameEnNormalized)) || 
-                (nameViNormalized && normalizedLocation.includes(nameViNormalized)) ||
-                (nameEnNormalized && transliteratedLocation.includes(nameEnNormalized))) {
-                return {
-                    lat: value.lat,
-                    lng: value.lng,
-                    name: value.name_vi || value.name,
-                    description: value.description_vi || value.description
-                };
-            }
-        }
-
-        // Xác định xem trận chiến có liên quan đến Việt Nam không
-        let isVietnamRelated = false;
-        if (battleData && battleData.factions) {
-            isVietnamRelated = battleData.factions.some(faction => 
-                faction.toLowerCase().includes('việt nam') || 
-                faction.toLowerCase().includes('vietnam')
-            );
-        } else if (normalizedLocation.includes('việt nam') || 
-                   normalizedLocation.includes('vietnam') || 
-                   transliteratedLocation.includes('vietnam')) {
-            isVietnamRelated = true;
-        }
-
-        // Hàm gọi API với retry
-        async function fetchWithRetry(url, retries = 3, delay = 1000) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, { signal: AbortSignal.timeout(5000) });
-                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
-                    return await response.json();
-                } catch (error) {
-                    if (i < retries - 1) {
-                        console.warn(`Thử lại lần ${i + 1} sau lỗi: ${error.message}`);
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        continue;
-                    }
-                    throw error;
-                }
-            }
-        }
-
-        // Thử tìm kiếm trực tiếp với Nominatim
-        let query = encodeURIComponent(locationName);
-        let data;
-        try {
-            data = await fetchWithRetry(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
-        } catch (error) {
-            console.error(`Lỗi gọi Nominatim cho "${locationName}":`, error);
-        }
-
-        // Nếu không có kết quả và liên quan đến Việt Nam, thử thêm ", Vietnam"
-        if (!data || data.length === 0 && isVietnamRelated) {
-            query = encodeURIComponent(`${locationName}, Vietnam`);
-            try {
-                data = await fetchWithRetry(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
             } catch (error) {
-                console.error(`Lỗi gọi Nominatim với "${locationName}, Vietnam":`, error);
+                if (error.name === 'AbortError' || error.message === "Search stopped by user") {
+                    console.log("Tìm kiếm đã bị dừng bởi người dùng");
+                    addMessageToUI("assistant", "Tìm kiếm đã dừng theo yêu cầu của bạn.");
+                } else {
+                    console.error("Lỗi trong handleSubmit:", error);
+                    addMessageToUI("assistant", "Lỗi khi xử lý yêu cầu. Vui lòng thử lại!");
+                }
+            } finally {
+                isSending = false;
+                typingIndicator.classList.add("hidden");
+                stopButtonContainer.classList.add("hidden");
+                abortController = null;
+                scrollToTop();
             }
         }
 
-        // Nếu Nominatim trả về dữ liệu hợp lệ
-        if (data && data.length > 0) {
-            const result = data[0];
-            return {
-                lat: parseFloat(result.lat),
-                lng: parseFloat(result.lon),
-                name: result.display_name.split(',')[0],
-                description: null
+        function transliterateVietnamese(text) {
+            const map = {
+                'à': 'a', 'á': 'a', 'ả': 'a', 'ã': 'a', 'ạ': 'a',
+                'è': 'e', 'é': 'e', 'ẻ': 'e', 'ẽ': 'e', 'ẹ': 'e',
+                'ì': 'i', 'í': 'i', 'ỉ': 'i', 'ĩ': 'i', 'ị': 'i',
+                'ò': 'o', 'ó': 'o', 'ỏ': 'o', 'õ': 'o', 'ọ': 'o',
+                'ù': 'u', 'ú': 'u', 'ủ': 'u', 'ũ': 'u', 'ụ': 'u',
+                'ỳ': 'y', 'ý': 'y', 'ỷ': 'y', 'ỹ': 'y', 'ỵ': 'y',
+                'đ': 'd', 'â': 'a', 'ê': 'e', 'ô': 'o', 'ơ': 'o', 'ư': 'u'
             };
+            return text.replace(/[àáảãạèéẻẽẹìíỉĩịòóỏõọùúủũụỳýỷỹỵđâêôơư]/g, match => map[match] || match)
+                       .replace(/\s+/g, ' ')
+                       .trim();
         }
 
-        // Dự phòng: Sử dụng tọa độ từ Gemini nếu có
-        if (battleData && battleData.lat && battleData.lng) {
-            return {
-                lat: parseFloat(battleData.lat),
-                lng: parseFloat(battleData.lng),
-                name: locationName,
-                description: null
-            };
-        }
+        async function getLocationCoordinates(locationName) {
+            try {
+                if (!locationName) return null;
 
-        // Ghi log lỗi và trả về null
-        console.warn(`Không tìm thấy tọa độ cho địa điểm: "${locationName}"`);
-        return null;
-    } catch (error) {
-        console.error(`Lỗi khi lấy tọa độ cho "${locationName}":`, error);
-        return null;
+                const normalizedLocation = locationName.trim().toLowerCase();
+                const transliteratedLocation = transliterateVietnamese(normalizedLocation);
+
+                // Kiểm tra xem địa điểm có trong danh sách Hải Phòng không
+                for (const [key, value] of Object.entries(haiPhongLocations)) {
+                    const keyNormalized = key.toLowerCase();
+                    const nameNormalized = value.name ? value.name.toLowerCase() : '';
+
+                    if (normalizedLocation.includes(keyNormalized) || 
+                        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
+                        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
+                        return {
+                            lat: value.lat,
+                            lng: value.lng,
+                            name: value.name,
+                            description: value.description
+                        };
+                    }
+                }
+// Kiểm tra xem địa điểm có trong danh sách nhân vật Hải Phòng không
+for (const [key, value] of Object.entries(haiPhongFigures)) {
+    const keyNormalized = key.toLowerCase();
+    const nameNormalized = value.name ? value.name.toLowerCase() : '';
+
+    if (normalizedLocation.includes(keyNormalized) || 
+        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
+        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
+        return {
+            lat: value.lat,
+            lng: value.lng,
+            name: value.name,
+            description: value.description
+        };
     }
 }
+                // Nếu không tìm thấy trong danh sách, thử tìm với OpenStreetMap
+                let query = encodeURIComponent(`${locationName}, Hải Phòng`);
+                let data;
+                try {
+                    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
+                    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+                    data = await response.json();
+                } catch (error) {
+                    console.error(`Lỗi gọi Nominatim cho "${locationName}":`, error);
+                }
 
-        function addKeyLocationMarker(lat, lng, name, description, index) {
-            const marker = L.marker([lat, lng], {
-                icon: L.divIcon({
-                    className: 'key-location-marker',
-                    html: `<div class="key-location">${index}</div>`,
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 12]
-                })
-            }).addTo(map);
+                if (data && data.length > 0) {
+                    const result = data[0];
+                    return {
+                        lat: parseFloat(result.lat),
+                        lng: parseFloat(result.lon),
+                        name: result.display_name.split(',')[0],
+                        description: null
+                    };
+                }
 
-            let popupContent = `<div class="font-medium text-primary">${name}</div>`;
-            if (description) {
-                popupContent += `<div class="text-sm mt-1">${description}</div>`;
+                console.warn(`Không tìm thấy tọa độ cho địa điểm: "${locationName}"`);
+                return null;
+            } catch (error) {
+                console.error(`Lỗi khi lấy tọa độ cho "${locationName}":`, error);
+                return null;
             }
-
-            marker.bindPopup(popupContent);
-            keyLocations.push(marker);
         }
 
         function addMarker(lat, lng, title) {
             const marker = L.marker([lat, lng], {
                 icon: L.divIcon({
                     className: 'custom-marker',
-                    html: `<div class="battle-marker">
+                    html: `<div class="location-marker">
                               <i class="fas fa-map-marker-alt"></i>
                           </div>`,
                     iconSize: [30, 30],
@@ -1471,157 +1264,87 @@ function transliterateVietnamese(text) {
                 .openPopup();
             markers.push(marker);
         }
-function formatBattleData(data) {
-    return `
-<div class="battle-container">
-    <div class="battle-box">
-        <h3><i class="fas fa-clock"></i> Thời Gian</h3>
-        <p>${data.time || 'Không xác định'}</p>
+
+        function formatLocationData(data) {
+            return `
+<div class="location-container">
+    <div class="location-box">
+        <h3><i class="fas fa-landmark"></i> Tên địa điểm</h3>
+        <p>${data.name || 'Không xác định'}</p>
     </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-map-marked-alt"></i> Địa Điểm</h3>
+    <div class="location-box">
+        <h3><i class="fas fa-map-marker-alt"></i> Vị trí</h3>
         <p>${data.location || 'Không xác định'}</p>
     </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-align-left"></i> Tóm Tắt</h3>
-        <p>${data.summary || 'Không có tóm tắt'}</p>
+    <div class="location-box">
+        <h3><i class="fas fa-tag"></i> Loại địa điểm</h3>
+        <p>${data.type || 'Không xác định'}</p>
     </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-users"></i> Các Phe Tham Gia</h3>
-        <ul>${data.factions ? data.factions.map(faction => `<li>${faction}</li>`).join("") : `<li>Không xác định</li>`}</ul>
+    <div class="location-box">
+        <h3><i class="fas fa-align-left"></i> Mô tả</h3>
+        <p>${data.description || 'Không có mô tả'}</p>
     </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-user-shield"></i> Quân Số</h3>
-        <ul>${data.troop_numbers ? Object.entries(data.troop_numbers).map(([faction, troops]) => `<li>${faction}: ${troops}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-crown"></i> Chỉ Huy</h3>
-        <ul>${data.commanders ? Object.entries(data.commanders).map(([faction, commander]) => `<li>${faction}: ${commander}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-chess"></i> Chiến Thuật</h3>
-        <ul>${data.tactics ? Object.entries(data.tactics).map(([faction, tactic]) => `<li>${faction}: ${tactic}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-skull-crossbones"></i> Thương Vong</h3>
-        <ul>${data.casualties ? Object.entries(data.casualties).map(([faction, casualties]) => `<li>${faction}: ${casualties}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    ${data.heroes && data.heroes.length > 0 ? `
-    <div class="battle-box">
-        <h3><i class="fas fa-star"></i> Anh Hùng Tiêu Biểu</h3>
-        <ul>${data.heroes.map(hero => `<li>${hero.name} (${hero.role}): ${hero.description}</li>`).join("")}</ul>
+    ${data.features && data.features.length > 0 ? `
+    <div class="location-box">
+        <h3><i class="fas fa-star"></i> Đặc điểm nổi bật</h3>
+        <ul>${data.features.map(feature => `<li>${feature}</li>`).join("")}</ul>
     </div>
     ` : ''}
-    ${data.outcome ? `
-    <div class="battle-box">
-        <h3><i class="fas fa-trophy"></i> Kết Quả</h3>
-        <p>${data.outcome}</p>
+    ${data.activities && data.activities.length > 0 ? `
+    <div class="location-box">
+        <h3><i class="fas fa-running"></i> Hoạt động</h3>
+        <ul>${data.activities.map(activity => `<li>${activity}</li>`).join("")}</ul>
+    </div>
+    ` : ''}
+    ${data.best_time ? `
+    <div class="location-box">
+        <h3><i class="fas fa-calendar-alt"></i> Thời gian tốt nhất</h3>
+        <p>${data.best_time}</p>
+    </div>
+    ` : ''}
+    ${data.transportation ? `
+    <div class="location-box">
+        <h3><i class="fas fa-bus"></i> Phương tiện di chuyển</h3>
+        <p>${data.transportation}</p>
+    </div>
+    ` : ''}
+</div>
+    `;
+        }
+function formatFigureData(data) {
+    return `
+<div class="figure-container">
+    <div class="location-box">
+        <h3><i class="fas fa-user"></i> Tên nhân vật</h3>
+        <p>${data.name || 'Không xác định'}</p>
+    </div>
+    <div class="location-box">
+        <h3><i class="fas fa-clock"></i> Thời gian hoạt động</h3>
+        <p>${data.time || 'Không xác định'}</p>
+    </div>
+    <div class="location-box">
+        <h3><i class="fas fa-map-marker-alt"></i> Địa điểm liên quan</h3>
+        <p>${data.location || 'Không xác định'}</p>
+    </div>
+    <div class="location-box">
+        <h3><i class="fas fa-align-left"></i> Mô tả</h3>
+        <p>${data.description || 'Không có mô tả'}</p>
+    </div>
+    ${data.achievements && data.achievements.length > 0 ? `
+    <div class="location-box">
+        <h3><i class="fas fa-trophy"></i> Thành tựu nổi bật</h3>
+        <ul>${data.achievements.map(achievement => `<li>${achievement}</li>`).join("")}</ul>
     </div>
     ` : ''}
     ${data.significance ? `
-    <div class="battle-box">
-        <h3><i class="fas fa-lightbulb"></i> Tác động Lịch Sử</h3>
+    <div class="location-box">
+        <h3><i class="fas fa-star"></i> Ý nghĩa với Hải Phòng</h3>
         <p>${data.significance}</p>
     </div>
     ` : ''}
-    ${data.key_locations && data.key_locations.length > 0 ? `
-    <div class="battle-box">
-        <h3><i class="fas fa-map-marker-alt"></i> Địa điểm quan trọng</h3>
-        <ul>${data.key_locations.map(loc => `<li>${loc.name}: ${loc.description || 'Không có mô tả'}</li>`).join("")}</ul>
-    </div>
-    ` : ''}
 </div>
     `;
 }
-function formatFigureData(data) {
-    const locationDescription = data.description_vi || 'Không xác định';
-    
-    return `
-<div class="figure-container">
-    <div class="battle-box">
-        <h3><i class="fas fa-user"></i> Tên Nhân Vật</h3>
-        <p>${data.name || 'Không xác định'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-clock"></i> Thời Gian</h3>
-        <p>${data.time || 'Không xác định'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-map-marker-alt"></i> Nơi sinh</h3>
-        <p>${data.location || 'Không xác định'}</p>
-        ${locationDescription ? `<p class="mt-2 text-sm text-gray-600">${locationDescription}</p>` : ''}
-        ${data.lat && data.lng ? `<p class="mt-2 text-sm text-gray-600">Vĩ độ: ${data.lat}, Kinh độ: ${data.lng}</p>` : ''}
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-align-left"></i> Tóm Tắt</h3>
-        <p>${data.summary || 'Không có tóm tắt'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-star"></i> Thành Tựu Nổi Bật</h3>
-        <ul>${data.achievements ? data.achievements.map(achievement => `<li>${achievement}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-lightbulb"></i> Ý Nghĩa Lịch Sử</h3>
-        <p>${data.significance || 'Không xác định'}</p>
-    </div>
-</div>
-    `;
-}
-function formatLandmarkData(data) {
-    const locationDescription = data.description_vi || 'Không xác định';
-
-    return `
-<div class="landmark-container">
-   <div class="battle-box">
-        <h3><i class="fas fa-landmark"></i> Tên địa danh</h3>
-        <p>${data.name || 'Không xác định'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-map-marker-alt"></i> Địa điểm</h3>
-        <p>${data.location || 'Không xác định'}</p>
-        ${locationDescription ? `<p class="mt-2 text-sm text-gray-600">${locationDescription}</p>` : ''}
-        ${data.lat && data.lng ? `<p class="mt-2 text-sm text-gray-600">Vĩ độ: ${data.lat}, Kinh độ: ${data.lng}</p>` : ''}
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-clock"></i> Thời gian xây dựng</h3>
-        <p>${data.build_time || 'Không xác định'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-bullseye"></i> Mục đích xây dựng</h3>
-        <p>${data.purpose || 'Không xác định'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-building"></i> Kiến trúc</h3>
-        <p>${data.architecture || 'Không xác định'}</p>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-box-open"></i> Nội dung bên trong</h3>
-        <ul>${data.contents ? data.contents.map(item => `<li>${item}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-users"></i> Người xây dựng</h3>
-        <ul>${data.builders ? data.builders.map(builder => `<li>${builder}</li>`).join("") : `<li>Không xác định</li>`}</ul>
-    </div>
-    <div class="battle-box">
-        <h3><i class="fas fa-crown"></i> Triều đại</h3>
-        <p>${data.dynasty || 'Không xác định'}</p>
-    </div>
-</div>
-    `;
-}
-        async function extractCountriesFromFactions(factions) {
-            const countries = [];
-            for (const faction of factions) {
-                for (const country in countryCoordinates) {
-                    if (faction.includes(country)) {
-                        countries.push(country);
-                        break;
-                    }
-                }
-            }
-            return [...new Set(countries)];
-        }
-
         function addMessageToUI(role, content) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `mb-4 ${role === 'user' ? 'text-right' : 'text-left'}`;
@@ -1632,7 +1355,7 @@ function formatLandmarkData(data) {
             
             let translatedContent = content;
             if (content.includes("Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến lịch sử")) {
-                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến lịch sử. Vui lòng nhập một truy vấn về lịch sử!";
+                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến Hải Phòng. Vui lòng nhập một truy vấn về địa điểm tại Hải Phòng!";
             } else if (content.includes("Lỗi tải dữliệu bản đồ")) {
                 translatedContent = "Lỗi tải dữ liệu bản đồ, vui lòng thử lại sau.";
             } else if (content.includes("Lỗi khi xử lý yêu cầu")) {
@@ -1653,7 +1376,7 @@ function formatLandmarkData(data) {
                 ${role === 'assistant' ? `
                 <div class="mt-1 text-xs text-gray-500 flex items-center">
                     <i class="fas fa-robot mr-1"></i>
-                    <span>AI TLC-g2</span>
+                    <span>Hệ thống Hải Phòng</span>
                 </div>
                 ` : ''}
             `;
@@ -1707,6 +1430,14 @@ function formatLandmarkData(data) {
                 toggleIcon.classList.add('fa-chevron-left');
                 mapContainer.style.marginLeft = '0';
             }
+        }
+
+        function clearPreviousData() {
+            resultMessages.innerHTML = '';
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            keyLocations.forEach(loc => map.removeLayer(loc));
+            keyLocations = [];
         }
 
         document.addEventListener('DOMContentLoaded', initApp);
