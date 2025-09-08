@@ -287,30 +287,6 @@
             box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
             background-color: #4338ca;
         }
-        
-        .fab-sidebar {
-            position: fixed;
-            bottom: 8rem;
-            right: 2rem;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: #10b981;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-        
-        .fab-sidebar:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
-            background-color: #059669;
-        }
 
         /* Gradient background */
         .gradient-bg {
@@ -427,7 +403,7 @@
             display: flex;
             border-bottom: 1px solid #e2e8f0;
             margin-bottom: 1rem;
-        }
+}
 
         .sidebar-tab {
             flex: 1;
@@ -576,132 +552,119 @@
             display: flex;
             flex: 1;
             overflow: hidden;
-            position: relative; /* Quan trọng: Tạo ngữ cảnh cho z-index */
+            position: relative;
         }
 
         #sidebar {
-            width: 384px; /* Giữ nguyên kích thước ban đầu */
-            height: 100%; /* Chiếm toàn bộ chiều cao */
+            width: 384px;
+            height: 100%;
             background-color: #ffffff;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng sang phải */
-            position: absolute; /* Nổi lên trên bản đồ */
-            left: 0; /* Căn trái */
-            top: 0; /* Căn trên */
-            z-index: 20; /* Đảm bảo nằm trên bản đồ */
-            transition: transform 0.3s ease; /* Hiệu ứng khi ẩn/hiện */
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 20;
+            transition: transform 0.3s ease;
         }
 
         #map-container {
             flex: 1;
             height: 100%;
-            margin-left: 0; /* Bỏ margin-left để bản đồ chiếm toàn bộ không gian */
+            margin-left: 0;
             position: relative;
-            z-index: 10; /* Nằm dưới thanh bên */
+            z-index: 10;
         }
+        
         .ai-result-content {
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-}
-.info-section { margin: 10px 0; }
-.info-section span { font-weight: bold; }
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        .info-section { 
+            margin: 10px 0; 
+        }
+        
+        .info-section span { 
+            font-weight: bold; 
+        }
 
-/* NEW STYLES FOR MOBILE RESPONSIVENESS */
-.mobile-search-header {
-    display: none;
-}
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                z-index: 100;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            }
+            
+            .sidebar-toggle {
+                right: 1rem;
+                top: 1rem;
+                background-color: rgba(79, 70, 229, 0.9);
+            }
+            
+            .sidebar-header {
+                padding-top: 0;
+            }
+            
+            .search-input {
+                font-size: 16px;
+            }
+            
+            .location-box {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .location-box h3 {
+                font-size: 0.9rem;
+            }
+            
+            .location-box p, .location-box li {
+                font-size: 0.85rem;
+            }
+            
+            /* Điều chỉnh vị trí nút gửi */
+            #search-form {
+                position: relative;
+            }
+            
+            #search-form button[type="submit"] {
+                position: absolute;
+                left: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: transparent;
+                border: none;
+                color: #4f46e5;
+                padding: 8px;
+                z-index: 20;
+            }
+            
+            #search-input {
+                padding-left: 50px;
+                padding-right: 15px;
+            }
+            
+            .search-icon {
+                position: absolute;
+                left: 50px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #64748b;
+                z-index: 10;
+            }
+        }
 
-.search-close-btn {
-    display: none;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #f1f5f9;
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    z-index: 30;
-    color: #64748b;
-}
-
-.search-close-btn:hover {
-    background: #e2e8f0;
-    color: #475569;
-}
-
-/* Mobile responsive styles */
-@media (max-width: 768px) {
-    #sidebar {
-        width: 100%;
-        z-index: 100;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .sidebar-toggle {
-        right: 1rem;
-        top: 1rem;
-        background-color: rgba(79, 70, 229, 0.9);
-    }
-    
-    .mobile-search-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-        border-bottom: 1px solid #e2e8f0;
-        background: white;
-    }
-    
-    .search-close-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .sidebar-header {
-        padding-top: 0;
-    }
-    
-    #search-form {
-        position: relative;
-        padding-right: 40px;
-    }
-    
-    .search-input {
-        padding-right: 50px;
-        font-size: 16px; /* Prevents zoom on iOS */
-    }
-    
-    #search-form button[type="submit"] {
-        right: 45px;
-    }
-}
-
-@media (max-width: 480px) {
-    .sidebar-header h2 {
-        font-size: 1.25rem;
-    }
-    
-    .search-input {
-        padding: 12px 50px 12px 40px;
-    }
-    
-    .location-box {
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .location-box h3 {
-        font-size: 0.9rem;
-    }
-    
-    .location-box p, .location-box li {
-        font-size: 0.85rem;
-    }
-}
+        @media (max-width: 480px) {
+            .sidebar-header h2 {
+                font-size: 1.25rem;
+            }
+            
+            .search-input {
+                padding: 12px 15px 12px 50px;
+            }
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col gradient-bg text-light-text transition-all">
@@ -709,16 +672,6 @@
         <div id="sidebar" class="flex flex-col h-full transition-all duration-300 relative">
             <div class="sidebar-toggle" onclick="toggleSidebar()">
                 <i class="fas fa-chevron-left"></i>
-            </div>
-            
-            <!-- Mobile search header with close button -->
-            <div class="mobile-search-header">
-                <h2 class="text-xl font-bold text-gray-800">
-                    <i class="fas fa-search mr-2 text-primary"></i>Tìm kiếm
-                </h2>
-                <button class="search-close-btn" onclick="toggleSearch()">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
             
             <div class="p-6 sidebar-header">
@@ -735,18 +688,18 @@
                 </div>
                 <form id="search-form" class="relative mt-3">
                     <div class="relative">
+                        <button type="submit" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-primary p-2 z-20">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                        <div class="search-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
                         <input 
                             id="search-input" 
                             type="text" 
-                            class="w-full p-4 rounded-xl border border-gray-300 bg-white search-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800 pl-12"
+                            class="w-full p-4 rounded-xl border border-gray-300 bg-white search-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800"
                             placeholder="Tìm kiếm địa điểm hoặc nhân vật..."
                         />
-                        <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-lg hover:bg-secondary transition-colors">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
                     </div>
                 </form>
             </div>
@@ -776,11 +729,6 @@
                 <i class="fas fa-layer-group text-gray-600 mr-2"></i>
                 <span class="text-sm font-medium text-gray-700">Bản đồ Hải Phòng</span>
             </div>
-            
-            <!-- Mobile search toggle button -->
-            <div id="mobile-search-toggle" class="fab-sidebar md:hidden" onclick="toggleSearch()">
-                <i class="fas fa-search"></i>
-            </div>
         </div>
     </div>
 
@@ -794,7 +742,7 @@
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
-        const API_KEY = "AIzaSyC1lFIpT_5DW1aYXGTaMAhQuqtm_iWTIjg"; // Thay bằng API key thực tế của bạn
+        const API_KEY = "AIzaSyC1lFIpT_5DW1aYXGTaMAhQuqtm_iWTIjg";
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
@@ -806,8 +754,6 @@
         const mapResults = document.getElementById('map-results');
         const sidebar = document.getElementById('sidebar');
         const mapContainer = document.getElementById('map-container');
-        const mobileSearchToggle = document.getElementById('mobile-search-toggle');
-        const mobileSearchHeader = document.querySelector('.mobile-search-header');
 
         let map;
         let abortController = null;
@@ -892,57 +838,60 @@
                 lat: 20.8500,
                 lng: 106.6833,
                 name: "Cảng Hải Phòng",
-                description: "Trung tâm logistics và cảng biển quan trọng bậc nhất miền Bắc"
+                description: "Trung tâm logistics và cảng biển quan trọng bậc nhất miền Bộ"
             }
         };
-// Nhân vật liên quan đến Hải Phòng
-const haiPhongFigures = {
-    "Lê Chân": {
-        lat: 20.8580,
-        lng: 106.6845,
-        name: "Nữ tướng Lê Chân",
-        description: "Nữ tướng thời Hai Bà Trưng, người có công khai phá vùng đất Hải Phòng",
-        time: "Thế kỷ 1",
-        achievements: ["Khởi nghĩa chống quân Hán", "Khai phá vùng đất Hải Phòng"],
-        significance: "Được xem là người sáng lập ra Hải Phòng"
-    },
-    "Nguyễn Bỉnh Khiêm": {
-        lat: 20.9281,
-        lng: 106.6733,
-        name: "Trạng Trình Nguyễn Bỉnh Khiêm",
-        description: "Nhà tiên tri, nhà thơ nổi tiếng thời Lê",
-        time: "1491-1585",
-        achievements: ["Đỗ Trạng nguyên", "Nhà tiên tri nổi tiếng", "Nhà thơ lớn"],
-        significance: "Một trong những nhân vật văn hóa lớn của Việt Nam"
-    },
-    "Văn Cao": {
-        lat: 20.8570,
-        lng: 106.6820,
-        name: "Nhạc sĩ Văn Cao",
-        description: "Nhạc sĩ tài hoa, tác giả Quốc ca Việt Nam",
-        time: "1923-1995",
-        achievements: ["Sáng tác Tiến quân ca (Quốc ca)", "Nhạc sĩ tài hoa của nền âm nhạc Việt Nam"],
-        significance: "Tác giả Quốc ca Việt Nam, một trong những nhạc sĩ lớn nhất"
-    }
-};
-function isFigureQuery(query) {
-    const lowerQuery = query.toLowerCase();
-    const figureKeywords = [
-        "nhân vật", "người nổi tiếng", "danh nhân", "anh hùng", "nghệ sĩ", 
-        "lê chân", "nguyễn bỉnh khiêm", "văn cao", 
-        "figure", "famous person", "celebrity", "hero", "artist"
-    ];
-    return figureKeywords.some(keyword => lowerQuery.includes(keyword)) || 
-           Object.keys(haiPhongFigures).some(figure => 
-               lowerQuery.includes(figure.toLowerCase())
-           );
-}
+
+        // Nhân vật liên quan đến Hải Phòng
+        const haiPhongFigures = {
+            "Lê Chân": {
+                lat: 20.8580,
+                lng: 106.6845,
+                name: "Nữ tướng Lê Chân",
+                description: "Nữ tướng thời Hai Bà Trưng, người có công khai phá vùng đất Hải Phòng",
+                time: "Thế kỷ 1",
+                achievements: ["Khởi nghĩa chống quân Hán", "Khai phá vùng đất Hải Phòng"],
+                significance: "Được xem là người sáng lập ra Hải Phòng"
+            },
+            "Nguyễn Bỉnh Khiêm": {
+                lat: 20.9281,
+                lng: 106.6733,
+                name: "Trạng Trình Nguyễn Bỉnh Khiêm",
+                description: "Nhà tiên tri, nhà thơ nổi tiếng thời Lê",
+                time: "1491-1585",
+                achievements: ["Đỗ Trạng nguyên", "Nhà tiên tri nổi tiếng", "Nhà thơ lớn"],
+                significance: "Một trong những nhân vật văn hóa lớn của Việt Nam"
+            },
+            "Văn Cao": {
+                lat: 20.8570,
+                lng: 106.6820,
+                name: "Nhạc sĩ Văn Cao",
+                description: "Nhạc sĩ tài hoa, tác giả Quốc ca Việt Nam",
+                time: "1923-1995",
+                achievements: ["Sáng tác Tiến quân ca (Quốc ca)", "Nhạc sĩ tài hoa của nền âm nhạc Việt Nam"],
+                significance: "Tác giả Quốc ca Việt Nam, một trong những nhạc sĩ lớn nhất"
+            }
+        };
+
+        function isFigureQuery(query) {
+            const lowerQuery = query.toLowerCase();
+            const figureKeywords = [
+                "nhân vật", "người nổi tiếng", "danh nhân", "anh hùng", "nghệ sĩ", 
+                "lê chân", "nguyễn bỉnh khiêm", "văn cao", 
+                "figure", "famous person", "celebrity", "hero", "artist"
+            ];
+            return figureKeywords.some(keyword => lowerQuery.includes(keyword)) || 
+                   Object.keys(haiPhongFigures).some(figure => 
+                       lowerQuery.includes(figure.toLowerCase())
+                   );
+        }
+
         function focusSearchInput() {
             searchInput.focus();
         }
 
         function isLocationQuery(query) {
-            return true; // Bỏ qua kiểm tra từ khóa lịch sử
+            return true;
         }
 
         function isLandmarkQuery(query) {
@@ -963,16 +912,13 @@ function isFigureQuery(query) {
             initMap();
             setupEventListeners();
             addHaiPhongMarkers();
-            checkMobileView();
         }
 
         function initMap() {
-            // Thiết lập giới hạn bản đồ cho khu vực Hải Phòng và vùng phụ cận
             const southWest = L.latLng(20.4, 106.3);
             const northEast = L.latLng(21.0, 107.1);
             const bounds = L.latLngBounds(southWest, northEast);
             
-            // Khởi tạo bản đồ với tâm là trung tâm Hải Phòng
             map = L.map('map', {
                 center: [20.8449, 106.6881],
                 zoom: 11,
@@ -982,22 +928,18 @@ function isFigureQuery(query) {
                 maxZoom: 16
             }).setView([20.8449, 106.6881], 11);
             
-            // Thiết lập tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 noWrap: true
             }).addTo(map);
 
-            // Vô hiệu hóa kéo bản đồ ra ngoài khu vực cho phép
             map.setMaxBounds(bounds);
         }
 
         function addHaiPhongMarkers() {
-            // Xóa các marker cũ nếu có
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
             
-            // Thêm marker cho các địa điểm nổi tiếng
             for (const [key, location] of Object.entries(haiPhongLocations)) {
                 const marker = L.marker([location.lat, location.lng], {
                     icon: L.divIcon({
@@ -1038,39 +980,6 @@ function isFigureQuery(query) {
                     abortController.abort();
                 }
             });
-
-            // Thêm sự kiện resize để xử lý responsive
-            window.addEventListener('resize', checkMobileView);
-        }
-
-        // Kiểm tra xem có đang ở chế độ mobile không
-        function checkMobileView() {
-            if (window.innerWidth <= 768) {
-                // Ẩn sidebar mặc định trên mobile
-                sidebar.classList.add('sidebar-collapsed');
-                document.querySelector('.sidebar-toggle i').classList.remove('fa-chevron-left');
-                document.querySelector('.sidebar-toggle i').classList.add('fa-chevron-right');
-                mobileSearchToggle.classList.remove('hidden');
-            } else {
-                // Hiển thị sidebar trên desktop/tablet
-                sidebar.classList.remove('sidebar-collapsed');
-                document.querySelector('.sidebar-toggle i').classList.remove('fa-chevron-right');
-                document.querySelector('.sidebar-toggle i').classList.add('fa-chevron-left');
-                mobileSearchToggle.classList.add('hidden');
-            }
-        }
-
-        // Hàm mới: bật/tắt chế độ tìm kiếm trên mobile
-        function toggleSearch() {
-            if (window.innerWidth <= 768) {
-                sidebar.classList.toggle('sidebar-collapsed');
-                if (!sidebar.classList.contains('sidebar-collapsed')) {
-                    // Nếu sidebar đang hiển thị, focus vào ô tìm kiếm
-                    setTimeout(() => {
-                        searchInput.focus();
-                    }, 300);
-                }
-            }
         }
 
         async function handleSubmit(e) {
@@ -1100,42 +1009,42 @@ function isFigureQuery(query) {
                 let prompt = userQuery;
                 let responseType = "general";
 
-             if (isLandmarkQuery(userQuery)) {
-    responseType = "landmark";
-    prompt = `
-        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
-        {
-            "name": "Tên địa điểm",
-            "location": "Vị trí cụ thể (ví dụ: 'Quận Đồ Sơn, Hải Phòng')",
-            "lat": "Tọa độ vĩ độ của địa điểm",
-            "lng": "Tọa độ kinh độ của địa điểm",
-            "type": "Loại địa điểm (du lịch, ẩm thực, văn hóa, lịch sử, mua sắm, v.v.)",
-            "description": "Mô tả chi tiết về địa điểm",
-            "features": ["Danh sách các đặc điểm nổi bật"],
-            "activities": ["Các hoạt động có thể làm tại đây"],
-            "best_time": "Thời gian tốt nhất để ghé thăm",
-            "transportation": "Phương tiện di chuyển đến đây"
-        }
-    `;
-} else if (isFigureQuery(userQuery)) {
-    responseType = "figure";
-    prompt = `
-        Cung cấp thông tin về nhân vật "${userQuery}" liên quan đến Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
-        {
-            "name": "Tên nhân vật",
-            "location": "Địa điểm liên quan tại Hải Phòng",
-            "lat": "Tọa độ vĩ độ của địa điểm",
-            "lng": "Tọa độ kinh độ của địa điểm",
-            "time": "Thời gian hoạt động (không đề cập triều đại)",
-            "description": "Mô tả về nhân vật",
-            "achievements": ["Danh sách thành tựu nổi bật"],
-            "significance": "Ý nghĩa và đóng góp cho Hải Phòng"
-        }
-        LƯU Ý: KHÔNG đề cập đến các trận chiến, chiến tranh hay xung đột quân sự.
-    `;
-} else {
-    prompt = `Cung cấp thông tin về "${userQuery}" tại Hải Phòng bằng tiếng Việt. Nếu là địa điểm hoặc nhân vật, hãy cung cấp thông tin chi tiết.`;
-}
+                if (isLandmarkQuery(userQuery)) {
+                    responseType = "landmark";
+                    prompt = `
+                        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+                        {
+                            "name": "Tên địa điểm",
+                            "location": "Vị trí cụ thể (ví dụ: 'Quận Đồ Sơn, Hải Phòng')",
+                            "lat": "Tọa độ vĩ độ của địa điểm",
+                            "lng": "Tọa độ kinh độ của địa điểm",
+                            "type": "Loại địa điểm (du lịch, ẩm thực, văn hóa, lịch sử, mua sắm, v.v.)",
+                            "description": "Mô tả chi tiết về địa điểm",
+                            "features": ["Danh sách các đặc điểm nổi bật"],
+                            "activities": ["Các hoạt động có thể làm tại đây"],
+                            "best_time": "Thời gian tốt nhất để ghé thăm",
+                            "transportation": "Phương tiện di chuyển đến đây"
+                        }
+                    `;
+                } else if (isFigureQuery(userQuery)) {
+                    responseType = "figure";
+                    prompt = `
+                        Cung cấp thông tin về nhân vật "${userQuery}" liên quan đến Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+                        {
+                            "name": "Tên nhân vật",
+                            "location": "Địa điểm liên quan tại Hải Phòng",
+                            "lat": "Tọa độ vĩ độ của địa điểm",
+                            "lng": "Tọa độ kinh độ của địa điểm",
+                            "time": "Thời gian hoạt động (không đề cập triều đại)",
+                            "description": "Mô tả về nhân vật",
+                            "achievements": ["Danh sách thành tựu nổi bật"],
+                            "significance": "Ý nghĩa và đóng góp cho Hải Phòng"
+                        }
+                        LƯU Ý: KHÔNG đề cập đến các trận chiến, chiến tranh hay xung đột quân sự.
+                    `;
+                } else {
+                    prompt = `Cung cấp thông tin về "${userQuery}" tại Hải Phòng bằng tiếng Việt. Nếu là địa điểm hoặc nhân vật, hãy cung cấp thông tin chi tiết.`;
+                }
 
                 const chatSession = model.startChat({
                     history: currentQueries.map(query => ({
@@ -1352,22 +1261,24 @@ function isFigureQuery(query) {
                         };
                     }
                 }
-// Kiểm tra xem địa điểm có trong danh sách nhân vật Hải Phòng không
-for (const [key, value] of Object.entries(haiPhongFigures)) {
-    const keyNormalized = key.toLowerCase();
-    const nameNormalized = value.name ? value.name.toLowerCase() : '';
 
-    if (normalizedLocation.includes(keyNormalized) || 
-        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
-        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
-        return {
-            lat: value.lat,
-            lng: value.lng,
-            name: value.name,
-            description: value.description
-        };
-    }
-}
+                // Kiểm tra xem địa điểm có trong danh sách nhân vật Hải Phòng không
+                for (const [key, value] of Object.entries(haiPhongFigures)) {
+                    const keyNormalized = key.toLowerCase();
+                    const nameNormalized = value.name ? value.name.toLowerCase() : '';
+
+                    if (normalizedLocation.includes(keyNormalized) || 
+                        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
+                        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
+                        return {
+                            lat: value.lat,
+                            lng: value.lng,
+                            name: value.name,
+                            description: value.description
+                        };
+                    }
+                }
+
                 // Nếu không tìm thấy trong danh sách, thử tìm với OpenStreetMap
                 let query = encodeURIComponent(`${locationName}, Hải Phòng`);
                 let data;
@@ -1459,8 +1370,9 @@ for (const [key, value] of Object.entries(haiPhongFigures)) {
 </div>
     `;
         }
-function formatFigureData(data) {
-    return `
+
+        function formatFigureData(data) {
+            return `
 <div class="figure-container">
     <div class="location-box">
         <h3><i class="fas fa-user"></i> Tên nhân vật</h3>
@@ -1492,7 +1404,8 @@ function formatFigureData(data) {
     ` : ''}
 </div>
     `;
-}
+        }
+
         function addMessageToUI(role, content) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `mb-4 ${role === 'user' ? 'text-right' : 'text-left'}`;
@@ -1592,7 +1505,6 @@ function formatFigureData(data) {
         window.switchTab = switchTab;
         window.focusSearchInput = focusSearchInput;
         window.toggleSidebar = toggleSidebar;
-        window.toggleSearch = toggleSearch;
     </script>
 </body>
 </html>
