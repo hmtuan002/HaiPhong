@@ -605,6 +605,103 @@
 }
 .info-section { margin: 10px 0; }
 .info-section span { font-weight: bold; }
+
+/* NEW STYLES FOR MOBILE RESPONSIVENESS */
+.mobile-search-header {
+    display: none;
+}
+
+.search-close-btn {
+    display: none;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    z-index: 30;
+    color: #64748b;
+}
+
+.search-close-btn:hover {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    #sidebar {
+        width: 100%;
+        z-index: 100;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .sidebar-toggle {
+        right: 1rem;
+        top: 1rem;
+        background-color: rgba(79, 70, 229, 0.9);
+    }
+    
+    .mobile-search-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid #e2e8f0;
+        background: white;
+    }
+    
+    .search-close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .sidebar-header {
+        padding-top: 0;
+    }
+    
+    #search-form {
+        position: relative;
+        padding-right: 40px;
+    }
+    
+    .search-input {
+        padding-right: 50px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    #search-form button[type="submit"] {
+        right: 45px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-header h2 {
+        font-size: 1.25rem;
+    }
+    
+    .search-input {
+        padding: 12px 50px 12px 40px;
+    }
+    
+    .location-box {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .location-box h3 {
+        font-size: 0.9rem;
+    }
+    
+    .location-box p, .location-box li {
+        font-size: 0.85rem;
+    }
+}
     </style>
 </head>
 <body class="h-screen flex flex-col gradient-bg text-light-text transition-all">
@@ -612,6 +709,16 @@
         <div id="sidebar" class="flex flex-col h-full transition-all duration-300 relative">
             <div class="sidebar-toggle" onclick="toggleSidebar()">
                 <i class="fas fa-chevron-left"></i>
+            </div>
+            
+            <!-- Mobile search header with close button -->
+            <div class="mobile-search-header">
+                <h2 class="text-xl font-bold text-gray-800">
+                    <i class="fas fa-search mr-2 text-primary"></i>Tìm kiếm
+                </h2>
+                <button class="search-close-btn" onclick="toggleSearch()">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             
             <div class="p-6 sidebar-header">
@@ -669,6 +776,11 @@
                 <i class="fas fa-layer-group text-gray-600 mr-2"></i>
                 <span class="text-sm font-medium text-gray-700">Bản đồ Hải Phòng</span>
             </div>
+            
+            <!-- Mobile search toggle button -->
+            <div id="mobile-search-toggle" class="fab-sidebar md:hidden" onclick="toggleSearch()">
+                <i class="fas fa-search"></i>
+            </div>
         </div>
     </div>
 
@@ -694,6 +806,8 @@
         const mapResults = document.getElementById('map-results');
         const sidebar = document.getElementById('sidebar');
         const mapContainer = document.getElementById('map-container');
+        const mobileSearchToggle = document.getElementById('mobile-search-toggle');
+        const mobileSearchHeader = document.querySelector('.mobile-search-header');
 
         let map;
         let abortController = null;
@@ -849,6 +963,7 @@ function isFigureQuery(query) {
             initMap();
             setupEventListeners();
             addHaiPhongMarkers();
+            checkMobileView();
         }
 
         function initMap() {
@@ -923,6 +1038,39 @@ function isFigureQuery(query) {
                     abortController.abort();
                 }
             });
+
+            // Thêm sự kiện resize để xử lý responsive
+            window.addEventListener('resize', checkMobileView);
+        }
+
+        // Kiểm tra xem có đang ở chế độ mobile không
+        function checkMobileView() {
+            if (window.innerWidth <= 768) {
+                // Ẩn sidebar mặc định trên mobile
+                sidebar.classList.add('sidebar-collapsed');
+                document.querySelector('.sidebar-toggle i').classList.remove('fa-chevron-left');
+                document.querySelector('.sidebar-toggle i').classList.add('fa-chevron-right');
+                mobileSearchToggle.classList.remove('hidden');
+            } else {
+                // Hiển thị sidebar trên desktop/tablet
+                sidebar.classList.remove('sidebar-collapsed');
+                document.querySelector('.sidebar-toggle i').classList.remove('fa-chevron-right');
+                document.querySelector('.sidebar-toggle i').classList.add('fa-chevron-left');
+                mobileSearchToggle.classList.add('hidden');
+            }
+        }
+
+        // Hàm mới: bật/tắt chế độ tìm kiếm trên mobile
+        function toggleSearch() {
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('sidebar-collapsed');
+                if (!sidebar.classList.contains('sidebar-collapsed')) {
+                    // Nếu sidebar đang hiển thị, focus vào ô tìm kiếm
+                    setTimeout(() => {
+                        searchInput.focus();
+                    }, 300);
+                }
+            }
         }
 
         async function handleSubmit(e) {
@@ -1444,6 +1592,7 @@ function formatFigureData(data) {
         window.switchTab = switchTab;
         window.focusSearchInput = focusSearchInput;
         window.toggleSidebar = toggleSidebar;
+        window.toggleSearch = toggleSearch;
     </script>
 </body>
 </html>
