@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Hải Phòng</title>
+    <title>Chatbot Lào Cai</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
@@ -394,14 +394,12 @@
 <body>
     <div class="header">
         <div class="logo-container">
-           
-            <div class="city-name">Thành phố Hải Phòng</div>
+            <div class="city-name">Tỉnh Lào Cai</div>
         </div>
     </div>
 
     <div id="home-menu">
-       
-        <h1>Chatbot Hải Phòng</h1>
+        <h1>Chatbot Lào Cai</h1>
         <div class="topic-buttons">
             <button class="topic-button" data-topic="lich-su">
                 <i class="fas fa-landmark"></i>
@@ -423,9 +421,9 @@
                 <i class="fas fa-chart-line"></i>
                 Kinh tế
             </button>
-            <button class="topic-button" data-topic="giao-thong">
-                <i class="fas fa-bus"></i>
-                Giao thông
+            <button class="topic-button" data-topic="dan-toc">
+                <i class="fas fa-users"></i>
+                Dân tộc
             </button>
         </div>
     </div>
@@ -453,16 +451,16 @@
                 <i class="fas fa-chart-line"></i>
                 Kinh tế
             </button>
-            <button class="sidebar-button" data-topic="giao-thong">
-                <i class="fas fa-bus"></i>
-                Giao thông
+            <button class="sidebar-button" data-topic="dan-toc">
+                <i class="fas fa-users"></i>
+                Dân tộc
             </button>
         </div>
         <div class="chat-area">
             <div id="khung-tro-chuyen">
             </div>
             <div id="khu-vuc-nhap">
-                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi về Hải Phòng...">
+                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi về Lào Cai...">
                 <button id="nut-gui">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -472,7 +470,7 @@
     
     <div class="footer">
         <div class="footer-content">
-            @Copyright - Chatbot Hải Phòng
+            @Copyright - Chatbot Lào Cai
         </div>
         <div></div>
     </div>
@@ -488,7 +486,7 @@
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
         // Thay thế "YOUR_API_KEY" bằng khóa API thực tế của bạn
-        const KHOA_API = "AIzaSyDZ5SfB76myR30dXJKZ_A8CsSBe85bIxrc"; 
+        const KHOA_API = "AIzaSyAboqphb7mWDWooaewnu73IlLI4XFs7kTg"; 
         const moHinhAI = new GoogleGenerativeAI(KHOA_API);
         const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
@@ -502,37 +500,37 @@
 
         let currentTopic = '';
         
-        // Định nghĩa các chủ đề về Hải Phòng
+        // Định nghĩa các chủ đề về Lào Cai
         const topicInfo = {
             "lich-su": {
-                name: "Lịch sử Hải Phòng",
-                description: "Lịch sử hình thành và phát triển của thành phố Hải Phòng",
-                keywords: ["lịch sử", "thành lập", "phát triển", "cảng", "chiến tranh", "tiểu sử", "sự kiện"]
+                name: "Lịch sử Lào Cai",
+                description: "Lịch sử hình thành và phát triển của tỉnh Lào Cai",
+                keywords: ["lịch sử", "thành lập", "phát triển", "cổ", "chiến tranh", "tiểu sử", "sự kiện", "Sa Pa", "Bắc Hà"]
             },
             "du-lich": {
-                name: "Du lịch Hải Phòng",
-                description: "Các địa điểm du lịch nổi tiếng tại Hải Phòng",
-                keywords: ["du lịch", "địa điểm", "thắng cảnh", "cát bà", "đồ sơn", "thăm quan", "di tích"]
+                name: "Du lịch Lào Cai",
+                description: "Các địa điểm du lịch nổi tiếng tại Lào Cai",
+                keywords: ["du lịch", "địa điểm", "thắng cảnh", "Sa Pa", "Fansipan", "Bắc Hà", "Bát Xát", "Mường Hum", "thăm quan", "di tích"]
             },
             "am-thuc": {
-                name: "Ẩm thực Hải Phòng",
-                description: "Đặc sản và ẩm thực đặc trưng của Hải Phòng",
-                keywords: ["ẩm thực", "đặc sản", "món ăn", "bánh đa cua", "bánh mì cay", "hải sản", "quán ăn"]
+                name: "Ẩm thực Lào Cai",
+                description: "Đặc sản và ẩm thực đặc trưng của Lào Cai",
+                keywords: ["ẩm thực", "đặc sản", "món ăn", "thắng cố", "cá hồi", "cá tầm", "rượu ngô", "mận tam hoa", "quán ăn"]
             },
             "van-hoa": {
-                name: "Văn hóa Hải Phòng",
-                description: "Văn hóa và con người Hải Phòng",
-                keywords: ["văn hóa", "con người", "lễ hội", "truyền thống", "phong tục", "nghệ thuật", "di sản"]
+                name: "Văn hóa Lào Cai",
+                description: "Văn hóa và con người Lào Cai",
+                keywords: ["văn hóa", "con người", "lễ hội", "truyền thống", "phong tục", "nghệ thuật", "di sản", "chợ phiên"]
             },
             "kinh-te": {
-                name: "Kinh tế Hải Phòng",
-                description: "Tình hình kinh tế và các ngành công nghiệp chính của Hải Phòng",
-                keywords: ["kinh tế", "công nghiệp", "cảng biển", "xuất nhập khẩu", "đầu tư", "doanh nghiệp", "phát triển"]
+                name: "Kinh tế Lào Cai",
+                description: "Tình hình kinh tế và các ngành công nghiệp chính của Lào Cai",
+                keywords: ["kinh tế", "công nghiệp", "nông nghiệp", "du lịch", "xuất nhập khẩu", "đầu tư", "doanh nghiệp", "phát triển"]
             },
-            "giao-thong": {
-                name: "Giao thông Hải Phòng",
-                description: "Hệ thống giao thông và phương tiện đi lại tại Hải Phòng",
-                keywords: ["giao thông", "đường xá", "cầu", "bến xe", "sân bay", "cảng", "phương tiện"]
+            "dan-toc": {
+                name: "Dân tộc Lào Cai",
+                description: "Các dân tộc thiểu số sinh sống tại Lào Cai",
+                keywords: ["dân tộc", "thiểu số", "H'Mông", "Dao", "Tày", "Giáy", "Xá Phó", "bản làng", "trang phục", "tập quán"]
             }
         };
 
@@ -553,7 +551,7 @@
             khungTroChuyen.innerHTML = '';
             
             themTinNhanVaoGiaoDien("bot", 
-                `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Hải Phòng. ` +
+                `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lào Cai. ` +
                 `Hiện tại bạn đang tìm hiểu về chủ đề <strong>${topicInfo[topic].name}</strong>. ` +
                 `Hãy hỏi tôi bất cứ điều gì về ${topicInfo[topic].description} nhé!`);
 
@@ -592,16 +590,19 @@
             // Xử lý lời chào
             if (["chào", "hello", "hi", "xin chào"].some(word => tinNhanNguoiDung.toLowerCase().includes(word))) {
                 if (currentTopic) {
-                    themTinNhanVaoGiaoDien("bot", `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Hải Phòng. Bạn đang tìm hiểu về ${topicInfo[currentTopic].name}. Hãy hỏi tôi bất cứ điều gì về chủ đề này nhé!`);
+                    themTinNhanVaoGiaoDien("bot", `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lào Cai. Bạn đang tìm hiểu về ${topicInfo[currentTopic].name}. Hãy hỏi tôi bất cứ điều gì về chủ đề này nhé!`);
                 } else {
-                    themTinNhanVaoGiaoDien("bot", "Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Hải Phòng. Hãy chọn một chủ đề từ menu để bắt đầu!");
+                    themTinNhanVaoGiaoDien("bot", "Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lào Cai. Hãy chọn một chủ đề từ menu để bắt đầu!");
                 }
                 return;
             }
 
             // Xử lý các câu hỏi thông thường
             try {
-                let loiNhac = `Bạn là một chatbot chuyên cung cấp thông tin về thành phố Hải Phòng, Việt Nam. Hãy nhớ rằng Thành phố Hải Phòng và Hải Dương đã sáp nhập và tên là Thành Phố Hải Phòng.`;
+                let loiNhac = `Bạn là một chatbot chuyên cung cấp thông tin về tỉnh Lào Cai, Việt Nam. `;
+                loiNhac += `Lào Cai là một tỉnh miền núi phía Bắc Việt Nam, giáp biên giới với Trung Quốc. `;
+                loiNhac += `Lào Cai nổi tiếng với Sa Pa - thị trấn du lịch nổi tiếng, đỉnh Fansipan - nóc nhà Đông Dương, `;
+                loiNhac += `các dân tộc thiểu số với nền văn hóa đa dạng và phong phú. `;
                 
                 if (currentTopic && topicInfo[currentTopic]) {
                     loiNhac += `Hiện tại người dùng đang tìm hiểu về chủ đề: ${topicInfo[currentTopic].name} - ${topicInfo[currentTopic].description}. `;
@@ -609,7 +610,7 @@
                 }
                 
                 loiNhac += `Hãy trả lời ngắn gọn, chính xác và thân thiện. `;
-                loiNhac += `Nếu câu hỏi không liên quan đến Hải Phòng, hãy nhẹ nhàng hướng người dùng quay lại chủ đề.`;
+                loiNhac += `Nếu câu hỏi không liên quan đến Lào Cai, hãy nhẹ nhàng hướng người dùng quay lại chủ đề.`;
                 loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
 
                 const ketQua = await moHinh.generateContent(loiNhac);
