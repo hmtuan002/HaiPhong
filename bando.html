@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bản Đồ Hải Phòng</title>
+    <title>Bản Đồ Lào Cai</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -724,7 +724,7 @@
             <div class="p-6 sidebar-header">
                 <h2 class="text-2xl font-bold text-gray-800 font-display flex items-center">
                     <i class="fas fa-map-marked-alt mr-3 text-primary"></i>
-                    <span class="animated-border">Bản Đồ Hải Phòng</span>
+                    <span class="animated-border">Bản Đồ Lào Cai</span>
                 </h2>
                 
                 <div class="sidebar-tabs mt-4">
@@ -752,8 +752,8 @@
             <div id="map-results" class="flex-1 overflow-y-auto hide-scrollbar p-6">
                 <div id="result-messages" class="flex flex-col gap-5 w-full">
                     <div class="location-box">
-                        <h3><i class="fas fa-info-circle"></i> Giới thiệu Hải Phòng</h3>
-                        <p>Hải Phòng là thành phố cảng quan trọng, trung tâm công nghiệp, cảng biển, đồng thời cũng là trung tâm kinh tế, văn hóa, y tế, giáo dục, khoa học, thương mại và công nghệ của Vùng duyên hải Bắc Bộ.</p>
+                        <h3><i class="fas fa-info-circle"></i> Giới thiệu Lào Cai</h3>
+                        <p>Lào Cai là tỉnh miền núi vùng cao biên giới phía Bắc Việt Nam, nổi tiếng với Sa Pa - thị trấn du lịch nghỉ dưỡng, đỉnh Fansipan - nóc nhà Đông Dương, và nền văn hóa đa dạng của các dân tộc thiểu số.</p>
                     </div>
                 </div>
                 <div id="typing-indicator" class="hidden mt-4 p-4 bg-blue-50 rounded-xl text-blue-700 text-sm flex items-center">
@@ -772,7 +772,7 @@
             <div id="map" class="flex-1"></div>
             <div class="absolute top-4 right-4 z-20 bg-white p-2 rounded-lg shadow-md flex items-center">
                 <i class="fas fa-layer-group text-gray-600 mr-2"></i>
-                <span class="text-sm font-medium text-gray-700">Bản đồ Hải Phòng</span>
+                <span class="text-sm font-medium text-gray-700">Bản đồ Lào Cai</span>
             </div>
             
             <!-- Mobile search toggle button -->
@@ -792,9 +792,9 @@
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
-        const API_KEY = "AIzaSyA7cQu6kAKt1b5D2Z88DkIVFdOL7LCUwuc"; // Thay bằng API key thực tế của bạn
+        const API_KEY = "AIzaSyAboqphb7mWDWooaewnu73IlLI4XFs7kTg"; // Thay bằng API key thực tế của bạn
         const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
         const searchForm = document.getElementById('search-form');
         const searchInput = document.getElementById('search-input');
@@ -818,123 +818,117 @@
         let countryLayers = {};
         let keyLocations = [];
 
-        // Địa điểm nổi tiếng tại Hải Phòng
-        const haiPhongLocations = {
-            "Đồ Sơn": {
-                lat: 20.6474,
-                lng: 106.7627,
-                name: "Bãi biển Đồ Sơn",
-                description: "Khu du lịch biển nổi tiếng với các bãi tắm đẹp và resort cao cấp"
+        // Địa điểm nổi tiếng tại Lào Cai
+        const laoCaiLocations = {
+            "Sa Pa": {
+                lat: 22.3364,
+                lng: 103.8436,
+                name: "Thị trấn Sa Pa",
+                description: "Thị trấn du lịch nổi tiếng với khí hậu mát mẻ, ruộng bậc thang và văn hóa các dân tộc thiểu số"
             },
-            "Cát Bà": {
-                lat: 20.8000,
-                lng: 107.0167,
-                name: "Đảo Cát Bà",
-                description: "Quần đảo với vẻ đẹp hoang sơ, là khu dự trữ sinh quyển thế giới"
+            "Fansipan": {
+                lat: 22.3075,
+                lng: 103.7750,
+                name: "Đỉnh Fansipan",
+                description: "Ngọn núi cao nhất Đông Dương (3.147m), được mệnh danh là nóc nhà Đông Dương"
             },
-            "Vịnh Hạ Long": {
-                lat: 20.9101,
-                lng: 107.1839,
-                name: "Vịnh Hạ Long",
-                description: "Di sản thiên nhiên thế giới với hàng nghìn đảo đá vôi kỳ vĩ"
+            "Bắc Hà": {
+                lat: 22.5333,
+                lng: 104.2833,
+                name: "Thị trấn Bắc Hà",
+                description: "Nổi tiếng với chợ phiên Bắc Hà và văn hóa của người Mông, Dao"
             },
-            "Chùa Dư Hàng": {
-                lat: 20.8564,
-                lng: 106.6823,
-                name: "Chùa Dư Hàng",
-                description: "Ngôi chùa cổ có kiến trúc độc đáo, là di tích lịch sử văn hóa quốc gia"
+            "Cốc Lếu": {
+                lat: 22.4833,
+                lng: 103.9500,
+                name: "Chợ Cốc Lếu",
+                description: "Khu chợ biên giới sầm uất tại thành phố Lào Cai"
             },
-            "Nhà hát lớn Hải Phòng": {
-                lat: 20.8575,
-                lng: 106.6849,
-                name: "Nhà hát lớn Hải Phòng",
-                description: "Công trình kiến trúc Pháp cổ, biểu tượng văn hóa của thành phố"
+            "Cầu Mây": {
+                lat: 22.3386,
+                lng: 103.8414,
+                name: "Cầu Mây Sa Pa",
+                description: "Cây cầu treo nổi tiếng bằng tre nứa bắc qua suối Mường Hoa"
             },
-            "Bến Nghiêng": {
-                lat: 20.8569,
-                lng: 106.6803,
-                name: "Bến Nghiêng",
-                description: "Địa điểm lịch sử gắn liền với những sự kiện quan trọng của thành phố"
+            "Bản Cát Cát": {
+                lat: 22.3250,
+                lng: 103.8083,
+                name: "Bản Cát Cát",
+                description: "Bản làng của người H'Mông với văn hóa truyền thống độc đáo"
             },
-            "Vườn hoa tượng đài Nữ tướng Lê Chân": {
-                lat: 20.8580,
-                lng: 106.6845,
-                name: "Tượng đài Nữ tướng Lê Chân",
-                description: "Biểu tượng của thành phố, tôn vinh người sáng lập ra Hải Phòng"
+            "Bản Tả Phìn": {
+                lat: 22.3833,
+                lng: 103.7833,
+                name: "Bản Tả Phìn",
+                description: "Bản làng của người Dao Đỏ với nghề thổ cẩm truyền thống"
             },
-            "Chợ Sắt": {
-                lat: 20.8561,
-                lng: 106.6782,
-                name: "Chợ Sắt",
-                description: "Khu chợ lớn và lâu đời nhất Hải Phòng với đa dạng mặt hàng"
+            "Thác Bạc": {
+                lat: 22.3500,
+                lng: 103.8167,
+                name: "Thác Bạc",
+                description: "Thác nước hùng vĩ cao hơn 200m trên đường lên đỉnh Fansipan"
             },
-            "Bảo tàng Hải Phòng": {
-                lat: 20.8619,
-                lng: 106.6846,
-                name: "Bảo tàng Hải Phòng",
-                description: "Nơi lưu giữ những hiện vật, tư liệu về lịch sử và văn hóa thành phố"
+            "Đèo Ô Quy Hồ": {
+                lat: 22.4000,
+                lng: 103.7500,
+                name: "Đèo Ô Quy Hồ",
+                description: "Một trong tứ đại đỉnh đèo của Việt Nam, nối Lào Cai với Lai Châu"
             },
-            "Cầu Bính": {
-                lat: 20.8536,
-                lng: 106.7261,
-                name: "Cầu Bính",
-                description: "Cây cầu quan trọng kết nối trung tâm thành phố với các khu vực lân cận"
+            "Núi Hàm Rồng": {
+                lat: 22.3361,
+                lng: 103.8469,
+                name: "Núi Hàm Rồng",
+                description: "Địa điểm ngắm toàn cảnh Sa Pa và thung lũng Mường Hoa"
             },
-            "Sân bay Cát Bi": {
-                lat: 20.8194,
-                lng: 106.7250,
-                name: "Sân bay quốc tế Cát Bi",
-                description: "Cửa ngõ giao thông quan trọng kết nối Hải Phòng với các tỉnh thành và quốc tế"
+            "Cổng Trời": {
+                lat: 22.3167,
+                lng: 103.8000,
+                name: "Cổng Trời",
+                description: "Địa điểm ngắm cảnh tuyệt đẹp trên đường lên đỉnh Fansipan"
             },
-            "Cảng Hải Phòng": {
-                lat: 20.8500,
-                lng: 106.6833,
-                name: "Cảng Hải Phòng",
-                description: "Trung tâm logistics và cảng biển quan trọng bậc nhất miền Bắc"
+            "Suối Vàng": {
+                lat: 22.3333,
+                lng: 103.8333,
+                name: "Thung lũng Mường Hoa - Suối Vàng",
+                description: "Thung lũng với dòng suối uốn lượn và những bãi đá cổ có khắc hình bí ẩn"
             }
         };
-// Nhân vật liên quan đến Hải Phòng
-const haiPhongFigures = {
-    "Lê Chân": {
-        lat: 20.8580,
-        lng: 106.6845,
-        name: "Nữ tướng Lê Chân",
-        description: "Nữ tướng thời Hai Bà Trưng, người có công khai phá vùng đất Hải Phòng",
-        time: "Thế kỷ 1",
-        achievements: ["Khởi nghĩa chống quân Hán", "Khai phá vùng đất Hải Phòng"],
-        significance: "Được xem là người sáng lập ra Hải Phòng"
-    },
-    "Nguyễn Bỉnh Khiêm": {
-        lat: 20.9281,
-        lng: 106.6733,
-        name: "Trạng Trình Nguyễn Bỉnh Khiêm",
-        description: "Nhà tiên tri, nhà thơ nổi tiếng thời Lê",
-        time: "1491-1585",
-        achievements: ["Đỗ Trạng nguyên", "Nhà tiên tri nổi tiếng", "Nhà thơ lớn"],
-        significance: "Một trong những nhân vật văn hóa lớn của Việt Nam"
-    },
-    "Văn Cao": {
-        lat: 20.8570,
-        lng: 106.6820,
-        name: "Nhạc sĩ Văn Cao",
-        description: "Nhạc sĩ tài hoa, tác giả Quốc ca Việt Nam",
-        time: "1923-1995",
-        achievements: ["Sáng tác Tiến quân ca (Quốc ca)", "Nhạc sĩ tài hoa của nền âm nhạc Việt Nam"],
-        significance: "Tác giả Quốc ca Việt Nam, một trong những nhạc sĩ lớn nhất"
-    }
-};
-function isFigureQuery(query) {
-    const lowerQuery = query.toLowerCase();
-    const figureKeywords = [
-        "nhân vật", "người nổi tiếng", "danh nhân", "anh hùng", "nghệ sĩ", 
-        "lê chân", "nguyễn bỉnh khiêm", "văn cao", 
-        "figure", "famous person", "celebrity", "hero", "artist"
-    ];
-    return figureKeywords.some(keyword => lowerQuery.includes(keyword)) || 
-           Object.keys(haiPhongFigures).some(figure => 
-               lowerQuery.includes(figure.toLowerCase())
-           );
-}
+
+        // Nhân vật liên quan đến Lào Cai
+        const laoCaiFigures = {
+            "Hoàng A Tưởng": {
+                lat: 22.5333,
+                lng: 104.2833,
+                name: "Vua Mèo Hoàng A Tưởng",
+                description: "Thổ ty người Mông nổi tiếng ở Bắc Hà đầu thế kỷ 20",
+                time: "Đầu thế kỷ 20",
+                achievements: ["Xây dựng dinh thự Hoàng A Tưởng", "Phát triển vùng Bắc Hà"],
+                significance: "Biểu tượng quyền lực của người Mông ở vùng cao Lào Cai"
+            },
+            "Cố Lý": {
+                lat: 22.3364,
+                lng: 103.8436,
+                name: "Các nghệ nhân dân tộc",
+                description: "Những người giữ gìn và phát triển văn hóa truyền thống các dân tộc Lào Cai",
+                time: "Truyền thống lâu đời",
+                achievements: ["Bảo tồn nghề dệt thổ cẩm", "Gìn giữ văn hóa dân tộc"],
+                significance: "Góp phần bảo tồn và phát triển văn hóa các dân tộc thiểu số Lào Cai"
+            }
+        };
+
+        function isFigureQuery(query) {
+            const lowerQuery = query.toLowerCase();
+            const figureKeywords = [
+                "nhân vật", "người nổi tiếng", "danh nhân", "anh hùng", "nghệ sĩ", 
+                "hoàng a tưởng", "vua mèo", "nghệ nhân", "cố lý",
+                "figure", "famous person", "celebrity", "hero", "artist"
+            ];
+            return figureKeywords.some(keyword => lowerQuery.includes(keyword)) || 
+                   Object.keys(laoCaiFigures).some(figure => 
+                       lowerQuery.includes(figure.toLowerCase())
+                   );
+        }
+
         function focusSearchInput() {
             searchInput.focus();
         }
@@ -946,13 +940,12 @@ function isFigureQuery(query) {
         function isLandmarkQuery(query) {
             const lowerQuery = query.toLowerCase();
             const landmarkKeywords = [
-                "bãi biển", "bờ biển", "khu du lịch", "resort", "khách sạn", "nhà hàng", "địa điểm", "địa danh", 
-                "chùa", "đền", "chợ", "cầu", "bến cảng", "sân bay", "bảo tàng", "công viên", "vườn hoa",
-                "beach", "resort", "hotel", "restaurant", "location", "landmark", "temple", "pagoda", "market", 
-                "bridge", "port", "airport", "museum", "park"
+                "bản", "làng", "thác", "núi", "đèo", "suối", "chợ", "cầu", "thị trấn", "đỉnh",
+                "village", "waterfall", "mountain", "pass", "stream", "market", "bridge", "town", "peak",
+                "sa pa", "fansipan", "bắc hà", "cốc lếu", "cát cát", "tả phìn", "thác bạc", "ô quy hồ", "hàm rồng"
             ];
             return landmarkKeywords.some(keyword => lowerQuery.includes(keyword)) || 
-                   Object.keys(haiPhongLocations).some(loc => 
+                   Object.keys(laoCaiLocations).some(loc => 
                        lowerQuery.includes(loc.toLowerCase())
                    );
         }
@@ -960,25 +953,25 @@ function isFigureQuery(query) {
         function initApp() {
             initMap();
             setupEventListeners();
-            addHaiPhongMarkers();
+            addLaoCaiMarkers();
             checkMobileView();
         }
 
         function initMap() {
-            // Thiết lập giới hạn bản đồ cho khu vực Hải Phòng và vùng phụ cận
-            const southWest = L.latLng(20.4, 106.3);
-            const northEast = L.latLng(21.0, 107.1);
+            // Thiết lập giới hạn bản đồ cho khu vực Lào Cai và vùng phụ cận
+            const southWest = L.latLng(21.8, 103.5);
+            const northEast = L.latLng(22.8, 104.5);
             const bounds = L.latLngBounds(southWest, northEast);
             
-            // Khởi tạo bản đồ với tâm là trung tâm Hải Phòng
+            // Khởi tạo bản đồ với tâm là trung tâm Lào Cai
             map = L.map('map', {
-                center: [20.8449, 106.6881],
-                zoom: 11,
+                center: [22.4833, 103.9500],
+                zoom: 10,
                 maxBounds: bounds,
                 maxBoundsViscosity: 0.8,
                 minZoom: 9,
                 maxZoom: 16
-            }).setView([20.8449, 106.6881], 11);
+            }).setView([22.4833, 103.9500], 10);
             
             // Thiết lập tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -990,13 +983,13 @@ function isFigureQuery(query) {
             map.setMaxBounds(bounds);
         }
 
-        function addHaiPhongMarkers() {
+        function addLaoCaiMarkers() {
             // Xóa các marker cũ nếu có
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
             
             // Thêm marker cho các địa điểm nổi tiếng
-            for (const [key, location] of Object.entries(haiPhongLocations)) {
+            for (const [key, location] of Object.entries(laoCaiLocations)) {
                 const marker = L.marker([location.lat, location.lng], {
                     icon: L.divIcon({
                         className: 'custom-marker',
@@ -1098,42 +1091,42 @@ function isFigureQuery(query) {
                 let prompt = userQuery;
                 let responseType = "general";
 
-             if (isLandmarkQuery(userQuery)) {
-    responseType = "landmark";
-    prompt = `
-        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
-        {
-            "name": "Tên địa điểm",
-            "location": "Vị trí cụ thể (ví dụ: 'Quận Đồ Sơn, Hải Phòng')",
-            "lat": "Tọa độ vĩ độ của địa điểm",
-            "lng": "Tọa độ kinh độ của địa điểm",
-            "type": "Loại địa điểm (du lịch, ẩm thực, văn hóa, lịch sử, mua sắm, v.v.)",
-            "description": "Mô tả chi tiết về địa điểm",
-            "features": ["Danh sách các đặc điểm nổi bật"],
-            "activities": ["Các hoạt động có thể làm tại đây"],
-            "best_time": "Thời gian tốt nhất để ghé thăm",
-            "transportation": "Phương tiện di chuyển đến đây"
-        }
-    `;
-} else if (isFigureQuery(userQuery)) {
-    responseType = "figure";
-    prompt = `
-        Cung cấp thông tin về nhân vật "${userQuery}" liên quan đến Hải Phòng bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
-        {
-            "name": "Tên nhân vật",
-            "location": "Địa điểm liên quan tại Hải Phòng",
-            "lat": "Tọa độ vĩ độ của địa điểm",
-            "lng": "Tọa độ kinh độ của địa điểm",
-            "time": "Thời gian hoạt động (không đề cập triều đại)",
-            "description": "Mô tả về nhân vật",
-            "achievements": ["Danh sách thành tựu nổi bật"],
-            "significance": "Ý nghĩa và đóng góp cho Hải Phòng"
-        }
-        LƯU Ý: KHÔNG đề cập đến các trận chiến, chiến tranh hay xung đột quân sự.
-    `;
-} else {
-    prompt = `Cung cấp thông tin về "${userQuery}" tại Hải Phòng bằng tiếng Việt. Nếu là địa điểm hoặc nhân vật, hãy cung cấp thông tin chi tiết.`;
-}
+                if (isLandmarkQuery(userQuery)) {
+                    responseType = "landmark";
+                    prompt = `
+                        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Lào Cai bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+                        {
+                            "name": "Tên địa điểm",
+                            "location": "Vị trí cụ thể (ví dụ: 'Huyện Sa Pa, Lào Cai')",
+                            "lat": "Tọa độ vĩ độ của địa điểm",
+                            "lng": "Tọa độ kinh độ của địa điểm",
+                            "type": "Loại địa điểm (du lịch, văn hóa, thiên nhiên, lịch sử, v.v.)",
+                            "description": "Mô tả chi tiết về địa điểm",
+                            "features": ["Danh sách các đặc điểm nổi bật"],
+                            "activities": ["Các hoạt động có thể làm tại đây"],
+                            "best_time": "Thời gian tốt nhất để ghé thăm",
+                            "transportation": "Phương tiện di chuyển đến đây"
+                        }
+                    `;
+                } else if (isFigureQuery(userQuery)) {
+                    responseType = "figure";
+                    prompt = `
+                        Cung cấp thông tin về nhân vật "${userQuery}" liên quan đến Lào Cai bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+                        {
+                            "name": "Tên nhân vật",
+                            "location": "Địa điểm liên quan tại Lào Cai",
+                            "lat": "Tọa độ vĩ độ của địa điểm",
+                            "lng": "Tọa độ kinh độ của địa điểm",
+                            "time": "Thời gian hoạt động (không đề cập triều đại)",
+                            "description": "Mô tả về nhân vật",
+                            "achievements": ["Danh sách thành tựu nổi bật"],
+                            "significance": "Ý nghĩa và đóng góp cho Lào Cai"
+                        }
+                        LƯU Ý: KHÔNG đề cập đến các trận chiến, chiến tranh hay xung đột quân sự.
+                    `;
+                } else {
+                    prompt = `Cung cấp thông tin về "${userQuery}" tại Lào Cai bằng tiếng Việt. Nếu là địa điểm hoặc nhân vật, hãy cung cấp thông tin chi tiết.`;
+                }
 
                 const chatSession = model.startChat({
                     history: currentQueries.map(query => ({
@@ -1334,8 +1327,8 @@ function isFigureQuery(query) {
                 const normalizedLocation = locationName.trim().toLowerCase();
                 const transliteratedLocation = transliterateVietnamese(normalizedLocation);
 
-                // Kiểm tra xem địa điểm có trong danh sách Hải Phòng không
-                for (const [key, value] of Object.entries(haiPhongLocations)) {
+                // Kiểm tra xem địa điểm có trong danh sách Lào Cai không
+                for (const [key, value] of Object.entries(laoCaiLocations)) {
                     const keyNormalized = key.toLowerCase();
                     const nameNormalized = value.name ? value.name.toLowerCase() : '';
 
@@ -1350,24 +1343,26 @@ function isFigureQuery(query) {
                         };
                     }
                 }
-// Kiểm tra xem địa điểm có trong danh sách nhân vật Hải Phòng không
-for (const [key, value] of Object.entries(haiPhongFigures)) {
-    const keyNormalized = key.toLowerCase();
-    const nameNormalized = value.name ? value.name.toLowerCase() : '';
 
-    if (normalizedLocation.includes(keyNormalized) || 
-        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
-        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
-        return {
-            lat: value.lat,
-            lng: value.lng,
-            name: value.name,
-            description: value.description
-        };
-    }
-}
+                // Kiểm tra xem địa điểm có trong danh sách nhân vật Lào Cai không
+                for (const [key, value] of Object.entries(laoCaiFigures)) {
+                    const keyNormalized = key.toLowerCase();
+                    const nameNormalized = value.name ? value.name.toLowerCase() : '';
+
+                    if (normalizedLocation.includes(keyNormalized) || 
+                        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
+                        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
+                        return {
+                            lat: value.lat,
+                            lng: value.lng,
+                            name: value.name,
+                            description: value.description
+                        };
+                    }
+                }
+
                 // Nếu không tìm thấy trong danh sách, thử tìm với OpenStreetMap
-                let query = encodeURIComponent(`${locationName}, Hải Phòng`);
+                let query = encodeURIComponent(`${locationName}, Lào Cai`);
                 let data;
                 try {
                     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
@@ -1457,8 +1452,9 @@ for (const [key, value] of Object.entries(haiPhongFigures)) {
 </div>
     `;
         }
-function formatFigureData(data) {
-    return `
+
+        function formatFigureData(data) {
+            return `
 <div class="figure-container">
     <div class="location-box">
         <h3><i class="fas fa-user"></i> Tên nhân vật</h3>
@@ -1484,13 +1480,14 @@ function formatFigureData(data) {
     ` : ''}
     ${data.significance ? `
     <div class="location-box">
-        <h3><i class="fas fa-star"></i> Ý nghĩa với Hải Phòng</h3>
+        <h3><i class="fas fa-star"></i> Ý nghĩa với Lào Cai</h3>
         <p>${data.significance}</p>
     </div>
     ` : ''}
 </div>
     `;
-}
+        }
+
         function addMessageToUI(role, content) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `mb-4 ${role === 'user' ? 'text-right' : 'text-left'}`;
@@ -1501,7 +1498,7 @@ function formatFigureData(data) {
             
             let translatedContent = content;
             if (content.includes("Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến lịch sử")) {
-                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến Hải Phòng. Vui lòng nhập một truy vấn về địa điểm tại Hải Phòng!";
+                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến Lào Cai. Vui lòng nhập một truy vấn về địa điểm tại Lào Cai!";
             } else if (content.includes("Lỗi tải dữliệu bản đồ")) {
                 translatedContent = "Lỗi tải dữ liệu bản đồ, vui lòng thử lại sau.";
             } else if (content.includes("Lỗi khi xử lý yêu cầu")) {
@@ -1522,7 +1519,7 @@ function formatFigureData(data) {
                 ${role === 'assistant' ? `
                 <div class="mt-1 text-xs text-gray-500 flex items-center">
                     <i class="fas fa-robot mr-1"></i>
-                    <span>Hệ thống Hải Phòng</span>
+                    <span>Hệ thống Lào Cai</span>
                 </div>
                 ` : ''}
             `;
