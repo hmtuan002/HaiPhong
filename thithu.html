@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thi Kiến Thức Về Tỉnh Hải Phòng</title>
+    <title>Thi Kiến Thức Về Tỉnh Lào Cai</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
@@ -365,8 +365,8 @@
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center">
                 <div>
-                    <h1 class="text-2xl md:text-3xl font-bold">THI KIẾN THỨC VỀ TỈNH HẢI PHÒNG</h1>
-                    <p class="text-sm md:text-base opacity-90 mt-1">Khám phá - Hiểu biết - Tự hào về Hải Phòng</p>
+                    <h1 class="text-2xl md:text-3xl font-bold">THI KIẾN THỨC VỀ TỈNH LÀO CAI</h1>
+                    <p class="text-sm md:text-base opacity-90 mt-1">Khám phá - Hiểu biết - Tự hào về Lào Cai</p>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div id="user-info" class="items-center space-x-2">
@@ -384,11 +384,11 @@
             <div class="exam-card p-8 text-center">
                 <div class="flex justify-center mb-6">
                     <div class="bg-blue-100 p-4 rounded-full inline-block">
-                        <i class="fas fa-city text-4xl text-blue-600"></i>
+                        <i class="fas fa-mountain text-4xl text-blue-600"></i>
                     </div>
                 </div>
-                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800">Chào mừng đến với bài thi kiến thức về Hải Phòng</h2>
-                <p class="text-gray-600 mb-8">Khám phá và thể hiện hiểu biết của bạn về thành phố Cảng - Hải Phòng</p>
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800">Chào mừng đến với bài thi kiến thức về Lào Cai</h2>
+                <p class="text-gray-600 mb-8">Khám phá và thể hiện hiểu biết của bạn về vùng đất miền núi Tây Bắc - Lào Cai</p>
                 
                 <!-- Chuỗi lửa (streak) -->
                 <div class="streak-container">
@@ -437,7 +437,7 @@
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check-circle text-amber-500 mt-1 mr-2 text-xs"></i>
-                                <span>Kinh tế, công nghiệp, cảng biển</span>
+                                <span>Kinh tế, du lịch, nông nghiệp</span>
                             </li>
                             <li class="flex items-start">
                                 <i class="fas fa-check-circle text-amber-500 mt-1 mr-2 text-xs"></i>
@@ -499,7 +499,7 @@
                         </div>
                         <h3 class="font-bold text-gray-800">Mẹo làm bài</h3>
                     </div>
-                    <p class="text-gray-600 text-sm">Đọc kỹ câu hỏi, vận dụng hiểu biết thực tế về Hải Phòng và kiểm tra lại bài trước khi nộp.</p>
+                    <p class="text-gray-600 text-sm">Đọc kỹ câu hỏi, vận dụng hiểu biết thực tế về Lào Cai và kiểm tra lại bài trước khi nộp.</p>
                 </div>
                 
                 <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
@@ -528,7 +528,7 @@
         <div id="exam-screen" class="max-w-4xl mx-auto hidden">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h2 class="text-xl font-bold text-gray-800">ĐỀ THI KIẾN THỨC VỀ HẢI PHÒNG</h2>
+                    <h2 class="text-xl font-bold text-gray-800">ĐỀ THI KIẾN THỨC VỀ LÀO CAI</h2>
                     <p class="text-sm text-gray-500">Thời gian làm bài: 60 phút</p>
                 </div>
                 <div class="timer-container px-4 py-2">
@@ -676,7 +676,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-6 mt-12">
         <div class="container mx-auto px-4 text-center">
-            <p class="mb-2">Hệ thống thi kiến thức về Tỉnh Hải Phòng</p>
+            <p class="mb-2">Hệ thống thi kiến thức về Tỉnh Lào Cai</p>
             
         </div>
     </footer>
@@ -707,9 +707,9 @@
         const db = firebase.firestore();
         
         // Khởi tạo AI
-        const API_KEY = "AIzaSyA7cQu6kAKt1b5D2Z88DkIVFdOL7LCUwuc";
+        const API_KEY = "AIzaSyCRxGgqLOnCElUnl9odvyYPQ7As1Yim8eg";
         const genAI = new GoogleGenerativeAI(API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-thinking-exp-01-21" });
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
         
         // DOM Elements
         const startScreen = document.getElementById('start-screen');
@@ -736,17 +736,17 @@
         
         // Hàm tạo ID người dùng
         function getUserId() {
-            let id = localStorage.getItem('hp_user_id');
+            let id = localStorage.getItem('lc_user_id');
             if (!id) {
                 id = 'user_' + Math.random().toString(36).substr(2, 9);
-                localStorage.setItem('hp_user_id', id);
+                localStorage.setItem('lc_user_id', id);
             }
             return id;
         }
         
         // Hàm load chuỗi lửa
         function loadStreak(userId) {
-            const streakData = localStorage.getItem(`hp_streak_${userId}`);
+            const streakData = localStorage.getItem(`lc_streak_${userId}`);
             if (streakData) {
                 const data = JSON.parse(streakData);
                 currentStreak = data.currentStreak || 0;
@@ -800,7 +800,7 @@
                 updatedAt: new Date().toISOString()
             };
             
-            localStorage.setItem(`hp_streak_${userId}`, JSON.stringify(streakData));
+            localStorage.setItem(`lc_streak_${userId}`, JSON.stringify(streakData));
         }
 
         // Tăng chuỗi lửa khi hoàn thành bài thi
@@ -808,7 +808,7 @@
             const today = new Date();
             today.setHours(0, 0, 0, 0);
             
-            const streakDataStr = localStorage.getItem(`hp_streak_${userId}`);
+            const streakDataStr = localStorage.getItem(`lc_streak_${userId}`);
             let newStreak = 1;
             
             if (streakDataStr) {
@@ -848,7 +848,7 @@
     
     const historyData = [];
     try {
-        const historyStr = localStorage.getItem(`hp_history_${userId}`);
+        const historyStr = localStorage.getItem(`lc_history_${userId}`);
         if (historyStr) {
             const allHistory = JSON.parse(historyStr);
             // Lấy 5 bài gần nhất (không đảo ngược thứ tự)
@@ -1202,40 +1202,40 @@ function calculateImprovement(historyData, currentIndex) {
         // Tạo đề thi bằng AI
         async function generateExam() {
             const prompt = `
-                Bạn hãy tạo một đề thi kiến thức về Tỉnh Hải Phòng theo cấu trúc sau:
+                Bạn hãy tạo một đề thi kiến thức về Tỉnh Lào Cai theo cấu trúc sau:
                 
                 I. LỊCH SỬ & VĂN HÓA (4 điểm)
-                - Một đoạn văn giới thiệu về lịch sử, văn hóa Hải Phòng (khoảng 150-200 từ)
-                - 4-6 câu hỏi về lịch sử, văn hóa Hải Phòng, bao gồm các dạng:
+                - Một đoạn văn giới thiệu về lịch sử, văn hóa Lào Cai (khoảng 150-200 từ)
+                - 4-6 câu hỏi về lịch sử, văn hóa Lào Cai, bao gồm các dạng:
                   + Câu hỏi nhận biết (các mốc lịch sử, di tích văn hóa...)
                   + Câu hỏi thông hiểu (giải thích ý nghĩa, giá trị...)
                   + Câu hỏi vận dụng (liên hệ thực tế, rút ra bài học...)
                 
                 II. ĐỊA LÝ & KINH TẾ (6 điểm)
-                - Câu 1 (3 điểm): Đề bài yêu cầu viết về đặc điểm địa lý, hành chính của Hải Phòng
-                - Câu 2 (3 điểm): Đề bài yêu cầu viết về kinh tế, công nghiệp, cảng biển, du lịch và ẩm thực Hải Phòng
+                - Câu 1 (3 điểm): Đề bài yêu cầu viết về đặc điểm địa lý, hành chính của Lào Cai
+                - Câu 2 (3 điểm): Đề bài yêu cầu viết về kinh tế, du lịch, nông nghiệp, văn hóa và ẩm thực Lào Cai
                 
                 Yêu cầu:
-                - Đề thi phải tập trung vào kiến thức về Hải Phòng
+                - Đề thi phải tập trung vào kiến thức về Lào Cai
                 - Câu hỏi rõ ràng, không đánh đố
-                - Đoạn văn phải cung cấp thông tin chính xác về Hải Phòng
+                - Đoạn văn phải cung cấp thông tin chính xác về Lào Cai
                 
                 Trả lời bằng JSON theo định dạng sau:
                 {
                     "reading": {
-                        "passage": "Đoạn văn giới thiệu về Hải Phòng...",
+                        "passage": "Đoạn văn giới thiệu về Lào Cai...",
                         "questions": [
                             {
                                 "number": 1,
-                                "content": "Nội dung câu hỏi về Hải Phòng",
+                                "content": "Nội dung câu hỏi về Lào Cai",
                                 "type": "Nhận biết/Thông hiểu/Vận dụng"
                             },
                             ...
                         ]
                     },
                     "writing": {
-                        "task1": "Đề bài câu 1 về địa lý, hành chính Hải Phòng...",
-                        "task2": "Đề bài câu 2 về kinh tế, văn hóa, du lịch Hải Phòng..."
+                        "task1": "Đề bài câu 1 về địa lý, hành chính Lào Cai...",
+                        "task2": "Đề bài câu 2 về kinh tế, văn hóa, du lịch Lào Cai..."
                     }
                 }
             `;
@@ -1337,7 +1337,7 @@ function calculateImprovement(historyData, currentIndex) {
         // Chấm điểm bài thi bằng AI
         async function evaluateExam(examData, userAnswers) {
             const prompt = `
-                Bạn hãy chấm điểm bài thi kiến thức về Hải Phòng dựa trên:
+                Bạn hãy chấm điểm bài thi kiến thức về Lào Cai dựa trên:
                 
                 1. Đề thi:
                 ${JSON.stringify(examData, null, 2)}
@@ -1418,7 +1418,7 @@ function calculateImprovement(historyData, currentIndex) {
         // Lưu kết quả bài thi
         function saveExamResult(result) {
             try {
-                const historyStr = localStorage.getItem(`hp_history_${userId}`);
+                const historyStr = localStorage.getItem(`lc_history_${userId}`);
                 let history = [];
                 
                 if (historyStr) {
@@ -1433,7 +1433,7 @@ function calculateImprovement(historyData, currentIndex) {
                     timestamp: new Date().toISOString()
                 });
                 
-                localStorage.setItem(`hp_history_${userId}`, JSON.stringify(history));
+                localStorage.setItem(`lc_history_${userId}`, JSON.stringify(history));
             } catch (error) {
                 console.error("Lỗi khi lưu kết quả:", error);
             }
@@ -1453,16 +1453,16 @@ function calculateImprovement(historyData, currentIndex) {
             let feedbackClass = "";
             
             if (result.totalScore >= 8) {
-                feedbackText = "Kết quả xuất sắc! Bạn có hiểu biết rất tốt về Hải Phòng.";
+                feedbackText = "Kết quả xuất sắc! Bạn có hiểu biết rất tốt về Lào Cai.";
                 feedbackClass = "text-green-100";
             } else if (result.totalScore >= 6) {
-                feedbackText = "Kết quả khá tốt! Bạn có hiểu biết khá về Hải Phòng.";
+                feedbackText = "Kết quả khá tốt! Bạn có hiểu biết khá về Lào Cai.";
                 feedbackClass = "text-blue-100";
             } else if (result.totalScore >= 4) {
-                feedbackText = "Kết quả trung bình. Bạn cần tìm hiểu thêm về Hải Phòng.";
+                feedbackText = "Kết quả trung bình. Bạn cần tìm hiểu thêm về Lào Cai.";
                 feedbackClass = "text-amber-100";
             } else {
-                feedbackText = "Kết quả chưa tốt. Bạn cần dành thời gian tìm hiểu thêm về Hải Phòng.";
+                feedbackText = "Kết quả chưa tốt. Bạn cần dành thời gian tìm hiểu thêm về Lào Cai.";
                 feedbackClass = "text-red-100";
             }
             
