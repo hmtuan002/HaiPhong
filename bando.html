@@ -204,7 +204,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Country highlight styles */
         .leaflet-tooltip {
             background: transparent !important;
             border: none !important;
@@ -263,7 +262,6 @@
             position: relative;
         }
         
-        /* Floating action buttons */
         .fab {
             position: fixed;
             bottom: 2rem;
@@ -312,12 +310,10 @@
             background-color: #059669;
         }
 
-        /* Gradient background */
         .gradient-bg {
             background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -337,7 +333,6 @@
             background: #94a3b8;
         }
 
-        /* Animated border */
         .animated-border {
             position: relative;
         }
@@ -359,7 +354,6 @@
             transform: scaleX(1);
         }
 
-        /* Pulse animation */
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
@@ -370,7 +364,6 @@
             animation: pulse 2s infinite;
         }
 
-        /* Location marker styles */
         .location-marker {
             background-color: #3b82f6;
             border-radius: 50%;
@@ -386,7 +379,6 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Key locations styles */
         .key-location {
             background-color: #10b981;
             border-radius: 50%;
@@ -422,7 +414,6 @@
             }
         }
 
-        /* Sidebar tabs */
         .sidebar-tabs {
             display: flex;
             border-bottom: 1px solid #e2e8f0;
@@ -450,7 +441,6 @@
             border-bottom-color: #4f46e5;
         }
 
-        /* Chat container */
         .chat-container {
             display: flex;
             flex-direction: column;
@@ -469,7 +459,6 @@
             border-top: 1px solid #e2e8f0;
         }
 
-        /* Timeline styles */
         .timeline-container {
             margin-top: 1rem;
             padding: 1rem;
@@ -534,7 +523,6 @@
             color: #475569;
         }
         
-        /* Sidebar toggle button */
         .sidebar-toggle {
             position: absolute;
             top: 1rem;
@@ -571,137 +559,134 @@
             right: -3rem;
         }
 
-        /* App container */
         #app {
             display: flex;
             flex: 1;
             overflow: hidden;
-            position: relative; /* Quan trọng: Tạo ngữ cảnh cho z-index */
+            position: relative;
         }
 
         #sidebar {
-            width: 384px; /* Giữ nguyên kích thước ban đầu */
-            height: 100%; /* Chiếm toàn bộ chiều cao */
+            width: 384px;
+            height: 100%;
             background-color: #ffffff;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); /* Đổ bóng sang phải */
-            position: absolute; /* Nổi lên trên bản đồ */
-            left: 0; /* Căn trái */
-            top: 0; /* Căn trên */
-            z-index: 20; /* Đảm bảo nằm trên bản đồ */
-            transition: transform 0.3s ease; /* Hiệu ứng khi ẩn/hiện */
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 20;
+            transition: transform 0.3s ease;
         }
 
         #map-container {
             flex: 1;
             height: 100%;
-            margin-left: 0; /* Bỏ margin-left để bản đồ chiếm toàn bộ không gian */
+            margin-left: 0;
             position: relative;
-            z-index: 10; /* Nằm dưới thanh bên */
+            z-index: 10;
         }
         .ai-result-content {
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-}
-.info-section { margin: 10px 0; }
-.info-section span { font-weight: bold; }
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        .info-section { margin: 10px 0; }
+        .info-section span { font-weight: bold; }
 
-/* NEW STYLES FOR MOBILE RESPONSIVENESS */
-.mobile-search-header {
-    display: none;
-}
+        .mobile-search-header {
+            display: none;
+        }
 
-.search-close-btn {
-    display: none;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: #f1f5f9;
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    z-index: 30;
-    color: #64748b;
-}
+        .search-close-btn {
+            display: none;
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f1f5f9;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            z-index: 30;
+            color: #64748b;
+        }
 
-.search-close-btn:hover {
-    background: #e2e8f0;
-    color: #475569;
-}
+        .search-close-btn:hover {
+            background: #e2e8f0;
+            color: #475569;
+        }
 
-/* Mobile responsive styles */
-@media (max-width: 768px) {
-    #sidebar {
-        width: 100%;
-        z-index: 100;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .sidebar-toggle {
-        right: 1rem;
-        top: 1rem;
-        background-color: rgba(79, 70, 229, 0.9);
-    }
-    
-    .mobile-search-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-        border-bottom: 1px solid #e2e8f0;
-        background: white;
-    }
-    
-    .search-close-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .sidebar-header {
-        padding-top: 0;
-    }
-    
-    #search-form {
-        position: relative;
-        padding-right: 40px;
-    }
-    
-    .search-input {
-        padding-right: 50px;
-        font-size: 16px; /* Prevents zoom on iOS */
-    }
-    
-    #search-form button[type="submit"] {
-        right: 45px;
-    }
-}
+        @media (max-width: 768px) {
+            #sidebar {
+                width: 100%;
+                z-index: 100;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            }
+            
+            .sidebar-toggle {
+                right: 1rem;
+                top: 1rem;
+                background-color: rgba(79, 70, 229, 0.9);
+            }
+            
+            .mobile-search-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1rem;
+                border-bottom: 1px solid #e2e8f0;
+                background: white;
+            }
+            
+            .search-close-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .sidebar-header {
+                padding-top: 0;
+            }
+            
+            #search-form {
+                position: relative;
+                padding-right: 40px;
+            }
+            
+            .search-input {
+                padding-right: 50px;
+                font-size: 16px;
+            }
+            
+            #search-form button[type="submit"] {
+                right: 45px;
+            }
+        }
 
-@media (max-width: 480px) {
-    .sidebar-header h2 {
-        font-size: 1.25rem;
-    }
-    
-    .search-input {
-        padding: 12px 50px 12px 40px;
-    }
-    
-    .location-box {
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .location-box h3 {
-        font-size: 0.9rem;
-    }
-    
-    .location-box p, .location-box li {
-        font-size: 0.85rem;
-    }
-}
+        @media (max-width: 480px) {
+            .sidebar-header h2 {
+                font-size: 1.25rem;
+            }
+            
+            .search-input {
+                padding: 12px 50px 12px 40px;
+            }
+            
+            .location-box {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .location-box h3 {
+                font-size: 0.9rem;
+            }
+            
+            .location-box p, .location-box li {
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body class="h-screen flex flex-col gradient-bg text-light-text transition-all">
@@ -711,7 +696,6 @@
                 <i class="fas fa-chevron-left"></i>
             </div>
             
-            <!-- Mobile search header with close button -->
             <div class="mobile-search-header">
                 <h2 class="text-xl font-bold text-gray-800">
                     <i class="fas fa-search mr-2 text-primary"></i>Tìm kiếm
@@ -739,7 +723,7 @@
                             id="search-input" 
                             type="text" 
                             class="w-full p-4 rounded-xl border border-gray-300 bg-white search-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800 pl-12"
-                            placeholder="Tìm kiếm địa điểm hoặc nhân vật..."
+                            placeholder="Tìm kiếm địa điểm tại Lào Cai..."
                         />
 
                         <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-lg hover:bg-secondary transition-colors">
@@ -775,7 +759,6 @@
                 <span class="text-sm font-medium text-gray-700">Bản đồ Lào Cai</span>
             </div>
             
-            <!-- Mobile search toggle button -->
             <div id="mobile-search-toggle" class="fab-sidebar md:hidden" onclick="toggleSearch()">
                 <i class="fas fa-search"></i>
             </div>
@@ -792,7 +775,7 @@
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
-        const API_KEY = "AIzaSyAboqphb7mWDWooaewnu73IlLI4XFs7kTg"; // Thay bằng API key thực tế của bạn
+        const API_KEY = "AIzaSyCRxGgqLOnCElUnl9odvyYPQ7As1Yim8eg";
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
@@ -818,7 +801,6 @@
         let countryLayers = {};
         let keyLocations = [];
 
-        // Địa điểm nổi tiếng tại Lào Cai
         const laoCaiLocations = {
             "Sa Pa": {
                 lat: 22.3364,
@@ -894,54 +876,15 @@
             }
         };
 
-        // Nhân vật liên quan đến Lào Cai
-        const laoCaiFigures = {
-            "Hoàng A Tưởng": {
-                lat: 22.5333,
-                lng: 104.2833,
-                name: "Vua Mèo Hoàng A Tưởng",
-                description: "Thổ ty người Mông nổi tiếng ở Bắc Hà đầu thế kỷ 20",
-                time: "Đầu thế kỷ 20",
-                achievements: ["Xây dựng dinh thự Hoàng A Tưởng", "Phát triển vùng Bắc Hà"],
-                significance: "Biểu tượng quyền lực của người Mông ở vùng cao Lào Cai"
-            },
-            "Cố Lý": {
-                lat: 22.3364,
-                lng: 103.8436,
-                name: "Các nghệ nhân dân tộc",
-                description: "Những người giữ gìn và phát triển văn hóa truyền thống các dân tộc Lào Cai",
-                time: "Truyền thống lâu đời",
-                achievements: ["Bảo tồn nghề dệt thổ cẩm", "Gìn giữ văn hóa dân tộc"],
-                significance: "Góp phần bảo tồn và phát triển văn hóa các dân tộc thiểu số Lào Cai"
-            }
-        };
-
-        function isFigureQuery(query) {
-            const lowerQuery = query.toLowerCase();
-            const figureKeywords = [
-                "nhân vật", "người nổi tiếng", "danh nhân", "anh hùng", "nghệ sĩ", 
-                "hoàng a tưởng", "vua mèo", "nghệ nhân", "cố lý",
-                "figure", "famous person", "celebrity", "hero", "artist"
-            ];
-            return figureKeywords.some(keyword => lowerQuery.includes(keyword)) || 
-                   Object.keys(laoCaiFigures).some(figure => 
-                       lowerQuery.includes(figure.toLowerCase())
-                   );
-        }
-
         function focusSearchInput() {
             searchInput.focus();
-        }
-
-        function isLocationQuery(query) {
-            return true; // Bỏ qua kiểm tra từ khóa lịch sử
         }
 
         function isLandmarkQuery(query) {
             const lowerQuery = query.toLowerCase();
             const landmarkKeywords = [
                 "bản", "làng", "thác", "núi", "đèo", "suối", "chợ", "cầu", "thị trấn", "đỉnh",
-                "village", "waterfall", "mountain", "pass", "stream", "market", "bridge", "town", "peak",
+                "village", "waterfall", "mountain", "pass", "stream", "market", "bridge", "town", "peak", "địa điểm",
                 "sa pa", "fansipan", "bắc hà", "cốc lếu", "cát cát", "tả phìn", "thác bạc", "ô quy hồ", "hàm rồng"
             ];
             return landmarkKeywords.some(keyword => lowerQuery.includes(keyword)) || 
@@ -958,12 +901,10 @@
         }
 
         function initMap() {
-            // Thiết lập giới hạn bản đồ cho khu vực Lào Cai và vùng phụ cận
             const southWest = L.latLng(21.8, 103.5);
             const northEast = L.latLng(22.8, 104.5);
             const bounds = L.latLngBounds(southWest, northEast);
             
-            // Khởi tạo bản đồ với tâm là trung tâm Lào Cai
             map = L.map('map', {
                 center: [22.4833, 103.9500],
                 zoom: 10,
@@ -973,22 +914,18 @@
                 maxZoom: 16
             }).setView([22.4833, 103.9500], 10);
             
-            // Thiết lập tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
                 noWrap: true
             }).addTo(map);
 
-            // Vô hiệu hóa kéo bản đồ ra ngoài khu vực cho phép
             map.setMaxBounds(bounds);
         }
 
         function addLaoCaiMarkers() {
-            // Xóa các marker cũ nếu có
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
             
-            // Thêm marker cho các địa điểm nổi tiếng
             for (const [key, location] of Object.entries(laoCaiLocations)) {
                 const marker = L.marker([location.lat, location.lng], {
                     icon: L.divIcon({
@@ -1030,20 +967,16 @@
                 }
             });
 
-            // Thêm sự kiện resize để xử lý responsive
             window.addEventListener('resize', checkMobileView);
         }
 
-        // Kiểm tra xem có đang ở chế độ mobile không
         function checkMobileView() {
             if (window.innerWidth <= 768) {
-                // Ẩn sidebar mặc định trên mobile
                 sidebar.classList.add('sidebar-collapsed');
                 document.querySelector('.sidebar-toggle i').classList.remove('fa-chevron-left');
                 document.querySelector('.sidebar-toggle i').classList.add('fa-chevron-right');
                 mobileSearchToggle.classList.remove('hidden');
             } else {
-                // Hiển thị sidebar trên desktop/tablet
                 sidebar.classList.remove('sidebar-collapsed');
                 document.querySelector('.sidebar-toggle i').classList.remove('fa-chevron-right');
                 document.querySelector('.sidebar-toggle i').classList.add('fa-chevron-left');
@@ -1051,12 +984,10 @@
             }
         }
 
-        // Hàm mới: bật/tắt chế độ tìm kiếm trên mobile
         function toggleSearch() {
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('sidebar-collapsed');
                 if (!sidebar.classList.contains('sidebar-collapsed')) {
-                    // Nếu sidebar đang hiển thị, focus vào ô tìm kiếm
                     setTimeout(() => {
                         searchInput.focus();
                     }, 300);
@@ -1108,24 +1039,8 @@
                             "transportation": "Phương tiện di chuyển đến đây"
                         }
                     `;
-                } else if (isFigureQuery(userQuery)) {
-                    responseType = "figure";
-                    prompt = `
-                        Cung cấp thông tin về nhân vật "${userQuery}" liên quan đến Lào Cai bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
-                        {
-                            "name": "Tên nhân vật",
-                            "location": "Địa điểm liên quan tại Lào Cai",
-                            "lat": "Tọa độ vĩ độ của địa điểm",
-                            "lng": "Tọa độ kinh độ của địa điểm",
-                            "time": "Thời gian hoạt động (không đề cập triều đại)",
-                            "description": "Mô tả về nhân vật",
-                            "achievements": ["Danh sách thành tựu nổi bật"],
-                            "significance": "Ý nghĩa và đóng góp cho Lào Cai"
-                        }
-                        LƯU Ý: KHÔNG đề cập đến các trận chiến, chiến tranh hay xung đột quân sự.
-                    `;
                 } else {
-                    prompt = `Cung cấp thông tin về "${userQuery}" tại Lào Cai bằng tiếng Việt. Nếu là địa điểm hoặc nhân vật, hãy cung cấp thông tin chi tiết.`;
+                    prompt = `Cung cấp thông tin về "${userQuery}" tại Lào Cai bằng tiếng Việt. Nếu là địa điểm, hãy cung cấp thông tin chi tiết.`;
                 }
 
                 const chatSession = model.startChat({
@@ -1217,67 +1132,6 @@
                             timestamp: new Date().toISOString()
                         });
                     }
-                } else if (responseType === "figure") {
-                    try {
-                        let jsonStr = botReply;
-                        if (jsonStr.includes('```json')) {
-                            jsonStr = jsonStr.split('```json')[1].split('```')[0].trim();
-                        } else if (jsonStr.includes('```')) {
-                            jsonStr = jsonStr.split('```')[1].split('```')[0].trim();
-                        }
-
-                        let figureData;
-                        try {
-                            figureData = JSON.parse(jsonStr);
-                        } catch (e) {
-                            jsonStr = jsonStr.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2":');
-                            figureData = JSON.parse(jsonStr);
-                        }
-
-                        botReply = formatFigureData(figureData);
-
-                        if (figureData.location) {
-                            console.log("Đang lấy vị trí cho:", figureData.location);
-                            if (figureData.lat && figureData.lng) {
-                                addMarker(figureData.lat, figureData.lng, figureData.name || userQuery);
-                                map.setView([figureData.lat, figureData.lng], 14);
-                                botReply += `\n\n**Địa điểm liên quan**: ${figureData.location}`;
-                                botReply += `\n\n**Vĩ độ**: ${figureData.lat}, **Kinh độ**: ${figureData.lng}`;
-                            } else {
-                                const location = await getLocationCoordinates(figureData.location);
-                                if (location && location.lat && location.lng) {
-                                    addMarker(location.lat, location.lng, figureData.name || userQuery);
-                                    botReply += `\n\n**Địa điểm liên quan**: ${location.description || location.name}`;
-                                    botReply += `\n\n**Vĩ độ**: ${location.lat}, **Kinh độ**: ${location.lng}`;
-                                    map.setView([location.lat, location.lng], 14);
-                                } else {
-                                    console.warn("Không có dữ liệu vị trí hợp lệ cho:", figureData.location, "Truy vấn:", userQuery);
-                                    botReply += `\n\n**Địa điểm liên quan**: ${figureData.location} (Không xác định)`;
-                                }
-                            }
-                        } else {
-                            console.warn("Không có vị trí được cung cấp trong figureData cho truy vấn:", userQuery);
-                            botReply += `\n\n**Địa điểm liên quan**: Không xác định`;
-                        }
-
-                        if (!isStopped) {
-                            addMessageToUI("assistant", botReply);
-                            currentQueries.push({ 
-                                role: "assistant", 
-                                content: botReply,
-                                timestamp: new Date().toISOString()
-                            });
-                        }
-                    } catch (e) {
-                        console.error("Lỗi phân tích JSON (nhân vật):", e, "Phản hồi:", botReply);
-                        botReply = `Thông tin về nhân vật:\n\n${botReply}`;
-                        addMessageToUI("assistant", botReply);
-                        currentQueries.push({ 
-                            role: "assistant", 
-                            content: botReply,
-                            timestamp: new Date().toISOString()
-                        });
-                    }
                 } else {
                     if (!isStopped) {
                         addMessageToUI("assistant", botReply);
@@ -1327,7 +1181,6 @@
                 const normalizedLocation = locationName.trim().toLowerCase();
                 const transliteratedLocation = transliterateVietnamese(normalizedLocation);
 
-                // Kiểm tra xem địa điểm có trong danh sách Lào Cai không
                 for (const [key, value] of Object.entries(laoCaiLocations)) {
                     const keyNormalized = key.toLowerCase();
                     const nameNormalized = value.name ? value.name.toLowerCase() : '';
@@ -1344,24 +1197,6 @@
                     }
                 }
 
-                // Kiểm tra xem địa điểm có trong danh sách nhân vật Lào Cai không
-                for (const [key, value] of Object.entries(laoCaiFigures)) {
-                    const keyNormalized = key.toLowerCase();
-                    const nameNormalized = value.name ? value.name.toLowerCase() : '';
-
-                    if (normalizedLocation.includes(keyNormalized) || 
-                        (nameNormalized && normalizedLocation.includes(nameNormalized)) ||
-                        (nameNormalized && transliteratedLocation.includes(nameNormalized))) {
-                        return {
-                            lat: value.lat,
-                            lng: value.lng,
-                            name: value.name,
-                            description: value.description
-                        };
-                    }
-                }
-
-                // Nếu không tìm thấy trong danh sách, thử tìm với OpenStreetMap
                 let query = encodeURIComponent(`${locationName}, Lào Cai`);
                 let data;
                 try {
@@ -1447,41 +1282,6 @@
     <div class="location-box">
         <h3><i class="fas fa-bus"></i> Phương tiện di chuyển</h3>
         <p>${data.transportation}</p>
-    </div>
-    ` : ''}
-</div>
-    `;
-        }
-
-        function formatFigureData(data) {
-            return `
-<div class="figure-container">
-    <div class="location-box">
-        <h3><i class="fas fa-user"></i> Tên nhân vật</h3>
-        <p>${data.name || 'Không xác định'}</p>
-    </div>
-    <div class="location-box">
-        <h3><i class="fas fa-clock"></i> Thời gian hoạt động</h3>
-        <p>${data.time || 'Không xác định'}</p>
-    </div>
-    <div class="location-box">
-        <h3><i class="fas fa-map-marker-alt"></i> Địa điểm liên quan</h3>
-        <p>${data.location || 'Không xác định'}</p>
-    </div>
-    <div class="location-box">
-        <h3><i class="fas fa-align-left"></i> Mô tả</h3>
-        <p>${data.description || 'Không có mô tả'}</p>
-    </div>
-    ${data.achievements && data.achievements.length > 0 ? `
-    <div class="location-box">
-        <h3><i class="fas fa-trophy"></i> Thành tựu nổi bật</h3>
-        <ul>${data.achievements.map(achievement => `<li>${achievement}</li>`).join("")}</ul>
-    </div>
-    ` : ''}
-    ${data.significance ? `
-    <div class="location-box">
-        <h3><i class="fas fa-star"></i> Ý nghĩa với Lào Cai</h3>
-        <p>${data.significance}</p>
     </div>
     ` : ''}
 </div>
