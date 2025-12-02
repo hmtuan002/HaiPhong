@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Lào Cai</title>
+    <title>Chatbot Lai Châu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
@@ -14,7 +14,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            background-color: #e0f7fa;
+            background-color: #e0f2f1;
             color: #333;
             overflow: auto;
         }
@@ -41,7 +41,7 @@
         .city-name {
             font-size: 1.2em;
             font-weight: 600;
-            color: #005baa;
+            color: #1a237e;
         }
 
         /* Thêm style cho footer */
@@ -87,7 +87,7 @@
         }
 
         #home-menu h1 {
-            color: #005baa;
+            color: #1a237e;
             margin-bottom: 30px;
             font-size: 2.5em;
         }
@@ -101,7 +101,7 @@
         }
 
         .topic-button {
-            background-color: #005baa;
+            background-color: #1a237e;
             color: white;
             border: none;
             border-radius: 10px;
@@ -123,7 +123,7 @@
         }
 
         .topic-button:hover {
-            background-color: #004080;
+            background-color: #0d47a1;
             transform: translateY(-3px);
         }
 
@@ -140,23 +140,23 @@
 
         #sidebar {
             width: 200px;
-            background-color: #e3f2fd;
+            background-color: #e8f5e9;
             padding: 15px;
-            border-right: 1px solid #bbdefb;
+            border-right: 1px solid #c8e6c9;
             display: flex;
             flex-direction: column;
             box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
         }
 
         #sidebar h3 {
-            color: #005baa;
+            color: #1a237e;
             margin-top: 0;
             margin-bottom: 20px;
             text-align: center;
         }
 
         .sidebar-button {
-            background-color: #bbdefb;
+            background-color: #c8e6c9;
             color: #333;
             border: none;
             border-radius: 8px;
@@ -176,7 +176,7 @@
         }
 
         .sidebar-button.active, .sidebar-button:hover {
-            background-color: #64b5f6;
+            background-color: #4caf50;
             color: white;
             transform: translateX(3px);
         }
@@ -192,7 +192,7 @@
             flex-grow: 1;
             overflow-y: auto;
             padding: 15px;
-            border-bottom: 1px solid #b2ebf2;
+            border-bottom: 1px solid #b9f6ca;
             background-color: #ffffff;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
             display: flex;
@@ -210,7 +210,7 @@
         }
 
         .tin-nhan-nguoi-dung {
-            background-color: #007bff;
+            background-color: #1a237e;
             color: white;
             margin-left: auto;
             text-align: right;
@@ -218,7 +218,7 @@
         }
 
         .tin-nhan-bot {
-            background-color: #e3f2fd;
+            background-color: #e8f5e9;
             color: #212121;
             margin-right: auto;
             text-align: left;
@@ -238,7 +238,7 @@
         #o-nhap-tin-nhan {
             flex-grow: 1;
             padding: 12px 18px;
-            border: 1px solid #bbdefb;
+            border: 1px solid #c8e6c9;
             border-radius: 25px;
             outline: none;
             font-size: 16px;
@@ -246,12 +246,12 @@
         }
 
         #o-nhap-tin-nhan:focus {
-            border-color: #64b5f6;
-            box-shadow: 0 0 0 3px rgba(100, 181, 246, 0.2);
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
         }
 
         #nut-gui {
-            background-color: #005baa;
+            background-color: #1a237e;
             color: white;
             border: none;
             border-radius: 50%;
@@ -268,7 +268,7 @@
         }
 
         #nut-gui:hover {
-            background-color: #004080;
+            background-color: #0d47a1;
         }
 
         #nut-gui:active {
@@ -332,7 +332,7 @@
                 width: 100%;
                 height: auto;
                 border-right: none;
-                border-bottom: 1px solid #bbdefb;
+                border-bottom: 1px solid #c8e6c9;
                 padding: 10px;
                 box-shadow: inset 0 -2px 5px rgba(0,0,0,0.05);
                 flex-direction: row;
@@ -394,12 +394,12 @@
 <body>
     <div class="header">
         <div class="logo-container">
-            <div class="city-name">Tỉnh Lào Cai</div>
+            <div class="city-name">Tỉnh Lai Châu</div>
         </div>
     </div>
 
     <div id="home-menu">
-        <h1>Chatbot Lào Cai</h1>
+        <h1>Chatbot Lai Châu</h1>
         <div class="topic-buttons">
             <button class="topic-button" data-topic="lich-su">
                 <i class="fas fa-landmark"></i>
@@ -460,7 +460,7 @@
             <div id="khung-tro-chuyen">
             </div>
             <div id="khu-vuc-nhap">
-                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi về Lào Cai...">
+                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi về Lai Châu...">
                 <button id="nut-gui">
                     <i class="fas fa-paper-plane"></i>
                 </button>
@@ -470,7 +470,7 @@
     
     <div class="footer">
         <div class="footer-content">
-            @Copyright - Chatbot Lào Cai
+            @Copyright - Chatbot Lai Châu
         </div>
         <div></div>
     </div>
@@ -485,7 +485,6 @@
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
-        // Thay thế "YOUR_API_KEY" bằng khóa API thực tế của bạn
         const KHOA_API = "AIzaSyAboqphb7mWDWooaewnu73IlLI4XFs7kTg"; 
         const moHinhAI = new GoogleGenerativeAI(KHOA_API);
         const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
@@ -500,37 +499,37 @@
 
         let currentTopic = '';
         
-        // Định nghĩa các chủ đề về Lào Cai
+        // Định nghĩa các chủ đề về Lai Châu
         const topicInfo = {
             "lich-su": {
-                name: "Lịch sử Lào Cai",
-                description: "Lịch sử hình thành và phát triển của tỉnh Lào Cai",
-                keywords: ["lịch sử", "thành lập", "phát triển", "cổ", "chiến tranh", "tiểu sử", "sự kiện", "Sa Pa", "Bắc Hà"]
+                name: "Lịch sử Lai Châu",
+                description: "Lịch sử hình thành và phát triển của tỉnh Lai Châu",
+                keywords: ["lịch sử", "thành lập", "phát triển", "cổ", "chiến tranh", "tiểu sử", "sự kiện", "Tam Đường", "Sìn Hồ", "Phong Thổ"]
             },
             "du-lich": {
-                name: "Du lịch Lào Cai",
-                description: "Các địa điểm du lịch nổi tiếng tại Lào Cai",
-                keywords: ["du lịch", "địa điểm", "thắng cảnh", "Sa Pa", "Fansipan", "Bắc Hà", "Bát Xát", "Mường Hum", "thăm quan", "di tích"]
+                name: "Du lịch Lai Châu",
+                description: "Các địa điểm du lịch nổi tiếng tại Lai Châu",
+                keywords: ["du lịch", "địa điểm", "thắng cảnh", "Pu Ta Leng", "Sin Suối Hồ", "động Tiên Sơn", "thác Tác Tình", "hồ thủy điện", "thăm quan", "di tích"]
             },
             "am-thuc": {
-                name: "Ẩm thực Lào Cai",
-                description: "Đặc sản và ẩm thực đặc trưng của Lào Cai",
-                keywords: ["ẩm thực", "đặc sản", "món ăn", "thắng cố", "cá hồi", "cá tầm", "rượu ngô", "mận tam hoa", "quán ăn"]
+                name: "Ẩm thực Lai Châu",
+                description: "Đặc sản và ẩm thực đặc trưng của Lai Châu",
+                keywords: ["ẩm thực", "đặc sản", "món ăn", "thắng cố", "cá suối", "cơm lam", "rượu ngô", "măng đắng", "pa pỉnh tộp", "quán ăn"]
             },
             "van-hoa": {
-                name: "Văn hóa Lào Cai",
-                description: "Văn hóa và con người Lào Cai",
-                keywords: ["văn hóa", "con người", "lễ hội", "truyền thống", "phong tục", "nghệ thuật", "di sản", "chợ phiên"]
+                name: "Văn hóa Lai Châu",
+                description: "Văn hóa và con người Lai Châu",
+                keywords: ["văn hóa", "con người", "lễ hội", "truyền thống", "phong tục", "nghệ thuật", "di sản", "chợ phiên", "hát then", "múa xòe"]
             },
             "kinh-te": {
-                name: "Kinh tế Lào Cai",
-                description: "Tình hình kinh tế và các ngành công nghiệp chính của Lào Cai",
-                keywords: ["kinh tế", "công nghiệp", "nông nghiệp", "du lịch", "xuất nhập khẩu", "đầu tư", "doanh nghiệp", "phát triển"]
+                name: "Kinh tế Lai Châu",
+                description: "Tình hình kinh tế và các ngành công nghiệp chính của Lai Châu",
+                keywords: ["kinh tế", "công nghiệp", "nông nghiệp", "du lịch", "thủy điện", "xuất nhập khẩu", "đầu tư", "doanh nghiệp", "phát triển", "thủy sản"]
             },
             "dan-toc": {
-                name: "Dân tộc Lào Cai",
-                description: "Các dân tộc thiểu số sinh sống tại Lào Cai",
-                keywords: ["dân tộc", "thiểu số", "H'Mông", "Dao", "Tày", "Giáy", "Xá Phó", "bản làng", "trang phục", "tập quán"]
+                name: "Dân tộc Lai Châu",
+                description: "Các dân tộc thiểu số sinh sống tại Lai Châu",
+                keywords: ["dân tộc", "thiểu số", "Thái", "Mông", "Dao", "Giáy", "La Hủ", "bản làng", "trang phục", "tập quán", "làng nghề"]
             }
         };
 
@@ -551,7 +550,7 @@
             khungTroChuyen.innerHTML = '';
             
             themTinNhanVaoGiaoDien("bot", 
-                `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lào Cai. ` +
+                `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lai Châu. ` +
                 `Hiện tại bạn đang tìm hiểu về chủ đề <strong>${topicInfo[topic].name}</strong>. ` +
                 `Hãy hỏi tôi bất cứ điều gì về ${topicInfo[topic].description} nhé!`);
 
@@ -590,19 +589,21 @@
             // Xử lý lời chào
             if (["chào", "hello", "hi", "xin chào"].some(word => tinNhanNguoiDung.toLowerCase().includes(word))) {
                 if (currentTopic) {
-                    themTinNhanVaoGiaoDien("bot", `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lào Cai. Bạn đang tìm hiểu về ${topicInfo[currentTopic].name}. Hãy hỏi tôi bất cứ điều gì về chủ đề này nhé!`);
+                    themTinNhanVaoGiaoDien("bot", `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lai Châu. Bạn đang tìm hiểu về ${topicInfo[currentTopic].name}. Hãy hỏi tôi bất cứ điều gì về chủ đề này nhé!`);
                 } else {
-                    themTinNhanVaoGiaoDien("bot", "Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lào Cai. Hãy chọn một chủ đề từ menu để bắt đầu!");
+                    themTinNhanVaoGiaoDien("bot", "Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lai Châu. Hãy chọn một chủ đề từ menu để bắt đầu!");
                 }
                 return;
             }
 
             // Xử lý các câu hỏi thông thường
             try {
-                let loiNhac = `Bạn là một chatbot chuyên cung cấp thông tin về tỉnh Lào Cai, Việt Nam. `;
-                loiNhac += `Lào Cai là một tỉnh miền núi phía Bắc Việt Nam, giáp biên giới với Trung Quốc. `;
-                loiNhac += `Lào Cai nổi tiếng với Sa Pa - thị trấn du lịch nổi tiếng, đỉnh Fansipan - nóc nhà Đông Dương, `;
-                loiNhac += `các dân tộc thiểu số với nền văn hóa đa dạng và phong phú. `;
+                let loiNhac = `Bạn là một chatbot chuyên cung cấp thông tin về tỉnh Lai Châu, Việt Nam. `;
+                loiNhac += `Lai Châu là một tỉnh miền núi phía Tây Bắc Việt Nam, giáp biên giới với Trung Quốc. `;
+                loiNhac += `Lai Châu nổi tiếng với đỉnh Pu Ta Leng - một trong những đỉnh núi cao nhất Việt Nam, `;
+                loiNhac += `bản Sin Suối Hồ, các dân tộc thiểu số với nền văn hóa đa dạng và phong phú, `;
+                loiNhac += `hồ thủy điện Lai Châu - hồ thủy điện lớn nhất Tây Bắc. `;
+                loiNhac += `Lai Châu có nhiều danh lam thắng cảnh như động Tiên Sơn, thác Tác Tình, đèo Ô Quy Hồ. `;
                 
                 if (currentTopic && topicInfo[currentTopic]) {
                     loiNhac += `Hiện tại người dùng đang tìm hiểu về chủ đề: ${topicInfo[currentTopic].name} - ${topicInfo[currentTopic].description}. `;
@@ -610,7 +611,7 @@
                 }
                 
                 loiNhac += `Hãy trả lời ngắn gọn, chính xác và thân thiện. `;
-                loiNhac += `Nếu câu hỏi không liên quan đến Lào Cai, hãy nhẹ nhàng hướng người dùng quay lại chủ đề.`;
+                loiNhac += `Nếu câu hỏi không liên quan đến Lai Châu, hãy nhẹ nhàng hướng người dùng quay lại chủ đề.`;
                 loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
 
                 const ketQua = await moHinh.generateContent(loiNhac);
