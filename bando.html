@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bản Đồ Lào Cai</title>
+    <title>Bản Đồ Lai Châu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -14,8 +14,8 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#4f46e5',
-                        secondary: '#1e1b4b',
+                        primary: '#3b82f6',
+                        secondary: '#1e3a8a',
                         accent: '#10b981',
                         dark: '#0f172a',
                         light: {
@@ -152,7 +152,7 @@
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.75rem;
-            color: #4f46e5;
+            color: #3b82f6;
             display: flex;
             align-items: center;
             font-family: 'Arial', sans-serif;
@@ -160,7 +160,7 @@
 
         .location-box h3 i {
             margin-right: 0.5rem;
-            color: #4f46e5;
+            color: #3b82f6;
         }
         
         .location-box h3 i.fa-star { 
@@ -186,7 +186,7 @@
         }
 
         .search-input:focus {
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         .sidebar-header {
@@ -269,12 +269,12 @@
             width: 56px;
             height: 56px;
             border-radius: 50%;
-            background-color: #4f46e5;
+            background-color: #3b82f6;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
             cursor: pointer;
             z-index: 1000;
             transition: all 0.3s ease;
@@ -282,8 +282,8 @@
 
         .fab:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(79, 70, 229, 0.4);
-            background-color: #4338ca;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+            background-color: #2563eb;
         }
         
         .fab-sidebar {
@@ -344,7 +344,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, #4f46e5, #10b981);
+            background: linear-gradient(90deg, #3b82f6, #10b981);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.3s ease;
@@ -433,12 +433,12 @@
         }
 
         .sidebar-tab:hover {
-            color: #4f46e5;
+            color: #3b82f6;
         }
 
         .sidebar-tab.active {
-            color: #4f46e5;
-            border-bottom-color: #4f46e5;
+            color: #3b82f6;
+            border-bottom-color: #3b82f6;
         }
 
         .chat-container {
@@ -486,7 +486,7 @@
             width: 1rem;
             height: 1rem;
             border-radius: 50%;
-            background-color: #4f46e5;
+            background-color: #3b82f6;
             border: 2px solid #ffffff;
             z-index: 1;
         }
@@ -509,12 +509,12 @@
             background-color: #f8fafc;
             padding: 0.75rem;
             border-radius: 0.5rem;
-            border-left: 3px solid #4f46e5;
+            border-left: 3px solid #3b82f6;
         }
 
         .timeline-time {
             font-weight: 600;
-            color: #4f46e5;
+            color: #3b82f6;
             margin-bottom: 0.25rem;
             font-family: 'Arial', sans-serif;
         }
@@ -529,7 +529,7 @@
             right: -1.5rem;
             width: 3rem;
             height: 3rem;
-            background-color: #4f46e5;
+            background-color: #3b82f6;
             color: white;
             border-radius: 50%;
             display: flex;
@@ -542,7 +542,7 @@
         }
         
         .sidebar-toggle:hover {
-            background-color: #4338ca;
+            background-color: #2563eb;
             transform: scale(1.1);
         }
         
@@ -628,7 +628,7 @@
             .sidebar-toggle {
                 right: 1rem;
                 top: 1rem;
-                background-color: rgba(79, 70, 229, 0.9);
+                background-color: rgba(59, 130, 246, 0.9);
             }
             
             .mobile-search-header {
@@ -708,7 +708,7 @@
             <div class="p-6 sidebar-header">
                 <h2 class="text-2xl font-bold text-gray-800 font-display flex items-center">
                     <i class="fas fa-map-marked-alt mr-3 text-primary"></i>
-                    <span class="animated-border">Bản Đồ Lào Cai</span>
+                    <span class="animated-border">Bản Đồ Lai Châu</span>
                 </h2>
                 
                 <div class="sidebar-tabs mt-4">
@@ -723,7 +723,7 @@
                             id="search-input" 
                             type="text" 
                             class="w-full p-4 rounded-xl border border-gray-300 bg-white search-input focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-gray-800 pl-12"
-                            placeholder="Tìm kiếm địa điểm tại Lào Cai..."
+                            placeholder="Tìm kiếm địa điểm tại Lai Châu..."
                         />
 
                         <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-primary text-white p-2 rounded-lg hover:bg-secondary transition-colors">
@@ -736,8 +736,8 @@
             <div id="map-results" class="flex-1 overflow-y-auto hide-scrollbar p-6">
                 <div id="result-messages" class="flex flex-col gap-5 w-full">
                     <div class="location-box">
-                        <h3><i class="fas fa-info-circle"></i> Giới thiệu Lào Cai</h3>
-                        <p>Lào Cai là tỉnh miền núi vùng cao biên giới phía Bắc Việt Nam, nổi tiếng với Sa Pa - thị trấn du lịch nghỉ dưỡng, đỉnh Fansipan - nóc nhà Đông Dương, và nền văn hóa đa dạng của các dân tộc thiểu số.</p>
+                        <h3><i class="fas fa-info-circle"></i> Giới thiệu Lai Châu</h3>
+                        <p>Lai Châu là tỉnh miền núi vùng cao biên giới phía Tây Bắc Việt Nam, nổi tiếng với đỉnh Pu Ta Leng - một trong những đỉnh núi cao nhất Việt Nam, bản Sin Suối Hồ, và nền văn hóa đa dạng của các dân tộc thiểu số như Thái, Mông, Dao.</p>
                     </div>
                 </div>
                 <div id="typing-indicator" class="hidden mt-4 p-4 bg-blue-50 rounded-xl text-blue-700 text-sm flex items-center">
@@ -756,7 +756,7 @@
             <div id="map" class="flex-1"></div>
             <div class="absolute top-4 right-4 z-20 bg-white p-2 rounded-lg shadow-md flex items-center">
                 <i class="fas fa-layer-group text-gray-600 mr-2"></i>
-                <span class="text-sm font-medium text-gray-700">Bản đồ Lào Cai</span>
+                <span class="text-sm font-medium text-gray-700">Bản đồ Lai Châu</span>
             </div>
             
             <div id="mobile-search-toggle" class="fab-sidebar md:hidden" onclick="toggleSearch()">
@@ -775,7 +775,7 @@
     <script type="module">
         import { GoogleGenerativeAI } from "@google/generative-ai";
 
-        const API_KEY = "AIzaSyCRxGgqLOnCElUnl9odvyYPQ7As1Yim8eg";
+        const API_KEY = "AIzaSyApZXyxI2d3sU31opdmEFcW9PlQOy_ZMd4";
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
@@ -801,78 +801,73 @@
         let countryLayers = {};
         let keyLocations = [];
 
-        const laoCaiLocations = {
-            "Sa Pa": {
-                lat: 22.3364,
-                lng: 103.8436,
-                name: "Thị trấn Sa Pa",
-                description: "Thị trấn du lịch nổi tiếng với khí hậu mát mẻ, ruộng bậc thang và văn hóa các dân tộc thiểu số"
+        const laiChauLocations = {
+            "Thành phố Lai Châu": {
+                lat: 22.0678,
+                lng: 103.1567,
+                name: "Thành phố Lai Châu",
+                description: "Trung tâm hành chính, chính trị, kinh tế của tỉnh Lai Châu"
             },
-            "Fansipan": {
-                lat: 22.3075,
-                lng: 103.7750,
-                name: "Đỉnh Fansipan",
-                description: "Ngọn núi cao nhất Đông Dương (3.147m), được mệnh danh là nóc nhà Đông Dương"
+          
+            "Bản Sin Suối Hồ": {
+                lat: 22.5167,
+                lng: 103.4000,
+                name: "Bản Sin Suối Hồ",
+                description: "Bản làng người Mông nổi tiếng với cảnh quan thiên nhiên hoang sơ và văn hóa độc đáo"
             },
-            "Bắc Hà": {
-                lat: 22.5333,
-                lng: 104.2833,
-                name: "Thị trấn Bắc Hà",
-                description: "Nổi tiếng với chợ phiên Bắc Hà và văn hóa của người Mông, Dao"
+            "Động Tiên Sơn": {
+                lat: 22.2000,
+                lng: 103.3500,
+                name: "Động Tiên Sơn",
+                description: "Hang động tự nhiên với nhiều nhũ đá đẹp mắt và huyền thoại về tiên"
             },
-            "Cốc Lếu": {
-                lat: 22.4833,
-                lng: 103.9500,
-                name: "Chợ Cốc Lếu",
-                description: "Khu chợ biên giới sầm uất tại thành phố Lào Cai"
+            "Thác Tác Tình": {
+                lat: 22.2833,
+                lng: 103.4167,
+                name: "Thác Tác Tình",
+                description: "Thác nước đẹp nằm giữa rừng nguyên sinh, còn được gọi là thác Tình Yêu"
             },
-            "Cầu Mây": {
-                lat: 22.3386,
-                lng: 103.8414,
-                name: "Cầu Mây Sa Pa",
-                description: "Cây cầu treo nổi tiếng bằng tre nứa bắc qua suối Mường Hoa"
+            "Cửa khẩu Ma Lù Thàng": {
+                lat: 22.7500,
+                lng: 102.9500,
+                name: "Cửa khẩu Ma Lù Thàng",
+                description: "Cửa khẩu quốc tế quan trọng giữa Việt Nam và Trung Quốc"
             },
-            "Bản Cát Cát": {
-                lat: 22.3250,
-                lng: 103.8083,
-                name: "Bản Cát Cát",
-                description: "Bản làng của người H'Mông với văn hóa truyền thống độc đáo"
-            },
-            "Bản Tả Phìn": {
-                lat: 22.3833,
-                lng: 103.7833,
-                name: "Bản Tả Phìn",
-                description: "Bản làng của người Dao Đỏ với nghề thổ cẩm truyền thống"
-            },
-            "Thác Bạc": {
-                lat: 22.3500,
-                lng: 103.8167,
-                name: "Thác Bạc",
-                description: "Thác nước hùng vĩ cao hơn 200m trên đường lên đỉnh Fansipan"
+            "Bản Sáng": {
+                lat: 22.1833,
+                lng: 103.4167,
+                name: "Bản Sáng",
+                description: "Bản làng của người Thái đen với những nếp nhà sàn truyền thống"
             },
             "Đèo Ô Quy Hồ": {
                 lat: 22.4000,
                 lng: 103.7500,
-                name: "Đèo Ô Quy Hồ",
-                description: "Một trong tứ đại đỉnh đèo của Việt Nam, nối Lào Cai với Lai Châu"
+                name: "Đèo Ô Quy Hồ (phần Lai Châu)",
+                description: "Một trong tứ đại đỉnh đèo của Việt Nam, đoạn thuộc địa phận Lai Châu"
             },
-            "Núi Hàm Rồng": {
-                lat: 22.3361,
-                lng: 103.8469,
-                name: "Núi Hàm Rồng",
-                description: "Địa điểm ngắm toàn cảnh Sa Pa và thung lũng Mường Hoa"
+            "Hồ Thủy điện Lai Châu": {
+                lat: 22.0833,
+                lng: 103.2333,
+                name: "Hồ Thủy điện Lai Châu",
+                description: "Hồ thủy điện lớn nhất Tây Bắc với cảnh quan sơn thủy hữu tình"
             },
-            "Cổng Trời": {
-                lat: 22.3167,
-                lng: 103.8000,
-                name: "Cổng Trời",
-                description: "Địa điểm ngắm cảnh tuyệt đẹp trên đường lên đỉnh Fansipan"
-            },
-            "Suối Vàng": {
+            "Chợ phiên Tam Đường": {
                 lat: 22.3333,
-                lng: 103.8333,
-                name: "Thung lũng Mường Hoa - Suối Vàng",
-                description: "Thung lũng với dòng suối uốn lượn và những bãi đá cổ có khắc hình bí ẩn"
+                lng: 103.5833,
+                name: "Chợ phiên Tam Đường",
+                description: "Chợ phiên đặc trưng của đồng bào các dân tộc vùng cao"
+            },
+            "Bản Giang": {
+                lat: 22.1000,
+                lng: 103.2000,
+                name: "Bản Giang",
+                description: "Bản làng của người Dao đỏ với nghề thêu thổ cẩm truyền thống"
+            },
+            "Nậm Cẩn": {
+                lat: 22.2500,
+                lng: 103.3000,
+                name: "Nậm Cẩn",
+                description: "Khu vực có nhiều ruộng bậc thang đẹp và cảnh quan thiên nhiên hùng vĩ"
             }
         };
 
@@ -883,12 +878,12 @@
         function isLandmarkQuery(query) {
             const lowerQuery = query.toLowerCase();
             const landmarkKeywords = [
-                "bản", "làng", "thác", "núi", "đèo", "suối", "chợ", "cầu", "thị trấn", "đỉnh",
-                "village", "waterfall", "mountain", "pass", "stream", "market", "bridge", "town", "peak", "địa điểm",
-                "sa pa", "fansipan", "bắc hà", "cốc lếu", "cát cát", "tả phìn", "thác bạc", "ô quy hồ", "hàm rồng"
+                "bản", "làng", "thác", "núi", "đèo", "suối", "chợ", "hồ", "thị trấn", "đỉnh", "thành phố",
+                "village", "waterfall", "mountain", "pass", "stream", "market", "lake", "town", "peak", "city", "địa điểm",
+                "pu ta leng", "sin suối hồ", "tiên sơn", "tác tình", "ma lù thàng", "bản sáng", "ô quy hồ", "thủy điện", "tam đường", "bản giang", "nậm cẩn"
             ];
             return landmarkKeywords.some(keyword => lowerQuery.includes(keyword)) || 
-                   Object.keys(laoCaiLocations).some(loc => 
+                   Object.keys(laiChauLocations).some(loc => 
                        lowerQuery.includes(loc.toLowerCase())
                    );
         }
@@ -896,23 +891,23 @@
         function initApp() {
             initMap();
             setupEventListeners();
-            addLaoCaiMarkers();
+            addLaiChauMarkers();
             checkMobileView();
         }
 
         function initMap() {
-            const southWest = L.latLng(21.8, 103.5);
-            const northEast = L.latLng(22.8, 104.5);
+            const southWest = L.latLng(21.5, 102.8);
+            const northEast = L.latLng(22.9, 103.8);
             const bounds = L.latLngBounds(southWest, northEast);
             
             map = L.map('map', {
-                center: [22.4833, 103.9500],
+                center: [22.0678, 103.1567],
                 zoom: 10,
                 maxBounds: bounds,
                 maxBoundsViscosity: 0.8,
                 minZoom: 9,
                 maxZoom: 16
-            }).setView([22.4833, 103.9500], 10);
+            }).setView([22.0678, 103.1567], 10);
             
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -922,11 +917,11 @@
             map.setMaxBounds(bounds);
         }
 
-        function addLaoCaiMarkers() {
+        function addLaiChauMarkers() {
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
             
-            for (const [key, location] of Object.entries(laoCaiLocations)) {
+            for (const [key, location] of Object.entries(laiChauLocations)) {
                 const marker = L.marker([location.lat, location.lng], {
                     icon: L.divIcon({
                         className: 'custom-marker',
@@ -1025,10 +1020,10 @@
                 if (isLandmarkQuery(userQuery)) {
                     responseType = "landmark";
                     prompt = `
-                        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Lào Cai bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
+                        Cung cấp thông tin chi tiết về địa điểm "${userQuery}" tại Lai Châu bằng tiếng Việt theo định dạng JSON hợp lệ. JSON phải có các trường sau:
                         {
                             "name": "Tên địa điểm",
-                            "location": "Vị trí cụ thể (ví dụ: 'Huyện Sa Pa, Lào Cai')",
+                            "location": "Vị trí cụ thể (ví dụ: 'Huyện Tam Đường, Lai Châu')",
                             "lat": "Tọa độ vĩ độ của địa điểm",
                             "lng": "Tọa độ kinh độ của địa điểm",
                             "type": "Loại địa điểm (du lịch, văn hóa, thiên nhiên, lịch sử, v.v.)",
@@ -1040,7 +1035,7 @@
                         }
                     `;
                 } else {
-                    prompt = `Cung cấp thông tin về "${userQuery}" tại Lào Cai bằng tiếng Việt. Nếu là địa điểm, hãy cung cấp thông tin chi tiết.`;
+                    prompt = `Cung cấp thông tin về "${userQuery}" tại Lai Châu bằng tiếng Việt. Nếu là địa điểm, hãy cung cấp thông tin chi tiết.`;
                 }
 
                 const chatSession = model.startChat({
@@ -1181,7 +1176,7 @@
                 const normalizedLocation = locationName.trim().toLowerCase();
                 const transliteratedLocation = transliterateVietnamese(normalizedLocation);
 
-                for (const [key, value] of Object.entries(laoCaiLocations)) {
+                for (const [key, value] of Object.entries(laiChauLocations)) {
                     const keyNormalized = key.toLowerCase();
                     const nameNormalized = value.name ? value.name.toLowerCase() : '';
 
@@ -1197,7 +1192,7 @@
                     }
                 }
 
-                let query = encodeURIComponent(`${locationName}, Lào Cai`);
+                let query = encodeURIComponent(`${locationName}, Lai Châu`);
                 let data;
                 try {
                     const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1&accept-language=vi`);
@@ -1298,7 +1293,7 @@
             
             let translatedContent = content;
             if (content.includes("Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến lịch sử")) {
-                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến Lào Cai. Vui lòng nhập một truy vấn về địa điểm tại Lào Cai!";
+                translatedContent = "Xin lỗi, tôi chỉ trả lời các câu hỏi liên quan đến Lai Châu. Vui lòng nhập một truy vấn về địa điểm tại Lai Châu!";
             } else if (content.includes("Lỗi tải dữliệu bản đồ")) {
                 translatedContent = "Lỗi tải dữ liệu bản đồ, vui lòng thử lại sau.";
             } else if (content.includes("Lỗi khi xử lý yêu cầu")) {
@@ -1319,7 +1314,7 @@
                 ${role === 'assistant' ? `
                 <div class="mt-1 text-xs text-gray-500 flex items-center">
                     <i class="fas fa-robot mr-1"></i>
-                    <span>Hệ thống Lào Cai</span>
+                    <span>Hệ thống Lai Châu</span>
                 </div>
                 ` : ''}
             `;
