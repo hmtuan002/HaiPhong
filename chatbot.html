@@ -1,629 +1,539 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Lai Châu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>AI Chatbot</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-            background-color: #e0f2f1;
-            color: #333;
-            overflow: auto;
+            overflow: hidden;
         }
 
-        /* Thêm style cho header chứa logo */
-        .header {
-            display: flex;
-            align-items: center;
-            padding: 10px 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
+        .chat-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
-        .logo {
-            height: 50px;
-            margin-right: 15px;
+        .chat-header p {
+            font-size: 0.85rem;
+            opacity: 0.9;
         }
 
-        .city-name {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #1a237e;
-        }
-
-        /* Thêm style cho footer */
-        .footer {
+        .info-panel {
+            background: #e8f5e9;
+            padding: 12px 20px;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #c8e6c9;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-            font-size: 0.9em;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .footer-logo {
-            height: 40px;
-        }
-
-        .footer-content {
-            flex-grow: 1;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        /* Thêm style cho logo lớn ở trang chủ */
-        .homepage-main-logo {
-            height: 150px;
-            margin-bottom: 20px;
-        }
-        
-        #home-menu {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            flex-grow: 1;
-            padding: 20px;
-            text-align: center;
-            background-color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            margin: 20px;
-        }
-
-        #home-menu h1 {
-            color: #1a237e;
-            margin-bottom: 30px;
-            font-size: 2.5em;
-        }
-
-        .topic-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            width: 80%;
-            max-width: 900px;
-        }
-
-        .topic-button {
-            background-color: #1a237e;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            padding: 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .topic-button i {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .topic-button:hover {
-            background-color: #0d47a1;
-            transform: translateY(-3px);
-        }
-
-        #chatbot-container {
-            display: none;
-            flex-grow: 1;
-            flex-direction: row;
-            overflow: hidden;
-            background-color: #ffffff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border-radius: 10px;
-            margin: 20px;
-        }
-
-        #sidebar {
-            width: 200px;
-            background-color: #e8f5e9;
-            padding: 15px;
-            border-right: 1px solid #c8e6c9;
-            display: flex;
-            flex-direction: column;
-            box-shadow: inset -2px 0 5px rgba(0,0,0,0.05);
-        }
-
-        #sidebar h3 {
-            color: #1a237e;
-            margin-top: 0;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .sidebar-button {
-            background-color: #c8e6c9;
-            color: #333;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 10px;
-            margin-bottom: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            text-align: left;
+        .model-selector {
             display: flex;
             align-items: center;
+            gap: 10px;
         }
 
-        .sidebar-button i {
-            margin-right: 10px;
-            font-size: 1.2em;
-        }
-
-        .sidebar-button.active, .sidebar-button:hover {
-            background-color: #4caf50;
-            color: white;
-            transform: translateX(3px);
-        }
-
-        .chat-area {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        #khung-tro-chuyen {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 15px;
-            border-bottom: 1px solid #b9f6ca;
-            background-color: #ffffff;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .tin-nhan {
-            margin-bottom: 10px;
-            padding: 10px 15px;
+        .model-selector select {
+            padding: 6px 12px;
             border-radius: 20px;
-            max-width: 75%;
-            position: relative;
-            word-wrap: break-word;
-            line-height: 1.4;
+            border: 1px solid #4caf50;
+            background: white;
+            font-size: 0.85rem;
+            cursor: pointer;
         }
 
-        .tin-nhan-nguoi-dung {
-            background-color: #1a237e;
-            color: white;
-            margin-left: auto;
-            text-align: right;
-            border-bottom-right-radius: 5px;
-        }
-
-        .tin-nhan-bot {
-            background-color: #e8f5e9;
-            color: #212121;
-            margin-right: auto;
-            text-align: left;
-            border-bottom-left-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        }
-
-        #khu-vuc-nhap {
+        .api-status {
             display: flex;
-            padding: 15px;
-            background-color: #ffffff;
-            border-top: 1px solid #e0e0e0;
-            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
             align-items: center;
+            gap: 8px;
         }
 
-        #o-nhap-tin-nhan {
-            flex-grow: 1;
-            padding: 12px 18px;
-            border: 1px solid #c8e6c9;
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f7f9fc;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            word-wrap: break-word;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            width: fit-content;
+            gap: 4px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        .chat-input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e0e0e0;
             border-radius: 25px;
+            font-size: 1rem;
             outline: none;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s;
         }
 
-        #o-nhap-tin-nhan:focus {
-            border-color: #4caf50;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        .chat-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        #nut-gui {
-            background-color: #1a237e;
+        .send-btn {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            margin-left: 15px;
+            border-radius: 25px;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            transition: transform 0.2s;
         }
 
-        #nut-gui:hover {
-            background-color: #0d47a1;
+        .send-btn:hover {
+            transform: scale(1.02);
         }
 
-        #nut-gui:active {
-            transform: translateY(1px);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
-        @media (max-width: 768px) {
-            .header {
-                flex-direction: column;
-                padding: 10px;
-            }
-            
-            .logo-container {
-                margin-bottom: 10px;
-            }
-            
-            .footer {
-                flex-direction: column;
-                text-align: center;
-                padding: 10px;
-            }
-            
-            .footer-logo {
-                margin-bottom: 10px;
-            }
-            
-            #home-menu {
-                margin: 10px;
-                padding: 15px;
-            }
+        .status-bar {
+            padding: 8px 20px;
+            background: #f5f5f5;
+            font-size: 0.7rem;
+            color: #666;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
 
-            #home-menu h1 {
-                font-size: 1.8em;
-                margin-bottom: 20px;
-            }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 0;
+            font-size: 0.85rem;
+        }
 
-            .topic-buttons {
-                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-                gap: 15px;
-                width: 95%;
-            }
+        code {
+            font-family: 'Courier New', monospace;
+        }
 
-            .topic-button {
-                padding: 15px;
-                font-size: 1em;
-            }
-
-            .topic-button i {
-                font-size: 2em;
-                margin-bottom: 8px;
-            }
-
-            #chatbot-container {
-                flex-direction: column;
-                margin: 10px;
-                border-radius: 8px;
-            }
-
-            #sidebar {
-                width: 100%;
-                height: auto;
-                border-right: none;
-                border-bottom: 1px solid #c8e6c9;
-                padding: 10px;
-                box-shadow: inset 0 -2px 5px rgba(0,0,0,0.05);
-                flex-direction: row;
-                overflow-x: auto;
-                white-space: nowrap;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            #sidebar h3 {
-                display: none;
-            }
-
-            .sidebar-button {
-                flex-shrink: 0;
-                width: auto;
-                margin-bottom: 0;
-                margin-right: 10px;
-                padding: 8px 12px;
-                font-size: 0.9em;
-            }
-
-            .sidebar-button i {
-                font-size: 1em;
-                margin-right: 5px;
-            }
-
-            .chat-area {
-                min-height: 0;
-            }
-
-            #khung-tro-chuyen {
-                padding: 10px;
-            }
-
-            .tin-nhan {
-                max-width: 85%;
-                padding: 8px 12px;
-                font-size: 0.9em;
-            }
-
-            #khu-vuc-nhap {
-                padding: 10px;
-            }
-
-            #o-nhap-tin-nhan {
-                padding: 10px 15px;
-                font-size: 14px;
-            }
-
-            #nut-gui {
-                width: 40px;
-                height: 40px;
-                font-size: 20px;
-                margin-left: 10px;
-            }
+        .error-message {
+            color: #c62828;
+            background: #ffebee;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo-container">
-            <div class="city-name">Tỉnh Lai Châu</div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>🤖 AI Assistant</h1>
+            <p>Định dạng OpenAI | Chạy trực tiếp trên trình duyệt</p>
         </div>
-    </div>
-
-    <div id="home-menu">
-        <h1>Chatbot Lai Châu</h1>
-        <div class="topic-buttons">
-            <button class="topic-button" data-topic="lich-su">
-                <i class="fas fa-landmark"></i>
-                Lịch sử
-            </button>
-            <button class="topic-button" data-topic="du-lich">
-                <i class="fas fa-map-marked-alt"></i>
-                Du lịch
-            </button>
-            <button class="topic-button" data-topic="am-thuc">
-                <i class="fas fa-utensils"></i>
-                Ẩm thực
-            </button>
-            <button class="topic-button" data-topic="van-hoa">
-                <i class="fas fa-theater-masks"></i>
-                Văn hóa
-            </button>
-            <button class="topic-button" data-topic="kinh-te">
-                <i class="fas fa-chart-line"></i>
-                Kinh tế
-            </button>
-            <button class="topic-button" data-topic="dan-toc">
-                <i class="fas fa-users"></i>
-                Dân tộc
-            </button>
-        </div>
-    </div>
-
-    <div id="chatbot-container">
-        <div id="sidebar">
-            <h3>Chủ đề</h3>
-            <button class="sidebar-button" data-topic="lich-su">
-                <i class="fas fa-landmark"></i>
-                Lịch sử
-            </button>
-            <button class="sidebar-button" data-topic="du-lich">
-                <i class="fas fa-map-marked-alt"></i>
-                Du lịch
-            </button>
-            <button class="sidebar-button" data-topic="am-thuc">
-                <i class="fas fa-utensils"></i>
-                Ẩm thực
-            </button>
-            <button class="sidebar-button" data-topic="van-hoa">
-                <i class="fas fa-theater-masks"></i>
-                Văn hóa
-            </button>
-            <button class="sidebar-button" data-topic="kinh-te">
-                <i class="fas fa-chart-line"></i>
-                Kinh tế
-            </button>
-            <button class="sidebar-button" data-topic="dan-toc">
-                <i class="fas fa-users"></i>
-                Dân tộc
-            </button>
-        </div>
-        <div class="chat-area">
-            <div id="khung-tro-chuyen">
-            </div>
-            <div id="khu-vuc-nhap">
-                <input type="text" id="o-nhap-tin-nhan" placeholder="Hỏi về Lai Châu...">
-                <button id="nut-gui">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="footer">
-        <div class="footer-content">
-            @Copyright - Chatbot Lai Châu
-        </div>
-        <div></div>
-    </div>
-
-    <script type="importmap">
-        {
-            "imports": {
-                "@google/generative-ai": "https://esm.run/@google/generative-ai"
-            }
-        }
-    </script>
-    <script type="module">
-        import { GoogleGenerativeAI } from "@google/generative-ai";
-
-        const KHOA_API = "AIzaSyB5Fz-GddYagDuc8eIK6jYmuiQ8omH64nA"; 
-        const moHinhAI = new GoogleGenerativeAI(KHOA_API);
-        const moHinh = moHinhAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
-
-        const homeMenu = document.getElementById('home-menu');
-        const chatbotContainer = document.getElementById('chatbot-container');
-        const khungTroChuyen = document.getElementById('khung-tro-chuyen');
-        const oNhapTinNhan = document.getElementById('o-nhap-tin-nhan');
-        const nutGui = document.getElementById('nut-gui');
-        const topicButtons = document.querySelectorAll('.topic-button');
-        const sidebarButtons = document.querySelectorAll('.sidebar-button');
-
-        let currentTopic = '';
         
-        // Định nghĩa các chủ đề về Lai Châu
-        const topicInfo = {
-            "lich-su": {
-                name: "Lịch sử Lai Châu",
-                description: "Lịch sử hình thành và phát triển của tỉnh Lai Châu",
-                keywords: ["lịch sử", "thành lập", "phát triển", "cổ", "chiến tranh", "tiểu sử", "sự kiện", "Tam Đường", "Sìn Hồ", "Phong Thổ"]
-            },
-            "du-lich": {
-                name: "Du lịch Lai Châu",
-                description: "Các địa điểm du lịch nổi tiếng tại Lai Châu",
-                keywords: ["du lịch", "địa điểm", "thắng cảnh", "Pu Ta Leng", "Sin Suối Hồ", "động Tiên Sơn", "thác Tác Tình", "hồ thủy điện", "thăm quan", "di tích"]
-            },
-            "am-thuc": {
-                name: "Ẩm thực Lai Châu",
-                description: "Đặc sản và ẩm thực đặc trưng của Lai Châu",
-                keywords: ["ẩm thực", "đặc sản", "món ăn", "thắng cố", "cá suối", "cơm lam", "rượu ngô", "măng đắng", "pa pỉnh tộp", "quán ăn"]
-            },
-            "van-hoa": {
-                name: "Văn hóa Lai Châu",
-                description: "Văn hóa và con người Lai Châu",
-                keywords: ["văn hóa", "con người", "lễ hội", "truyền thống", "phong tục", "nghệ thuật", "di sản", "chợ phiên", "hát then", "múa xòe"]
-            },
-            "kinh-te": {
-                name: "Kinh tế Lai Châu",
-                description: "Tình hình kinh tế và các ngành công nghiệp chính của Lai Châu",
-                keywords: ["kinh tế", "công nghiệp", "nông nghiệp", "du lịch", "thủy điện", "xuất nhập khẩu", "đầu tư", "doanh nghiệp", "phát triển", "thủy sản"]
-            },
-            "dan-toc": {
-                name: "Dân tộc Lai Châu",
-                description: "Các dân tộc thiểu số sinh sống tại Lai Châu",
-                keywords: ["dân tộc", "thiểu số", "Thái", "Mông", "Dao", "Giáy", "La Hủ", "bản làng", "trang phục", "tập quán", "làng nghề"]
+        <div class="info-panel">
+            <div class="model-selector">
+                <span>🎯 Model:</span>
+                <select id="modelSelect">
+                    <option value="gpt-5.4-nano">GPT-5.4 Nano (Nhanh)</option>
+                    <option value="gpt-4">GPT-4 (Mạnh mẽ)</option>
+                    <option value="gpt-4-turbo-preview">GPT-4 Turbo (Cân bằng)</option>
+                    <option value="claude-3-opus-20240229">Claude 3 Opus</option>
+                    <option value="claude-3-sonnet-20240229">Claude 3 Sonnet</option>
+                </select>
+            </div>
+            <div class="api-status">
+                <div class="status-dot"></div>
+                
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    👋 Xin chào! Tôi là trợ lý AI.<br><br>
+                   
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="userInput" placeholder="Nhập tin nhắn của bạn..." onkeypress="handleKeyPress(event)">
+            <button class="send-btn" id="sendBtn" onclick="sendMessage()">Gửi ➤</button>
+        </div>
+        <div class="status-bar" id="statusBar">
+            🟢 Sẵn sàng
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = "sk-uQmI5tk7o5FdWLq852gCLO2xZTd5OmG2K9RKy7C3raEqGx6v";
+        const BASE_URL = "https://api.shopaikey.com/v1";
+        const CHAT_ENDPOINT = "/chat/completions";
+        const API_URL = BASE_URL + CHAT_ENDPOINT;
+        
+        let isSending = false;
+        let conversationHistory = [];
+        
+        function addMessage(role, content) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            // Xử lý hiển thị code block
+            let formattedContent = content;
+            if (content.includes('```')) {
+                formattedContent = content.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+                    return `<pre><code class="language-${lang || 'plaintext'}">${escapeHtml(code.trim())}</code></pre>`;
+                });
             }
-        };
-
-        // Hàm thêm tin nhắn vào giao diện
-        function themTinNhanVaoGiaoDien(nguoiGui, vanBan) {
-            const divTinNhan = document.createElement('div');
-            divTinNhan.classList.add('tin-nhan', `tin-nhan-${nguoiGui}`);
-            divTinNhan.innerHTML = vanBan.replace(/\n/g, '<br>');
-            khungTroChuyen.appendChild(divTinNhan);
-            khungTroChuyen.scrollTop = khungTroChuyen.scrollHeight;
-        }
-
-        // Chọn chủ đề
-        function selectTopic(topic) {
-            currentTopic = topic;
-            homeMenu.style.display = 'none';
-            chatbotContainer.style.display = 'flex';
-            khungTroChuyen.innerHTML = '';
+            formattedContent = formattedContent.replace(/\n/g, '<br>');
             
-            themTinNhanVaoGiaoDien("bot", 
-                `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lai Châu. ` +
-                `Hiện tại bạn đang tìm hiểu về chủ đề <strong>${topicInfo[topic].name}</strong>. ` +
-                `Hãy hỏi tôi bất cứ điều gì về ${topicInfo[topic].description} nhé!`);
-
-            // Cập nhật active state cho sidebar
-            sidebarButtons.forEach(button => {
-                button.classList.toggle('active', button.dataset.topic === topic);
-            });
-        }
-
-        // Gắn sự kiện khi trang tải xong
-        document.addEventListener('DOMContentLoaded', () => {
-            // Gắn sự kiện cho các nút chủ đề
-            topicButtons.forEach(button => {
-                button.addEventListener('click', () => selectTopic(button.dataset.topic));
-            });
+            messageDiv.innerHTML = `<div class="message-content">${formattedContent}</div>`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
             
-            sidebarButtons.forEach(button => {
-                button.addEventListener('click', () => selectTopic(button.dataset.topic));
-            });
-            
-            // Gắn sự kiện gửi tin nhắn
-            nutGui.addEventListener('click', guiTinNhan);
-            oNhapTinNhan.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') guiTinNhan();
-            });
-        });
-
-        // Gửi tin nhắn
-        async function guiTinNhan() {
-            const tinNhanNguoiDung = oNhapTinNhan.value.trim();
-            if (!tinNhanNguoiDung) return;
-
-            themTinNhanVaoGiaoDien("nguoi-dung", tinNhanNguoiDung);
-            oNhapTinNhan.value = '';
-
-            // Xử lý lời chào
-            if (["chào", "hello", "hi", "xin chào"].some(word => tinNhanNguoiDung.toLowerCase().includes(word))) {
-                if (currentTopic) {
-                    themTinNhanVaoGiaoDien("bot", `Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lai Châu. Bạn đang tìm hiểu về ${topicInfo[currentTopic].name}. Hãy hỏi tôi bất cứ điều gì về chủ đề này nhé!`);
-                } else {
-                    themTinNhanVaoGiaoDien("bot", "Xin chào! Tôi là chatbot chuyên cung cấp thông tin về Lai Châu. Hãy chọn một chủ đề từ menu để bắt đầu!");
+            // Lưu vào lịch sử hội thoại
+            if (role !== 'typing') {
+                conversationHistory.push({ role: role === 'user' ? 'user' : 'assistant', content: content });
+                // Giới hạn lịch sử để tránh quá dài
+                if (conversationHistory.length > 20) {
+                    conversationHistory = conversationHistory.slice(-20);
                 }
-                return;
             }
-
-            // Xử lý các câu hỏi thông thường
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showTyping() {
+            const messagesDiv = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+            messagesDiv.appendChild(typingDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        
+        function removeTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+        
+        function setStatus(msg, isError = false) {
+            const statusBar = document.getElementById('statusBar');
+            statusBar.innerHTML = isError ? `❌ ${msg}` : `🟢 ${msg}`;
+            statusBar.style.color = isError ? '#c62828' : '#666';
+            if (isError) {
+                setTimeout(() => {
+                    if (document.getElementById('statusBar').innerHTML.includes(msg)) {
+                        statusBar.style.color = '#666';
+                        statusBar.innerHTML = '🟢 Sẵn sàng';
+                    }
+                }, 5000);
+            }
+        }
+        
+        async function sendMessage() {
+            if (isSending) return;
+            
+            const input = document.getElementById('userInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const model = document.getElementById('modelSelect').value;
+            
+            // Thêm tin nhắn người dùng
+            addMessage('user', message);
+            input.value = '';
+            
+            const sendBtn = document.getElementById('sendBtn');
+            isSending = true;
+            sendBtn.disabled = true;
+            showTyping();
+            setStatus(`Đang gọi API với model: ${model}...`);
+            
             try {
-                let loiNhac = `Bạn là một chatbot chuyên cung cấp thông tin về tỉnh Lai Châu, Việt Nam. `;
-                loiNhac += `Lai Châu là một tỉnh miền núi phía Tây Bắc Việt Nam, giáp biên giới với Trung Quốc. `;
-                loiNhac += `Lai Châu nổi tiếng với đỉnh Pu Ta Leng - một trong những đỉnh núi cao nhất Việt Nam, `;
-                loiNhac += `bản Sin Suối Hồ, các dân tộc thiểu số với nền văn hóa đa dạng và phong phú, `;
-                loiNhac += `hồ thủy điện Lai Châu - hồ thủy điện lớn nhất Tây Bắc. `;
-                loiNhac += `Lai Châu có nhiều danh lam thắng cảnh như động Tiên Sơn, thác Tác Tình, đèo Ô Quy Hồ. `;
+                // Chuẩn bị messages với hệ thống và lịch sử
+                const messages = [
+                    {
+                        role: 'system',
+                        content: 'Bạn là trợ lý AI chuyên nghiệp, thân thiện và hữu ích. Hãy trả lời bằng tiếng Việt một cách tự nhiên, chính xác và chi tiết.'
+                    },
+                    ...conversationHistory.slice(-10) // Lấy 10 tin nhắn gần nhất
+                ];
                 
-                if (currentTopic && topicInfo[currentTopic]) {
-                    loiNhac += `Hiện tại người dùng đang tìm hiểu về chủ đề: ${topicInfo[currentTopic].name} - ${topicInfo[currentTopic].description}. `;
-                    loiNhac += `Hãy trả lời câu hỏi tập trung vào chủ đề này. `;
+                // Gọi API theo đúng định dạng OpenAI
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: model,
+                        messages: messages,
+                        temperature: 0.7,
+                        max_tokens: 2000,
+                        top_p: 0.9,
+                        frequency_penalty: 0.5,
+                        presence_penalty: 0.5,
+                        stream: false
+                    })
+                });
+                
+                removeTyping();
+                
+                if (!response.ok) {
+                    let errorMsg = `HTTP ${response.status}`;
+                    try {
+                        const errorData = await response.json();
+                        if (errorData.error) {
+                            errorMsg = errorData.error.message || errorData.error;
+                        }
+                    } catch (e) {
+                        errorMsg = await response.text();
+                    }
+                    throw new Error(errorMsg);
                 }
                 
-                loiNhac += `Hãy trả lời ngắn gọn, chính xác và thân thiện. `;
-                loiNhac += `Nếu câu hỏi không liên quan đến Lai Châu, hãy nhẹ nhàng hướng người dùng quay lại chủ đề.`;
-                loiNhac += `\n\nCâu hỏi: ${tinNhanNguoiDung}`;
-
-                const ketQua = await moHinh.generateContent(loiNhac);
-                const phanHoi = await ketQua.response;
-                const traLoiBot = phanHoi.text();
-                themTinNhanVaoGiaoDien("bot", traLoiBot);
-
-            } catch (loi) {
-                console.error("Lỗi khi gọi API Gemini: ", loi);
-                themTinNhanVaoGiaoDien("bot", "Rất tiếc, có lỗi xảy ra. Bạn vui lòng thử lại sau nhé!");
+                const data = await response.json();
+                
+                // Kiểm tra cấu trúc response theo OpenAI format
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    const reply = data.choices[0].message.content;
+                    addMessage('bot', reply);
+                    setStatus(`Thành công! Đã dùng ${data.usage?.total_tokens || '?'} tokens`);
+                } else {
+                    throw new Error('Response không đúng định dạng OpenAI');
+                }
+                
+            } catch (error) {
+                removeTyping();
+                console.error('Chi tiết lỗi:', error);
+                
+                let errorMsg = error.message;
+                
+                if (errorMsg.includes('Failed to fetch') || errorMsg.includes('Network')) {
+                    errorMsg = 'Không thể kết nối đến API. Kiểm tra internet hoặc CORS. Vui lòng dùng Live Server để chạy.';
+                } else if (errorMsg.includes('401')) {
+                    errorMsg = 'API key không hợp lệ. Vui lòng kiểm tra lại key.';
+                } else if (errorMsg.includes('404')) {
+                    errorMsg = `Model "${model}" không tồn tại. Hãy thử model khác trong danh sách.`;
+                } else if (errorMsg.includes('429')) {
+                    errorMsg = 'Quá nhiều request. Vui lòng thử lại sau.';
+                }
+                
+                addMessage('bot', `❌ **Lỗi:** ${errorMsg}\n\n💡 **Gợi ý:**\n• Kiểm tra API key\n• Thử model khác\n• Dùng Live Server để tránh lỗi CORS`);
+                setStatus(`Lỗi: ${errorMsg.substring(0, 80)}`, true);
+            } finally {
+                isSending = false;
+                sendBtn.disabled = false;
+                input.focus();
             }
         }
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+        
+        function clearHistory() {
+            if (confirm('Bạn có muốn xóa lịch sử chat?')) {
+                conversationHistory = [];
+                document.getElementById('chatMessages').innerHTML = `
+                    <div class="message bot">
+                        <div class="message-content">
+                            🗑️ Đã xóa lịch sử hội thoại. Hãy bắt đầu cuộc trò chuyện mới!
+                        </div>
+                    </div>
+                `;
+                setStatus('Đã xóa lịch sử');
+            }
+        }
+        
+        // Thêm nút xóa lịch sử
+        const style = document.createElement('style');
+        style.textContent = `
+            .clear-btn {
+                position: fixed;
+                bottom: 100px;
+                right: 30px;
+                background: #ff5722;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                cursor: pointer;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                font-size: 20px;
+                transition: all 0.3s;
+                z-index: 1000;
+            }
+            .clear-btn:hover {
+                transform: scale(1.1);
+                background: #f44336;
+            }
+            pre {
+                background: #f4f4f4;
+                padding: 10px;
+                border-radius: 8px;
+                overflow-x: auto;
+                margin: 10px 0;
+            }
+            code {
+                font-family: 'Courier New', monospace;
+                font-size: 0.85em;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Thêm nút xóa lịch sử
+        const clearBtn = document.createElement('button');
+        clearBtn.innerHTML = '🗑️';
+        clearBtn.className = 'clear-btn';
+        clearBtn.title = 'Xóa lịch sử chat';
+        clearBtn.onclick = clearHistory;
+        document.body.appendChild(clearBtn);
+        
+        window.onload = () => {
+            document.getElementById('userInput').focus();
+            setStatus('Sẵn sàng');
+        };
     </script>
 </body>
 </html>
